@@ -29,10 +29,6 @@ draft: false
 
 This is just a test for Mortadella
 
-[![freestar](https://a.pub.network/core/imgs/fslogo-green.svg)](https://ads.freestar.com/?utm_campaign=branding&utm_medium=display&utm_source=lipsum.com&utm_content=lipsumcom_header)
-
-[Հայերեն](http://hy.lipsum.com/) [Shqip](http://sq.lipsum.com/) [‫العربية](http://ar.lipsum.com/) [Български](http://bg.lipsum.com/) [Català](http://ca.lipsum.com/) [中文简体](http://cn.lipsum.com/) [Hrvatski](http://hr.lipsum.com/) [Česky](http://cs.lipsum.com/) [Dansk](http://da.lipsum.com/) [Nederlands](http://nl.lipsum.com/) [English](http://www.lipsum.com/) [Eesti](http://et.lipsum.com/) [Filipino](http://ph.lipsum.com/) [Suomi](http://fi.lipsum.com/) [Français](http://fr.lipsum.com/) [ქართული](http://ka.lipsum.com/) [Deutsch](http://de.lipsum.com/) [Ελληνικά](http://el.lipsum.com/) [‫עברית](http://he.lipsum.com/) [हिन्दी](http://hi.lipsum.com/) [Magyar](http://hu.lipsum.com/) [Indonesia](http://id.lipsum.com/) [Italiano](http://it.lipsum.com/) [Latviski](http://lv.lipsum.com/) [Lietuviškai](http://lt.lipsum.com/) [македонски](http://mk.lipsum.com/) [Melayu](http://ms.lipsum.com/) [Norsk](http://no.lipsum.com/) [Polski](http://pl.lipsum.com/) [Português](http://pt.lipsum.com/) [Româna](http://ro.lipsum.com/) [Pyccкий](http://ru.lipsum.com/) [Српски](http://sr.lipsum.com/) [Slovenčina](http://sk.lipsum.com/) [Slovenščina](http://sl.lipsum.com/) [Español](http://es.lipsum.com/) [Svenska](http://sv.lipsum.com/) [ไทย](http://th.lipsum.com/) [Türkçe](http://tr.lipsum.com/) [Українська](http://uk.lipsum.com/) [Tiếng Việt](http://vi.lipsum.com/)
-
 # Lorem Ipsum
 
 #### "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
@@ -40,10 +36,6 @@ This is just a test for Mortadella
 ##### "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
 
 ---
-
-[![freestar](https://a.pub.network/core/imgs/fslogo-green.svg)](https://ads.freestar.com/?utm_campaign=branding&utm_medium=display&utm_source=lipsum.com&utm_content=lipsumcom_left_siderail)
-
-[![freestar](https://a.pub.network/core/imgs/fslogo-green.svg)](https://ads.freestar.com/?utm_campaign=branding&utm_medium=display&utm_source=lipsum.com&utm_content=lipsumcom_right_siderail)
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in nisi aliquam, lacinia mi at, varius neque. Morbi eleifend arcu nec aliquet bibendum. Cras at rhoncus est. Nulla ultricies tortor sapien, bibendum lobortis libero luctus vitae. Etiam convallis ac nibh vitae elementum. Praesent eu lobortis odio, eget dignissim sem. Nullam maximus diam sed lorem sodales vestibulum. Vestibulum vel enim porta, mollis enim in, maximus magna. Etiam facilisis, dolor nec vestibulum molestie, arcu enim dictum ante, vitae semper metus neque ac metus. Duis a egestas tellus. Morbi eu quam pretium, dictum nisi ut, pretium eros. Suspendisse sed nibh sed nisi pharetra sagittis eu vel arcu. Pellentesque ultrices sem mauris, a venenatis sapien rutrum ultrices. Quisque aliquet neque magna, et rhoncus mi aliquet a.
 
