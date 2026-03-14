@@ -29,6 +29,8 @@ draft: false
 
 This is just a test for Mortadella
 
+Check out the [Simple Pasta Aglio e Olio](/blog/sample-recipe/) too.
+
 # Lorem Ipsum
 
 #### "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
