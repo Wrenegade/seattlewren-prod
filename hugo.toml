@@ -1,6 +1,6 @@
 baseURL = "https://jonnywren.netlify.app/"
 languageCode = "en-us"
-title = "Hugo Test"
+title = "Seattle Wren"
 
 [markup]
   [markup.goldmark]

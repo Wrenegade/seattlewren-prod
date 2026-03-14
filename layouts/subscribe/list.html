@@ -1,0 +1,34 @@
+{{ define "main" }}
+<div class="subscribe-wrapper">
+  <div class="subscribe-card">
+    <h1>Join the Newsletter</h1>
+    <p class="subtitle">Get weekly updates on new posts, projects, and insights delivered straight to your inbox.</p>
+    <form class="subscribe-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleSubscribe(event)">
+      <input type="hidden" name="form-name" value="newsletter">
+      <p style="display:none"><input name="bot-field"></p>
+      <input type="text" name="name" placeholder="Your name (optional)">
+      <input type="email" name="email" placeholder="Your email address" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="subscribe-privacy">No spam, unsubscribe anytime. We respect your privacy.</p>
+    <p class="subscribe-success" id="subscribe-success">&#10003; Successfully subscribed!</p>
+  </div>
+</div>
+<script>
+  function handleSubscribe(e) {
+    e.preventDefault();
+    const form = e.target;
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(() => {
+      form.style.display = 'none';
+      document.querySelector('.subscribe-privacy').style.display = 'none';
+      document.getElementById('subscribe-success').style.display = 'block';
+    }).catch(() => {
+      alert('Something went wrong. Please try again.');
+    });
+  }
+</script>
+{{ end }}
