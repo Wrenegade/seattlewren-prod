@@ -87,6 +87,7 @@ _"Don't eat the sandwich. That belongs to my helper. He'll be back tomorrow."_
 I grabbed two of the last beers, brought one to him, and we cracked them open.
 
 _Prost._
+
 I was having a beer with Heinz Stücke. The man most people have never heard of and almost everyone should know.
 
 He asked where I was headed on my little European trip.  I told him that I was headed to Iceland afterwards on my way back to Seattle.  Of course, he had been there a few times and told me about all the places I should see.  Then, within an arms reach, he grabs a photo off his wall and shows me:
