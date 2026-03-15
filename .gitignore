@@ -5,4 +5,3 @@ public/
 Dockerfile
 autodeploy.sh
 nginx.conf
-claude_notes.md
