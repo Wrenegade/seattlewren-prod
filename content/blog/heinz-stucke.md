@@ -8,9 +8,8 @@ categories:
   - Germany
 image: https://seattlewren.s3.us-west-2.amazonaws.com/heinz/IMG_2135b.jpeg
 draft: false
+description: A Musing on cycling, simplicity, and what really matters
 ---
-_A Musing on cycling, simplicity, and what really matters_
-
 About fifteen years ago, a friend mentioned a man named Heinz Stucke — a German cyclist who, at the time, held the Guinness World Record for most miles traveled by bicycle. He'd been riding for decades. No real home, no real income, just a bike and a camera. I looked him up, read everything I could find, and filed him away in my mind as something between a legend and a ghost.
 
 Last August, during my first European bicycle tour, I got to have a beer with him.
