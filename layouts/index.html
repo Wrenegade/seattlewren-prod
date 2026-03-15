@@ -16,8 +16,8 @@
         </div>
         {{ end }}
         <div class="post-card-title">{{ .Title }}</div>
+        {{ with .Params.description }}<div class="post-card-excerpt" style="font-style: italic;">{{ . }}</div>{{ end }}
         <div class="post-card-meta">{{ .Date.Format "January 2, 2006" }}</div>
-        {{ if .Summary }}<div class="post-card-excerpt">{{ .Summary }}</div>{{ end }}
       </div>
     </a>
   </div>

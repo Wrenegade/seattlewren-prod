@@ -9,6 +9,7 @@ categories:
 draft: false
 image: https://seattlewren.s3.us-west-2.amazonaws.com/aim-for-mediocre/aim-mediocre-hero.jpg
 layout: photo
+description: Just to get you past Start
 ---
 Why would anyone aim for mediocrity? Isn't that... giving up? Nope. It's actually the most practical advice I can give you, and it's how I've approached learning for decades. Let me explain.
 
