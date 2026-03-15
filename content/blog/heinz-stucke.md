@@ -6,7 +6,7 @@ categories:
   - Cycling
   - Bike Tour
   - Germany
-image: https://seattlewren.s3.us-west-2.amazonaws.com/heinz/IMG_2134.jpeg
+image: https://seattlewren.s3.us-west-2.amazonaws.com/heinz/IMG_2135b.jpeg
 draft: false
 ---
 _A Musing on cycling, simplicity, and what really matters_
