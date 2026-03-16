@@ -1,0 +1,338 @@
+{{ define "main" }}
+<style>
+  .about-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .about-header h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  @media (min-width: 768px) { .about-header h1 { font-size: 48px; } }
+  .about-header .subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+  @media (min-width: 1024px) {
+    .about-grid { grid-template-columns: 2fr 3fr; }
+  }
+  .about-image-col {
+    position: relative;
+  }
+  @media (min-width: 1024px) {
+    .about-image-col { position: sticky; top: 112px; align-self: start; }
+  }
+  .about-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+  }
+  .about-caption {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .about-links {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .about-link-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--sage);
+    color: #fff;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  }
+  .about-link-primary:hover {
+    background: var(--sage-dark);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  }
+  .about-link-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #fff;
+    color: var(--sage);
+    border: 2px solid var(--sage);
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .about-link-secondary:hover {
+    background: var(--sage);
+    color: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  }
+  .about-social {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  .about-social a {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--warm-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: background 0.3s, color 0.3s;
+  }
+  .about-social a:hover {
+    background: var(--sage);
+    color: #fff;
+  }
+  .about-social svg { width: 20px; height: 20px; }
+  .about-bio {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .about-bio p { margin-bottom: 1.2em; }
+  .about-bio h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    margin-top: 32px;
+  }
+  .about-bio ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .about-bio li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .about-bio li:last-child { margin-bottom: 0; }
+  .about-bio strong {
+    color: var(--text-primary);
+  }
+  .about-contact-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .about-contact-header h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  @media (min-width: 768px) { .about-contact-header h2 { font-size: 36px; } }
+  .about-contact-header p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .about-contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) { .about-contact-grid { grid-template-columns: 1fr 1fr; } }
+  .contact-card {
+    padding: 32px;
+    border-radius: 16px;
+    border: none;
+  }
+  .contact-card-email { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+  .contact-card-social { background: linear-gradient(135deg, #faf5ff, #ede9fe); }
+  .contact-card-response { background: linear-gradient(135deg, #f0fdf4, #dcfce7); grid-column: 1 / -1; }
+  .contact-card-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .contact-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-card-icon svg { width: 24px; height: 24px; color: #fff; }
+  .contact-card-icon.blue { background: #2563eb; }
+  .contact-card-icon.purple { background: #9333ea; }
+  .contact-card h3 {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .contact-card p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .contact-card a.email-link {
+    color: #2563eb;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .contact-card a.email-link:hover { color: #1d4ed8; }
+  .contact-card .social-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .contact-card .social-links a {
+    color: #9333ea;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .contact-card .social-links a:hover { color: #7e22ce; }
+  .contact-card .social-links .sep {
+    color: #d1d5db;
+  }
+</style>
+
+<div style="padding: 16px 0;">
+  <!-- Header -->
+  <div class="about-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.subtitle }}<p class="subtitle">{{ . }}</p>{{ end }}
+  </div>
+
+  <!-- Main Content -->
+  <div class="about-grid">
+    <!-- Image Column -->
+    <div class="about-image-col">
+      {{ with .Params.image }}
+      <img src="{{ . }}" alt="Jon Wren" class="about-image">
+      {{ end }}
+      {{ with .Params.image_caption }}
+      <p class="about-caption">{{ . }}</p>
+      {{ end }}
+
+      <!-- Professional Links -->
+      {{ with .Params.portfolio_url }}
+      <div class="about-links">
+        <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="about-link-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          View Professional Portfolio
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="about-link-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Download CV
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+      {{ end }}
+
+      <!-- Social Icons -->
+      <div class="about-social">
+        <a href="mailto:{{ .Params.email | default "hello@seattlewren.com" }}" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Bio Column (rendered from markdown) -->
+    <div class="about-bio">
+      {{ .Content }}
+    </div>
+  </div>
+
+  <!-- Get in Touch -->
+  <div class="about-contact-header">
+    <h2>Get in Touch</h2>
+    <p>Have a question, feedback, or just want to say hello? I'd love to hear from you.</p>
+  </div>
+
+  <div class="about-contact-grid">
+    <div class="contact-card contact-card-email">
+      <div class="contact-card-inner">
+        <div class="contact-card-icon blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+        <div>
+          <h3>Email</h3>
+          <p>Prefer email? Send me a direct message</p>
+          <a href="mailto:{{ .Params.email | default "hello@seattlewren.com" }}" class="email-link">{{ .Params.email | default "hello@seattlewren.com" }}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-card contact-card-social">
+      <div class="contact-card-inner">
+        <div class="contact-card-icon purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+          <h3>Social Media</h3>
+          <p>Connect with me on social platforms</p>
+          <div class="social-links">
+            <a href="#">Twitter</a>
+            <span class="sep">&bull;</span>
+            <a href="#">LinkedIn</a>
+            <span class="sep">&bull;</span>
+            <a href="#">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-card contact-card-response">
+      <h3>Response Time</h3>
+      <p>
+        I typically respond to messages within 24-48 hours. If you have a question about a
+        specific post or project, please include a link so I can provide better context.
+      </p>
+    </div>
+  </div>
+</div>
+{{ end }}
