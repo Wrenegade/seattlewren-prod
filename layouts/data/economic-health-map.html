@@ -1,0 +1,1500 @@
+{{ define "main" }}
+<style>
+  /* ============================================
+     ECONOMIC HEALTH MAP PAGE STYLES
+     ============================================ */
+  .econ-page {
+    padding: 40px 0 0;
+  }
+  .econ-header {
+    margin-bottom: 32px;
+  }
+  .econ-header h2 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .econ-subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .econ-vintage {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  /* Controls row */
+  .econ-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+  }
+  .econ-controls label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+  }
+  .econ-controls select,
+  .econ-controls button {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-card);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .econ-controls select:focus,
+  .econ-controls button:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .econ-controls button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Metric toggle */
+  .metric-toggle {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .metric-toggle button {
+    border: none;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 8px 14px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .metric-toggle button:last-child {
+    border-right: none;
+  }
+  .metric-toggle button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .metric-toggle button:hover:not(.active) {
+    background: var(--border-light);
+    color: var(--text);
+  }
+
+  /* Map row: info box — map — methodology box */
+  .map-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .map-side-box {
+    flex: 0 0 200px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 18px 16px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+  .map-side-box h4 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .map-side-box p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .map-side-box .side-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+  .map-side-box .side-source {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-light);
+  }
+
+  /* Map wrapper */
+  .map-wrapper {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .map-wrapper canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: crosshair;
+  }
+
+  @media (max-width: 1024px) {
+    .map-row {
+      flex-direction: column;
+    }
+    .map-side-box {
+      flex: 0 0 auto;
+      width: 100%;
+    }
+  }
+
+  /* Loading overlay */
+  .map-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    z-index: 10;
+    transition: opacity 0.3s;
+  }
+  .map-loading.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .map-loading .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border-light);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: econ-spin 0.8s linear infinite;
+  }
+  .map-loading p {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  @keyframes econ-spin { to { transform: rotate(360deg); } }
+
+  /* Error message */
+  .map-error {
+    display: none;
+    padding: 24px;
+    text-align: center;
+    color: var(--accent);
+    font-size: 15px;
+  }
+
+  /* Tooltip */
+  .map-tooltip {
+    position: fixed;
+    display: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    min-width: 200px;
+    max-width: 300px;
+  }
+  .tooltip-county {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 2px;
+    color: var(--text);
+  }
+  .tooltip-state {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    margin-bottom: 10px;
+  }
+  .tooltip-primary {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .tooltip-primary span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+  .tooltip-detail {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Summary stats */
+  .econ-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .econ-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .econ-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+  .econ-stat-value {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .econ-stat-sub {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+
+  /* Legend */
+  .econ-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .legend-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+  }
+  .legend-bar {
+    display: flex;
+    height: 14px;
+    border-radius: 3px;
+    overflow: hidden;
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+  }
+  .legend-bar span {
+    flex: 1;
+  }
+  .legend-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+  }
+  .legend-national-avg {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-left: 16px;
+  }
+
+  /* Tables */
+  .econ-tables {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  @media (min-width: 768px) {
+    .econ-tables {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+  }
+  .econ-table-section h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .econ-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .econ-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border-heavy);
+  }
+  .econ-table td {
+    font-size: 14px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text);
+  }
+  .econ-table .value-cell {
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+  .econ-table .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .econ-table tr:hover td {
+    background: var(--border-light);
+  }
+
+  /* Data note */
+  .econ-data-note {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    line-height: 1.6;
+    border-top: 1px solid var(--border-light);
+    padding: 24px 0 40px;
+  }
+
+  /* Embed section */
+  .econ-embed {
+    border-top: 1px solid var(--border-light);
+    padding: 24px 0 40px;
+  }
+  .econ-embed h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .econ-embed p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .embed-code-box {
+    position: relative;
+  }
+  .embed-code-box code {
+    display: block;
+    background: var(--code-bg);
+    padding: 14px 16px;
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    word-break: break-all;
+    line-height: 1.6;
+  }
+  .embed-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .embed-copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .econ-header h2 { font-size: 28px; }
+    .econ-controls { gap: 8px; }
+    .econ-controls select,
+    .econ-controls button { font-size: 13px; padding: 6px 10px; }
+    .metric-toggle button { font-size: 11px; padding: 6px 8px; }
+    .econ-summary { grid-template-columns: 1fr; }
+    .econ-stat-value { font-size: 22px; }
+  }
+</style>
+
+<div class="container econ-page">
+  <!-- Header -->
+  <div class="econ-header">
+    <h2>County Economic Health</h2>
+    <p class="econ-subtitle">
+      National county-level data from the U.S. Census ACS 5-year estimates. Toggle between unemployment, income, disposable income, and per capita income across all ~3,100 counties.
+    </p>
+    <p class="econ-vintage" id="data-vintage">ACS 2023 5-Year Estimates</p>
+  </div>
+
+  <!-- Controls -->
+  <div class="econ-controls">
+    <div class="metric-toggle" id="metric-toggle">
+      <button data-metric="unemploymentRate" class="active">Unemployment</button>
+      <button data-metric="medianIncome">Median Income</button>
+      <button data-metric="incomeAfterHousing">Income After Housing</button>
+      <button data-metric="perCapitaIncome">Per Capita Income</button>
+    </div>
+
+    <label for="econ-state-filter">State</label>
+    <select id="econ-state-filter">
+      <option value="">All States</option>
+    </select>
+
+    <button id="econ-reset-btn" type="button">Reset</button>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="econ-summary" id="econ-summary">
+    <div class="econ-stat-card">
+      <div class="econ-stat-label" id="stat-avg-label">National Average</div>
+      <div class="econ-stat-value" id="stat-avg-value">&mdash;</div>
+      <div class="econ-stat-sub" id="stat-avg-sub"></div>
+    </div>
+    <div class="econ-stat-card">
+      <div class="econ-stat-label" id="stat-high-label">Highest</div>
+      <div class="econ-stat-value" id="stat-high-value">&mdash;</div>
+      <div class="econ-stat-sub" id="stat-high-sub"></div>
+    </div>
+    <div class="econ-stat-card">
+      <div class="econ-stat-label" id="stat-low-label">Lowest</div>
+      <div class="econ-stat-value" id="stat-low-value">&mdash;</div>
+      <div class="econ-stat-sub" id="stat-low-sub"></div>
+    </div>
+  </div>
+
+  <!-- Map row: info — map — methodology -->
+  <div class="map-row">
+    <!-- Left: What does this metric mean? -->
+    <div class="map-side-box" id="info-box">
+      <div class="side-label">What you're seeing</div>
+      <h4 id="info-box-title"></h4>
+      <p id="info-box-text"></p>
+    </div>
+
+    <!-- Map -->
+    <div class="map-wrapper" id="econ-map-wrapper">
+      <div class="map-loading" id="econ-map-loading">
+        <div class="spinner"></div>
+        <p>Loading county data&hellip;</p>
+      </div>
+      <div class="map-error" id="econ-map-error"></div>
+      <canvas id="econ-map-canvas"></canvas>
+      <canvas id="econ-hit-canvas" style="display:none;"></canvas>
+    </div>
+
+    <!-- Right: How is it calculated? -->
+    <div class="map-side-box" id="method-box">
+      <div class="side-label">Methodology</div>
+      <h4 id="method-box-title">How it's calculated</h4>
+      <p id="method-box-text"></p>
+      <div class="side-source" id="method-box-source"></div>
+    </div>
+  </div>
+
+  <!-- Tooltip (fixed positioned, moves with mouse) -->
+  <div class="map-tooltip" id="econ-tooltip">
+    <div class="tooltip-county" id="econ-tt-county"></div>
+    <div class="tooltip-state" id="econ-tt-state"></div>
+    <div class="tooltip-primary" id="econ-tt-primary"></div>
+    <div class="tooltip-detail" id="econ-tt-detail"></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="econ-legend" id="econ-legend">
+    <span class="legend-label" id="econ-legend-low">Low</span>
+    <div class="legend-bar" id="econ-legend-bar"></div>
+    <span class="legend-label" id="econ-legend-high">High</span>
+    <span class="legend-national-avg" id="econ-legend-avg"></span>
+  </div>
+  <div class="econ-legend">
+    <div class="legend-ticks" id="econ-legend-ticks"></div>
+  </div>
+
+  <!-- Top / Bottom tables -->
+  <div class="econ-tables" id="econ-tables">
+    <div class="econ-table-section">
+      <h3 id="econ-top-title">Highest</h3>
+      <table class="econ-table">
+        <thead><tr><th>County</th><th>State</th><th id="econ-top-col">Value</th></tr></thead>
+        <tbody id="econ-top-table"></tbody>
+      </table>
+    </div>
+    <div class="econ-table-section">
+      <h3 id="econ-bottom-title">Lowest</h3>
+      <table class="econ-table">
+        <thead><tr><th>County</th><th>State</th><th id="econ-bottom-col">Value</th></tr></thead>
+        <tbody id="econ-bottom-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Data note -->
+  <p class="econ-data-note">
+    Source: U.S. Census Bureau, American Community Survey 5-Year Estimates, 2023.
+    Tables B23025, B19013, B19301, B25105. "Income after housing" is a calculated
+    field (median household income minus annualized median monthly housing costs)
+    and is not an official Census measure.
+  </p>
+
+  <!-- Embed snippet -->
+  <div class="econ-embed">
+    <h3>Embed This Map</h3>
+    <p>Copy the snippet below to embed this map on your own site.</p>
+    <div class="embed-code-box">
+      <code id="econ-embed-code">&lt;iframe src="{{ .Site.BaseURL }}data/economic-health/" width="100%" height="700" frameborder="0" style="border:1px solid #ddd;border-radius:8px;"&gt;&lt;/iframe&gt;</code>
+      <button class="embed-copy-btn" id="econ-embed-copy-btn">Copy</button>
+    </div>
+  </div>
+</div>
+
+<!-- D3 + TopoJSON from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  // ============================================
+  // CONSTANTS
+  // ============================================
+  var CENSUS_KEY = '{{ .Site.Params.censusApiKey }}';
+  var TOPO_URL = 'https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json';
+  var CACHE_PREFIX = 'econ_map_';
+  var CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
+  var CANVAS_W = 975;
+  var CANVAS_H = 610;
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var NULL_COLOR = '#D3D1C7';
+
+  // Metric configuration
+  var METRICS = {
+    unemploymentRate: {
+      label: 'Unemployment Rate',
+      shortLabel: 'Unemployment',
+      description: 'Civilian unemployed as % of population 16+',
+      source: 'ACS B23025',
+      format: function(v) { return v == null ? 'N/A' : v.toFixed(1) + '%'; },
+      formatLegend: function(v) { return v.toFixed(1) + '%'; },
+      colorStops: ['#1D9E75','#9FE1CB','#E1F5EE','#EF9F27','#BA7517','#E24B4A','#A32D2D'],
+      direction: 'lower-is-better',
+      legendLow: 'Low',
+      legendHigh: 'High',
+      topTitle: 'Highest Unemployment',
+      bottomTitle: 'Lowest Unemployment',
+      colLabel: 'Rate'
+    },
+    medianIncome: {
+      label: 'Median Household Income',
+      shortLabel: 'Median Income',
+      description: 'Median household income, past 12 months',
+      source: 'ACS B19013',
+      format: function(v) { return v == null ? 'N/A' : '$' + Math.round(v).toLocaleString(); },
+      formatLegend: function(v) { return '$' + Math.round(v / 1000) + 'k'; },
+      colorStops: ['#A32D2D','#E24B4A','#BA7517','#EF9F27','#E1F5EE','#9FE1CB','#1D9E75'],
+      direction: 'higher-is-better',
+      legendLow: 'Low',
+      legendHigh: 'High',
+      topTitle: 'Highest Median Income',
+      bottomTitle: 'Lowest Median Income',
+      colLabel: 'Income'
+    },
+    incomeAfterHousing: {
+      label: 'Income After Housing',
+      shortLabel: 'After Housing',
+      description: 'Median household income minus annual housing costs',
+      source: 'ACS B19013 + B25105',
+      format: function(v) { return v == null ? 'N/A' : '$' + Math.round(v).toLocaleString(); },
+      formatLegend: function(v) { return '$' + Math.round(v / 1000) + 'k'; },
+      colorStops: ['#A32D2D','#E24B4A','#BA7517','#EF9F27','#E1F5EE','#9FE1CB','#1D9E75'],
+      direction: 'higher-is-better',
+      legendLow: 'Low',
+      legendHigh: 'High',
+      topTitle: 'Highest Disposable Income',
+      bottomTitle: 'Lowest Disposable Income',
+      colLabel: 'Income'
+    },
+    perCapitaIncome: {
+      label: 'Per Capita Income',
+      shortLabel: 'Per Capita',
+      description: 'Total income divided by total population',
+      source: 'ACS B19301',
+      format: function(v) { return v == null ? 'N/A' : '$' + Math.round(v).toLocaleString(); },
+      formatLegend: function(v) { return '$' + Math.round(v / 1000) + 'k'; },
+      colorStops: ['#A32D2D','#E24B4A','#BA7517','#EF9F27','#E1F5EE','#9FE1CB','#1D9E75'],
+      direction: 'higher-is-better',
+      legendLow: 'Low',
+      legendHigh: 'High',
+      topTitle: 'Highest Per Capita Income',
+      bottomTitle: 'Lowest Per Capita Income',
+      colLabel: 'Income'
+    }
+  };
+
+  // State FIPS lookup
+  var STATE_FIPS = {
+    '01':'Alabama','02':'Alaska','04':'Arizona','05':'Arkansas','06':'California',
+    '08':'Colorado','09':'Connecticut','10':'Delaware','11':'District of Columbia',
+    '12':'Florida','13':'Georgia','15':'Hawaii','16':'Idaho','17':'Illinois',
+    '18':'Indiana','19':'Iowa','20':'Kansas','21':'Kentucky','22':'Louisiana',
+    '23':'Maine','24':'Maryland','25':'Massachusetts','26':'Michigan','27':'Minnesota',
+    '28':'Mississippi','29':'Missouri','30':'Montana','31':'Nebraska','32':'Nevada',
+    '33':'New Hampshire','34':'New Jersey','35':'New Mexico','36':'New York',
+    '37':'North Carolina','38':'North Dakota','39':'Ohio','40':'Oklahoma',
+    '41':'Oregon','42':'Pennsylvania','44':'Rhode Island','45':'South Carolina',
+    '46':'South Dakota','47':'Tennessee','48':'Texas','49':'Utah','50':'Vermont',
+    '51':'Virginia','53':'Washington','54':'West Virginia','55':'Wisconsin',
+    '56':'Wyoming','72':'Puerto Rico'
+  };
+
+  // ============================================
+  // DOM ELEMENTS
+  // ============================================
+  var mainCanvas  = document.getElementById('econ-map-canvas');
+  var hitCanvas   = document.getElementById('econ-hit-canvas');
+  var mainCtx     = mainCanvas.getContext('2d');
+  var hitCtx      = hitCanvas.getContext('2d');
+  var tooltip     = document.getElementById('econ-tooltip');
+  var ttCounty    = document.getElementById('econ-tt-county');
+  var ttState     = document.getElementById('econ-tt-state');
+  var ttPrimary   = document.getElementById('econ-tt-primary');
+  var ttDetail    = document.getElementById('econ-tt-detail');
+  var stateSelect = document.getElementById('econ-state-filter');
+  var resetBtn    = document.getElementById('econ-reset-btn');
+  var loadingEl   = document.getElementById('econ-map-loading');
+  var errorEl     = document.getElementById('econ-map-error');
+  var legendBar   = document.getElementById('econ-legend-bar');
+  var legendTicks = document.getElementById('econ-legend-ticks');
+  var legendAvg   = document.getElementById('econ-legend-avg');
+  var legendLow   = document.getElementById('econ-legend-low');
+  var legendHigh  = document.getElementById('econ-legend-high');
+  var topTable    = document.getElementById('econ-top-table');
+  var bottomTable = document.getElementById('econ-bottom-table');
+  var topTitle    = document.getElementById('econ-top-title');
+  var bottomTitle = document.getElementById('econ-bottom-title');
+  var topCol      = document.getElementById('econ-top-col');
+  var bottomCol   = document.getElementById('econ-bottom-col');
+  var mapWrapper  = document.getElementById('econ-map-wrapper');
+  var statAvgVal  = document.getElementById('stat-avg-value');
+  var statAvgSub  = document.getElementById('stat-avg-sub');
+  var statAvgLbl  = document.getElementById('stat-avg-label');
+  var statHighVal = document.getElementById('stat-high-value');
+  var statHighSub = document.getElementById('stat-high-sub');
+  var statHighLbl = document.getElementById('stat-high-label');
+  var statLowVal  = document.getElementById('stat-low-value');
+  var statLowSub  = document.getElementById('stat-low-sub');
+  var statLowLbl  = document.getElementById('stat-low-label');
+  var infoBoxTitle = document.getElementById('info-box-title');
+  var infoBoxText  = document.getElementById('info-box-text');
+  var methodBoxTitle = document.getElementById('method-box-title');
+  var methodBoxText  = document.getElementById('method-box-text');
+  var methodBoxSource = document.getElementById('method-box-source');
+
+  // ============================================
+  // INFO & METHODOLOGY CONTENT
+  // ============================================
+  var INFO_CONTENT = {
+    unemploymentRate: {
+      title: 'Unemployment Rate',
+      text: 'This shows the percentage of people who want to work but can\'t find a job. A lower number means more people in that county are employed. High unemployment can signal economic distress, factory closures, or seasonal work patterns.'
+    },
+    medianIncome: {
+      title: 'Median Household Income',
+      text: 'This is how much money the typical household earns in a year. "Median" means the middle value\u2014half of households earn more, half earn less. It\'s a better snapshot than the average because a few very wealthy households don\'t skew the number.'
+    },
+    incomeAfterHousing: {
+      title: 'Income After Housing',
+      text: 'This is what the typical household has left after paying for housing\u2014rent or mortgage, utilities, and insurance. It\'s a rough measure of disposable income. A high median income doesn\'t help much if housing eats most of it.'
+    },
+    perCapitaIncome: {
+      title: 'Per Capita Income',
+      text: 'This divides all the income earned in a county by every person living there\u2014including children and retirees. It\'s useful for comparing counties of very different sizes, since it adjusts for population rather than household count.'
+    }
+  };
+
+  var METHOD_CONTENT = {
+    unemploymentRate: {
+      title: 'How it\'s calculated',
+      text: 'The unemployment rate is the number of unemployed civilians divided by the total civilian labor force (population 16 and older), multiplied by 100. Only people actively looking for work count as "unemployed"\u2014retirees, students, and stay-at-home parents are not included.',
+      source: 'Census ACS Table B23025 \u2022 5-Year Estimates, 2023'
+    },
+    medianIncome: {
+      title: 'How it\'s calculated',
+      text: 'The Census surveys households and asks about all sources of income\u2014wages, Social Security, investments, and more. The median is the literal middle value when all households are ranked from lowest to highest income. This covers income received in the past 12 months, adjusted to current-year dollars.',
+      source: 'Census ACS Table B19013 \u2022 5-Year Estimates, 2023'
+    },
+    incomeAfterHousing: {
+      title: 'How it\'s calculated',
+      text: 'We take the median household income and subtract annualized housing costs (monthly median housing cost \u00D7 12). Housing costs include mortgage or rent payments, utilities, insurance, and property taxes. This is not an official Census measure\u2014it\'s a rough proxy for how much a household has left after its biggest expense.',
+      source: 'Census ACS Tables B19013 + B25105 \u2022 5-Year Estimates, 2023'
+    },
+    perCapitaIncome: {
+      title: 'How it\'s calculated',
+      text: 'Per capita income is the total personal income earned in a county divided by the total population, including every man, woman, and child. It captures all income sources\u2014wages, investment returns, government transfers\u2014spread across every resident. It tends to be much lower than median household income because children and non-earners are counted.',
+      source: 'Census ACS Table B19301 \u2022 5-Year Estimates, 2023'
+    }
+  };
+
+  // ============================================
+  // STATE
+  // ============================================
+  var topology = null;
+  var countyFeatures = [];
+  var stateFeatures = [];
+  var countyData = {};        // FIPS -> { unemploymentRate, medianIncome, incomeAfterHousing, perCapitaIncome, name, stateFips, ... }
+  var fipsToIndex = {};
+  var indexToFips = {};
+  var projection = null;
+  var colorScale = null;
+  var currentMetric = 'unemploymentRate';
+  var currentStateFips = '';
+  var currentTransform = null;
+  var zoomBehavior = null;
+  var hoveredFips = null;
+  var baseProjection = null;
+
+  // ============================================
+  // CACHING
+  // ============================================
+  function cacheGet(key) {
+    try {
+      var raw = localStorage.getItem(CACHE_PREFIX + key);
+      if (!raw) return null;
+      var obj = JSON.parse(raw);
+      if (Date.now() - obj.ts > CACHE_TTL) {
+        localStorage.removeItem(CACHE_PREFIX + key);
+        return null;
+      }
+      return obj.data;
+    } catch(e) { return null; }
+  }
+
+  function cacheSet(key, data) {
+    try {
+      localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ ts: Date.now(), data: data }));
+    } catch(e) { /* quota exceeded, ignore */ }
+  }
+
+  // ============================================
+  // DATA FETCHING
+  // ============================================
+  function censusUrl() {
+    return 'https://api.census.gov/data/2023/acs/acs5?get=NAME,B23025_001E,B23025_005E,B19013_001E,B19301_001E,B25105_001E&for=county:*&in=state:*&key=' + CENSUS_KEY;
+  }
+
+  function fetchTopology() {
+    var cached = cacheGet('topo');
+    if (cached) return Promise.resolve(cached);
+    return fetch(TOPO_URL)
+      .then(function(r) { return r.json(); })
+      .then(function(data) { cacheSet('topo', data); return data; });
+  }
+
+  function fetchCensus() {
+    var cached = cacheGet('census_econ_2023');
+    if (cached) return Promise.resolve(cached);
+
+    return fetch(censusUrl())
+      .then(function(r) {
+        if (!r.ok) throw new Error('Census API returned ' + r.status);
+        return r.json();
+      })
+      .then(function(rows) {
+        cacheSet('census_econ_2023', rows);
+        return rows;
+      });
+  }
+
+  // Clean Census values: -666666666 or negative = null
+  function clean(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = +v;
+    if (isNaN(n) || n <= -1) return null;
+    return n;
+  }
+
+  function parseCensusRows(rows) {
+    var header = rows[0];
+    var parsed = {};
+
+    for (var i = 1; i < rows.length; i++) {
+      var row = rows[i];
+      var obj = {};
+      for (var j = 0; j < header.length; j++) {
+        obj[header[j]] = row[j];
+      }
+
+      var stateFips = (obj.state || '').padStart(2, '0');
+      var countyFips = (obj.county || '').padStart(3, '0');
+      var fips = stateFips + countyFips;
+      var name = (obj.NAME || '').split(',')[0] || obj.NAME;
+
+      var totalPop  = clean(obj.B23025_001E);
+      var unemp     = clean(obj.B23025_005E);
+      var medIncome = clean(obj.B19013_001E);
+      var pcIncome  = clean(obj.B19301_001E);
+      var housing   = clean(obj.B25105_001E);
+
+      parsed[fips] = {
+        name: name,
+        stateFips: stateFips,
+        totalPop: totalPop,
+        unemployed: unemp,
+        unemploymentRate: (totalPop && unemp != null) ? (unemp / totalPop * 100) : null,
+        medianIncome: medIncome,
+        perCapitaIncome: pcIncome,
+        monthlyHousing: housing,
+        annualHousing: housing ? housing * 12 : null,
+        incomeAfterHousing: (medIncome != null && housing != null) ? medIncome - (housing * 12) : null
+      };
+    }
+
+    return parsed;
+  }
+
+  // ============================================
+  // SETUP PROJECTION & FEATURES
+  // ============================================
+  function setupMap(topo) {
+    topology = topo;
+    countyFeatures = topojson.feature(topo, topo.objects.counties).features;
+    stateFeatures = topojson.feature(topo, topo.objects.states).features;
+
+    countyFeatures.forEach(function(f, i) {
+      var fips = String(f.id).padStart(5, '0');
+      f._fips = fips;
+      fipsToIndex[fips] = i + 1;
+      indexToFips[i + 1] = fips;
+    });
+
+    projection = d3.geoAlbersUsa()
+      .fitSize([CANVAS_W, CANVAS_H], { type: 'FeatureCollection', features: countyFeatures });
+    baseProjection = projection.scale();
+  }
+
+  // ============================================
+  // COLOR SCALE
+  // ============================================
+  function buildColorScale() {
+    var cfg = METRICS[currentMetric];
+    var values = [];
+    for (var fips in countyData) {
+      var v = countyData[fips][currentMetric];
+      if (v != null) values.push(v);
+    }
+    colorScale = d3.scaleQuantile()
+      .domain(values)
+      .range(cfg.colorStops);
+  }
+
+  // ============================================
+  // CANVAS RENDERING
+  // ============================================
+  function sizeCanvases() {
+    var rect = mapWrapper.getBoundingClientRect();
+    var w = rect.width;
+    var scale = w / CANVAS_W;
+    var h = CANVAS_H * scale;
+
+    mainCanvas.width = w * DPR;
+    mainCanvas.height = h * DPR;
+    mainCanvas.style.width = w + 'px';
+    mainCanvas.style.height = h + 'px';
+
+    hitCanvas.width = w * DPR;
+    hitCanvas.height = h * DPR;
+    hitCanvas.style.width = w + 'px';
+    hitCanvas.style.height = h + 'px';
+  }
+
+  function drawMap() {
+    var rect = mapWrapper.getBoundingClientRect();
+    var w = rect.width;
+    var scale = w / CANVAS_W;
+
+    mainCtx.save();
+    mainCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-card').trim() || '#ffffff';
+    mainCtx.fillStyle = bgColor;
+    mainCtx.fillRect(0, 0, w, CANVAS_H * scale);
+
+    if (currentTransform) {
+      mainCtx.translate(currentTransform.x, currentTransform.y);
+      mainCtx.scale(currentTransform.k, currentTransform.k);
+    }
+
+    mainCtx.scale(scale, scale);
+
+    var path = d3.geoPath(projection, mainCtx);
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var grayFill = isDark ? '#333' : '#e0e0e0';
+    var grayStroke = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.2)';
+
+    countyFeatures.forEach(function(f) {
+      mainCtx.beginPath();
+      path(f);
+      var countyStateFips = f._fips.substring(0, 2);
+      var isOutside = currentStateFips && countyStateFips !== currentStateFips;
+
+      if (isOutside) {
+        mainCtx.fillStyle = grayFill;
+        mainCtx.fill();
+        mainCtx.strokeStyle = grayStroke;
+        mainCtx.lineWidth = 0.2;
+        mainCtx.stroke();
+      } else {
+        var d = countyData[f._fips];
+        var val = d ? d[currentMetric] : null;
+        if (val != null) {
+          mainCtx.fillStyle = colorScale(val);
+        } else {
+          mainCtx.fillStyle = NULL_COLOR;
+        }
+        mainCtx.fill();
+        mainCtx.strokeStyle = 'rgba(255,255,255,0.3)';
+        mainCtx.lineWidth = 0.3;
+        mainCtx.stroke();
+      }
+    });
+
+    // State borders
+    mainCtx.beginPath();
+    path(topojson.mesh(topology, topology.objects.states, function(a, b) { return a !== b; }));
+    mainCtx.strokeStyle = 'rgba(0,0,0,0.25)';
+    mainCtx.lineWidth = 0.8;
+    mainCtx.stroke();
+
+    // Hovered county highlight
+    if (hoveredFips) {
+      var feat = countyFeatures.find(function(f) { return f._fips === hoveredFips; });
+      if (feat) {
+        mainCtx.beginPath();
+        path(feat);
+        mainCtx.strokeStyle = '#000';
+        mainCtx.lineWidth = 2;
+        mainCtx.stroke();
+      }
+    }
+
+    mainCtx.restore();
+  }
+
+  function drawHitMap() {
+    var rect = mapWrapper.getBoundingClientRect();
+    var w = rect.width;
+    var scale = w / CANVAS_W;
+
+    hitCtx.save();
+    hitCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    hitCtx.clearRect(0, 0, w * 2, CANVAS_H * scale * 2);
+
+    if (currentTransform) {
+      hitCtx.translate(currentTransform.x, currentTransform.y);
+      hitCtx.scale(currentTransform.k, currentTransform.k);
+    }
+
+    hitCtx.scale(scale, scale);
+
+    var path = d3.geoPath(projection, hitCtx);
+
+    countyFeatures.forEach(function(f) {
+      var idx = fipsToIndex[f._fips];
+      if (!idx) return;
+      hitCtx.beginPath();
+      path(f);
+      var r = (idx >> 16) & 255;
+      var g = (idx >> 8) & 255;
+      var b = idx & 255;
+      hitCtx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+      hitCtx.fill();
+    });
+
+    hitCtx.restore();
+  }
+
+  function redraw() {
+    sizeCanvases();
+    drawMap();
+    drawHitMap();
+  }
+
+  // ============================================
+  // TOOLTIP / HIT DETECTION
+  // ============================================
+  function handleMouseMove(e) {
+    var rect = mainCanvas.getBoundingClientRect();
+    var x = (e.clientX - rect.left) * DPR;
+    var y = (e.clientY - rect.top) * DPR;
+
+    var pixel = hitCtx.getImageData(x, y, 1, 1).data;
+    var idx = (pixel[0] << 16) | (pixel[1] << 8) | pixel[2];
+    var fips = indexToFips[idx];
+
+    if (fips && countyData[fips]) {
+      var d = countyData[fips];
+      var cfg = METRICS[currentMetric];
+      hoveredFips = fips;
+
+      ttCounty.textContent = d.name;
+      ttState.textContent = STATE_FIPS[d.stateFips] || '';
+
+      var val = d[currentMetric];
+      ttPrimary.innerHTML = cfg.format(val) + '<span> ' + cfg.shortLabel.toLowerCase() + '</span>';
+
+      // Build detail lines based on metric
+      var detail = '';
+      if (currentMetric === 'unemploymentRate') {
+        detail = 'Unemployed: ' + (d.unemployed != null ? d.unemployed.toLocaleString() : 'N/A') +
+                 '<br>Labor force: ' + (d.totalPop != null ? d.totalPop.toLocaleString() : 'N/A');
+      } else if (currentMetric === 'incomeAfterHousing') {
+        detail = 'Median income: ' + METRICS.medianIncome.format(d.medianIncome) +
+                 '<br>Annual housing: ' + (d.annualHousing != null ? '$' + Math.round(d.annualHousing).toLocaleString() : 'N/A');
+      } else if (currentMetric === 'medianIncome') {
+        detail = 'Per capita: ' + METRICS.perCapitaIncome.format(d.perCapitaIncome) +
+                 '<br>Monthly housing: ' + (d.monthlyHousing != null ? '$' + Math.round(d.monthlyHousing).toLocaleString() : 'N/A');
+      } else if (currentMetric === 'perCapitaIncome') {
+        detail = 'Median household: ' + METRICS.medianIncome.format(d.medianIncome);
+      }
+      ttDetail.innerHTML = detail;
+
+      tooltip.style.display = 'block';
+
+      var tx = e.clientX + 16;
+      var ty = e.clientY - 10;
+      var tw = tooltip.offsetWidth;
+      var th = tooltip.offsetHeight;
+      if (tx + tw > window.innerWidth - 10) tx = e.clientX - tw - 16;
+      if (ty + th > window.innerHeight - 10) ty = window.innerHeight - th - 10;
+      if (ty < 10) ty = 10;
+      tooltip.style.left = tx + 'px';
+      tooltip.style.top = ty + 'px';
+
+      drawMap();
+    } else {
+      if (hoveredFips) {
+        hoveredFips = null;
+        tooltip.style.display = 'none';
+        drawMap();
+      }
+    }
+  }
+
+  function handleMouseLeave() {
+    hoveredFips = null;
+    tooltip.style.display = 'none';
+    drawMap();
+  }
+
+  // ============================================
+  // SUMMARY STATS
+  // ============================================
+  function renderSummaryStats() {
+    var cfg = METRICS[currentMetric];
+    var entries = [];
+    for (var fips in countyData) {
+      var v = countyData[fips][currentMetric];
+      if (v != null) entries.push({ fips: fips, value: v, name: countyData[fips].name });
+    }
+
+    // Filter by state if needed
+    if (currentStateFips) {
+      entries = entries.filter(function(e) { return e.fips.substring(0, 2) === currentStateFips; });
+    }
+
+    if (entries.length === 0) {
+      statAvgVal.textContent = 'N/A';
+      statHighVal.textContent = 'N/A';
+      statLowVal.textContent = 'N/A';
+      statAvgSub.textContent = '';
+      statHighSub.textContent = '';
+      statLowSub.textContent = '';
+      return;
+    }
+
+    // Average
+    var sum = 0;
+    entries.forEach(function(e) { sum += e.value; });
+    var avg = sum / entries.length;
+
+    // Sort for highest/lowest
+    entries.sort(function(a, b) { return b.value - a.value; });
+    var highest = entries[0];
+    var lowest = entries[entries.length - 1];
+
+    var scope = currentStateFips ? (STATE_FIPS[currentStateFips] + ' avg') : 'National avg';
+    statAvgLbl.textContent = scope;
+    statAvgVal.textContent = cfg.format(avg);
+    statAvgSub.textContent = entries.length + ' counties';
+
+    statHighLbl.textContent = 'Highest';
+    statHighVal.textContent = cfg.format(highest.value);
+    statHighSub.textContent = highest.name;
+
+    statLowLbl.textContent = 'Lowest';
+    statLowVal.textContent = cfg.format(lowest.value);
+    statLowSub.textContent = lowest.name;
+  }
+
+  // ============================================
+  // LEGEND
+  // ============================================
+  function renderLegend() {
+    var cfg = METRICS[currentMetric];
+
+    legendBar.innerHTML = '';
+    cfg.colorStops.forEach(function(c) {
+      var span = document.createElement('span');
+      span.style.background = c;
+      legendBar.appendChild(span);
+    });
+
+    legendLow.textContent = cfg.legendLow;
+    legendHigh.textContent = cfg.legendHigh;
+
+    legendTicks.innerHTML = '';
+    if (colorScale) {
+      var quantiles = colorScale.quantiles();
+      var ticks = [colorScale.domain()[0]].concat(quantiles);
+      ticks.forEach(function(q) {
+        var s = document.createElement('span');
+        s.textContent = cfg.formatLegend(q);
+        legendTicks.appendChild(s);
+      });
+    }
+
+    // National average
+    var entries = [];
+    for (var fips in countyData) {
+      var v = countyData[fips][currentMetric];
+      if (v != null) entries.push(v);
+    }
+    if (entries.length > 0) {
+      var sum = 0;
+      entries.forEach(function(v) { sum += v; });
+      legendAvg.textContent = 'National avg: ' + cfg.format(sum / entries.length);
+    } else {
+      legendAvg.textContent = '';
+    }
+  }
+
+  // ============================================
+  // TABLES
+  // ============================================
+  function renderTables() {
+    var cfg = METRICS[currentMetric];
+
+    topTitle.textContent = cfg.topTitle;
+    bottomTitle.textContent = cfg.bottomTitle;
+    topCol.textContent = cfg.colLabel;
+    bottomCol.textContent = cfg.colLabel;
+
+    var entries = [];
+    for (var fips in countyData) {
+      var d = countyData[fips];
+      var val = d[currentMetric];
+      if (val != null) {
+        entries.push({
+          fips: fips,
+          name: d.name,
+          state: STATE_FIPS[d.stateFips] || '',
+          value: val
+        });
+      }
+    }
+
+    if (currentStateFips) {
+      entries = entries.filter(function(e) {
+        return e.fips.substring(0, 2) === currentStateFips;
+      });
+    }
+
+    entries.sort(function(a, b) { return b.value - a.value; });
+
+    var top10 = entries.slice(0, 10);
+    var bottom10 = entries.slice(-10).reverse();
+
+    topTable.innerHTML = top10.map(function(e) {
+      return '<tr>' +
+        '<td><span class="swatch" style="background:' + colorScale(e.value) + '"></span>' + e.name + '</td>' +
+        '<td>' + e.state + '</td>' +
+        '<td class="value-cell">' + cfg.format(e.value) + '</td>' +
+      '</tr>';
+    }).join('');
+
+    bottomTable.innerHTML = bottom10.map(function(e) {
+      return '<tr>' +
+        '<td><span class="swatch" style="background:' + colorScale(e.value) + '"></span>' + e.name + '</td>' +
+        '<td>' + e.state + '</td>' +
+        '<td class="value-cell">' + cfg.format(e.value) + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // ============================================
+  // STATE FILTER
+  // ============================================
+  function populateStateDropdown() {
+    var statesInData = {};
+    for (var fips in countyData) {
+      var sf = fips.substring(0, 2);
+      if (STATE_FIPS[sf]) statesInData[sf] = STATE_FIPS[sf];
+    }
+    var sorted = Object.keys(statesInData).sort(function(a, b) {
+      return statesInData[a].localeCompare(statesInData[b]);
+    });
+
+    stateSelect.innerHTML = '<option value="">All States</option>';
+    sorted.forEach(function(sf) {
+      var opt = document.createElement('option');
+      opt.value = sf;
+      opt.textContent = statesInData[sf];
+      stateSelect.appendChild(opt);
+    });
+  }
+
+  function zoomToState(stateFips) {
+    currentStateFips = stateFips;
+
+    if (!stateFips) {
+      if (zoomBehavior) {
+        d3.select(mainCanvas).transition().duration(600)
+          .call(zoomBehavior.transform, d3.zoomIdentity);
+      }
+      renderTables();
+      renderSummaryStats();
+      return;
+    }
+
+    var stateFeat = stateFeatures.find(function(f) {
+      return String(f.id).padStart(2, '0') === stateFips;
+    });
+    if (!stateFeat) { renderTables(); renderSummaryStats(); return; }
+
+    var rect = mapWrapper.getBoundingClientRect();
+    var w = rect.width;
+    var scale = w / CANVAS_W;
+
+    var path = d3.geoPath(projection);
+    var bounds = path.bounds(stateFeat);
+    var dx = bounds[1][0] - bounds[0][0];
+    var dy = bounds[1][1] - bounds[0][1];
+    var cx = (bounds[0][0] + bounds[1][0]) / 2;
+    var cy = (bounds[0][1] + bounds[1][1]) / 2;
+
+    var zoomScale = Math.min(
+      (CANVAS_W * 0.85) / dx,
+      (CANVAS_H * 0.85) / dy,
+      12
+    );
+    var tx = CANVAS_W / 2 - cx * zoomScale;
+    var ty = CANVAS_H / 2 - cy * zoomScale;
+
+    var t = d3.zoomIdentity
+      .translate(tx * scale, ty * scale)
+      .scale(zoomScale);
+
+    if (zoomBehavior) {
+      d3.select(mainCanvas).transition().duration(600)
+        .call(zoomBehavior.transform, t);
+    }
+
+    renderTables();
+    renderSummaryStats();
+  }
+
+  // ============================================
+  // ZOOM
+  // ============================================
+  function setupZoom() {
+    zoomBehavior = d3.zoom()
+      .scaleExtent([1, 20])
+      .on('zoom', function(event) {
+        currentTransform = event.transform;
+        drawMap();
+        drawHitMap();
+      });
+
+    d3.select(mainCanvas).call(zoomBehavior);
+    currentTransform = d3.zoomIdentity;
+  }
+
+  // ============================================
+  // SIDE BOXES
+  // ============================================
+  function renderSideBoxes() {
+    var info = INFO_CONTENT[currentMetric];
+    var method = METHOD_CONTENT[currentMetric];
+
+    infoBoxTitle.textContent = info.title;
+    infoBoxText.textContent = info.text;
+
+    methodBoxTitle.textContent = method.title;
+    methodBoxText.textContent = method.text;
+    methodBoxSource.textContent = method.source;
+  }
+
+  // ============================================
+  // METRIC CHANGE
+  // ============================================
+  function switchMetric(metric) {
+    currentMetric = metric;
+
+    // Update toggle buttons
+    var buttons = document.querySelectorAll('#metric-toggle button');
+    buttons.forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-metric') === metric);
+    });
+
+    buildColorScale();
+    renderLegend();
+    renderTables();
+    renderSummaryStats();
+    renderSideBoxes();
+    redraw();
+  }
+
+  // ============================================
+  // EMBED COPY
+  // ============================================
+  document.getElementById('econ-embed-copy-btn').addEventListener('click', function() {
+    var code = document.getElementById('econ-embed-code').textContent;
+    navigator.clipboard.writeText(code).then(function() {
+      var btn = document.getElementById('econ-embed-copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+    });
+  });
+
+  // ============================================
+  // EVENT LISTENERS
+  // ============================================
+  mainCanvas.addEventListener('mousemove', handleMouseMove);
+  mainCanvas.addEventListener('mouseleave', handleMouseLeave);
+
+  // Touch support
+  mainCanvas.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      var touch = e.touches[0];
+      handleMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+    }
+  }, { passive: true });
+  mainCanvas.addEventListener('touchend', handleMouseLeave);
+
+  // Metric toggle
+  document.querySelectorAll('#metric-toggle button').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      switchMetric(this.getAttribute('data-metric'));
+    });
+  });
+
+  stateSelect.addEventListener('change', function() {
+    zoomToState(this.value);
+  });
+
+  resetBtn.addEventListener('click', function() {
+    stateSelect.value = '';
+    currentStateFips = '';
+    currentMetric = 'unemploymentRate';
+    if (zoomBehavior) {
+      d3.select(mainCanvas).transition().duration(400)
+        .call(zoomBehavior.transform, d3.zoomIdentity);
+    }
+    switchMetric('unemploymentRate');
+  });
+
+  // Responsive resize
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(redraw, 150);
+  });
+
+  // Theme change observer
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      if (m.attributeName === 'data-theme') { drawMap(); }
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true });
+
+  // ============================================
+  // INIT
+  // ============================================
+  Promise.all([fetchTopology(), fetchCensus()])
+    .then(function(results) {
+      setupMap(results[0]);
+      countyData = parseCensusRows(results[1]);
+      buildColorScale();
+      setupZoom();
+      renderLegend();
+      renderSummaryStats();
+      populateStateDropdown();
+      renderTables();
+      renderSideBoxes();
+      redraw();
+      loadingEl.classList.add('hidden');
+    })
+    .catch(function(err) {
+      loadingEl.classList.add('hidden');
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Failed to load map data. Please try refreshing. ' + (err.message || '');
+      console.error('Economic health map error:', err);
+    });
+
+})();
+</script>
+{{ end }}
