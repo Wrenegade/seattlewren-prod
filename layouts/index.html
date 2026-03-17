@@ -54,12 +54,29 @@
         <div class="hero-sidebar-title">
           <span class="cat-badge">Trending</span>
         </div>
-        {{ range $posts | after 1 | first 4 }}
-        <div class="trending-card">
-          <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-          <span class="byline">By JON WREN</span>
-        </div>
+        {{ $trending := where $posts ".Params.trending" true }}
+        {{ if $trending }}
+          {{ range $trending | first 4 }}
+          <div class="trending-card">
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <span class="byline">By JON WREN</span>
+          </div>
+          {{ end }}
+        {{ else }}
+          {{/* Fallback: next 4 newest if no posts are marked trending */}}
+          {{ range $posts | after 1 | first 4 }}
+          <div class="trending-card">
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <span class="byline">By JON WREN</span>
+          </div>
+          {{ end }}
         {{ end }}
+        <div class="rail-ad-slot" style="margin-top: 20px;">
+          <div class="rail-ad-logo">Claude</div>
+          <div class="rail-ad-tagline">Your AI thought partner for writing, analysis, and code.</div>
+          <a href="https://claude.ai" target="_blank" class="rail-ad-cta">Try Claude Free</a>
+          <div class="rail-ad-label">Ad &middot; Anthropic</div>
+        </div>
       </div>
 
     </div>

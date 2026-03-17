@@ -588,16 +588,70 @@
     .rail-card h4 a { color: var(--text); }
     .rail-card h4 a:hover { color: var(--text-secondary); }
     .rail-ad-slot {
-      background: var(--border-light);
-      border: 1px dashed var(--border);
-      border-radius: 4px;
-      padding: 40px 20px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border-radius: 12px;
+      padding: 28px 22px;
       text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .rail-ad-slot::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 70%, rgba(211, 140, 90, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 30%, rgba(100, 140, 200, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .rail-ad-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #d3a077;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .rail-ad-tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .rail-ad-cta {
+      display: inline-block;
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-tertiary);
+      letter-spacing: 1.5px;
+      color: #1a1a2e;
+      background: #d3a077;
+      padding: 8px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      position: relative;
+    }
+    .rail-ad-cta:hover {
+      background: #e0b48f;
+      transform: translateY(-1px);
+    }
+    .rail-ad-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 14px;
+      position: relative;
+    }
+    [data-theme="dark"] .rail-ad-slot {
+      background: linear-gradient(135deg, #0d0d1a 0%, #111827 50%, #0a1628 100%);
     }
 
     .post-header { margin-bottom: 32px; padding-top: 40px; }

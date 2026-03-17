@@ -23,6 +23,16 @@
 
     {{/* RIGHT: Rail sidebar */}}
     <aside class="post-rail">
+      {{/* Ad slot — fills space alongside post header */}}
+      <div class="rail-section rail-top-ad">
+        <div class="rail-ad-slot">
+          <div class="rail-ad-logo">Claude</div>
+          <div class="rail-ad-tagline">Your AI thought partner for writing, analysis, and code.</div>
+          <a href="https://claude.ai" target="_blank" class="rail-ad-cta">Try Claude Free</a>
+          <div class="rail-ad-label">Ad &middot; Anthropic</div>
+        </div>
+      </div>
+
       {{/* Suggested reading from same category */}}
       {{ $currentPage := . }}
       {{ $related := slice }}
@@ -45,11 +55,6 @@
         {{ end }}
       </div>
       {{ end }}
-
-      {{/* Ad slot placeholder */}}
-      <div class="rail-section">
-        <div class="rail-ad-slot">Ad Space</div>
-      </div>
     </aside>
   </div>
 </div>
