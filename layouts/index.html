@@ -1,76 +1,157 @@
 {{ define "main" }}
 
 {{ $posts := where .Site.RegularPages "Section" "blog" }}
-
-{{/* === FEATURED HERO (centered, large) === */}}
 {{ $featured := index $posts 0 }}
-<article class="hero-feature">
-  {{ with $featured.Params.categories }}
-    {{ range . }}<span class="article-tag tag-{{ . | urlize }}">{{ . }}</span> {{ end }}
-  {{ end }}
-  <h1 class="hero-title"><a href="{{ $featured.Permalink }}">{{ $featured.Title }}</a></h1>
-  {{ with $featured.Params.description }}
-    <p class="hero-excerpt">{{ . }}</p>
-  {{ end }}
-  <span class="article-byline">By JON WREN</span>
-</article>
 
-{{/* === SECONDARY FEATURED (next 2 posts) === */}}
-<div class="secondary-features">
-{{ range $posts | after 1 | first 2 }}
-  <article class="secondary-feature">
-    {{ with .Params.categories }}
-      {{ range . }}<span class="article-tag tag-{{ . | urlize }}">{{ . }}</span> {{ end }}
-    {{ end }}
-    <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-    {{ with .Params.description }}
-      <p class="article-excerpt">{{ . }}</p>
-    {{ end }}
-    <span class="article-byline">By JON WREN</span>
-  </article>
-{{ end }}
-</div>
+{{/* ============================================
+     SECTION 1: HERO — 3-column layout
+     Left: LATEST sidebar (with thumbnails)
+     Center: Big featured article
+     Right: TRENDING sidebar (text only)
+     ============================================ */}}
+<div class="container">
+  <hr class="section-divider">
+  <div class="hero-section">
+    <div class="hero-grid">
 
-{{/* === TWO-COLUMN: LATEST (left) | TRENDING (right) === */}}
-<div class="two-col">
-  <div class="col-left">
-    <div class="section-label">Latest</div>
-    <div class="compact-card"><span class="article-tag tag-ai">AI</span> <a href="#">Why RAG Is Replacing Fine-Tuning for Most Teams</a></div>
-    <div class="compact-card"><span class="article-tag tag-data">Data</span> <a href="#">The Hidden Cost of Dirty Data in ML Pipelines</a></div>
-    <div class="compact-card"><span class="article-tag tag-lifestyle">Lifestyle</span> <a href="#">What I Learned From 30 Days Without Screens</a></div>
-    <div class="compact-card"><span class="article-tag tag-ai">AI</span> <a href="#">Local LLMs Are Good Enough Now</a></div>
-    <div class="compact-card"><span class="article-tag tag-data">Data</span> <a href="#">Postgres Is the Only Database You Need</a></div>
-    <div class="compact-card"><span class="article-tag tag-lifestyle">Lifestyle</span> <a href="#">The Case for Walking Meetings</a></div>
-  </div>
-  <div class="col-right">
-    <div class="section-label">Trending</div>
-    <div class="compact-card"><span class="article-tag tag-ai">AI</span> <a href="#">Claude vs GPT-5: What Actually Matters</a></div>
-    <div class="compact-card"><span class="article-tag tag-my-recipes">My Recipes</span> <a href="#">Smoked Salmon Pasta That Takes 15 Minutes</a></div>
-    <div class="compact-card"><span class="article-tag tag-data">Data</span> <a href="#">DuckDB Changed How I Think About Analytics</a></div>
-    <div class="compact-card"><span class="article-tag tag-lifestyle">Lifestyle</span> <a href="#">Why I Bike Commute in the Rain</a></div>
-  </div>
-</div>
+      {{/* LEFT: Latest sidebar */}}
+      <div class="hero-sidebar">
+        <div class="hero-sidebar-title">
+          <span class="cat-badge">Latest</span>
+        </div>
+        {{ range $posts | first 5 }}
+        <div class="sidebar-card">
+          {{ with .Params.image }}
+          <img src="{{ . }}" alt="" class="sidebar-card-img" loading="lazy">
+          {{ end }}
+          <div class="sidebar-card-content">
+            {{ with .Params.categories }}
+              {{ range first 1 . }}<span class="cat-label">{{ . }}</span>{{ end }}
+            {{ end }}
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <span class="byline">By JON WREN</span>
+          </div>
+        </div>
+        {{ end }}
+      </div>
 
-{{/* === CATEGORY SECTIONS === */}}
-{{ $categories := slice "AI" "Data" "Lifestyle" "My Recipes" }}
-{{ range $cat := $categories }}
-  {{ $catPosts := where $posts ".Params.categories" "intersect" (slice $cat) }}
-  {{ if $catPosts }}
-  <div class="category-section">
-    <div class="category-section-header">
-      <span class="section-label" style="padding-top: 0;">{{ lower $cat }}</span>
-      {{ $catSlug := $cat | urlize }}
-      <a class="see-all" href="/categories/{{ $catSlug }}/">All {{ $cat }} articles &rarr;</a>
+      {{/* CENTER: Featured hero article */}}
+      <div class="hero-center">
+        {{ with $featured.Params.categories }}
+          {{ range first 1 . }}<span class="cat-label">{{ . }}</span>{{ end }}
+        {{ end }}
+        <h1 class="hero-title"><a href="{{ $featured.Permalink }}">{{ $featured.Title }}</a></h1>
+        {{ with $featured.Params.description }}
+          <p class="hero-excerpt">{{ . }}</p>
+        {{ end }}
+        <span class="byline">By JON WREN</span>
+      </div>
+
+      {{/* RIGHT: Trending sidebar */}}
+      <div class="hero-sidebar">
+        <div class="hero-sidebar-title">
+          <span class="cat-badge">Trending</span>
+        </div>
+        {{ range $posts | after 1 | first 4 }}
+        <div class="trending-card">
+          <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+          <span class="byline">By JON WREN</span>
+        </div>
+        {{ end }}
+      </div>
+
     </div>
-    {{ range $catPosts | first 5 }}
-    <div class="compact-card">
-      {{ with .Params.categories }}
-        {{ range . }}<span class="article-tag tag-{{ . | urlize }}">{{ . }}</span> {{ end }}
+  </div>
+</div>
+
+{{/* ============================================
+     SECTION 2: FEATURED ROW — image cards
+     Large illustration left, dark overlay card right
+     ============================================ */}}
+{{ if ge (len $posts) 2 }}
+<div class="container">
+  <hr class="section-divider">
+  <div class="featured-row featured-row-3">
+    {{/* Large image card */}}
+    {{ $second := index $posts 1 }}
+    <div class="featured-lg-card">
+      {{ with $second.Params.image }}
+      <img src="{{ . }}" alt="{{ $second.Title }}" loading="lazy">
       {{ end }}
-      <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </div>
+
+    {{/* Overlay card */}}
+    {{ if ge (len $posts) 3 }}
+    {{ $third := index $posts 2 }}
+    <div class="featured-overlay-card">
+      {{ with $third.Params.image }}
+      <img src="{{ . }}" alt="{{ $third.Title }}" loading="lazy">
+      {{ end }}
+      <div class="overlay-content">
+        {{ with $third.Params.categories }}
+          {{ range first 1 . }}<span class="cat-label">{{ . }}</span>{{ end }}
+        {{ end }}
+        <h2><a href="{{ $third.Permalink }}">{{ $third.Title }}</a></h2>
+        <span class="byline">By JON WREN</span>
+      </div>
     </div>
     {{ end }}
   </div>
+</div>
+{{ end }}
+
+{{/* ============================================
+     SECTION 3: TWO-COL TEXT ARTICLES
+     ============================================ */}}
+{{ $remaining := $posts | after 3 }}
+{{ if $remaining }}
+<div class="container">
+  <hr class="section-divider">
+  <div class="two-col-articles" style="padding-top: 24px;">
+    {{ range $remaining | first 4 }}
+    <article class="article-text-card">
+      {{ with .Params.categories }}
+        {{ range first 1 . }}<span class="cat-label">{{ . }}</span>{{ end }}
+      {{ end }}
+      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      {{ with .Params.description }}
+        <p class="article-excerpt">{{ . }}</p>
+      {{ end }}
+      <span class="byline">By JON WREN</span>
+    </article>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
+
+{{/* ============================================
+     SECTION 4: CATEGORY SECTIONS — 4-col card grids
+     ============================================ */}}
+{{ $categories := .Site.Taxonomies.categories }}
+{{ range $catName, $catPages := $categories }}
+  {{ $catPosts := $catPages.Pages }}
+  {{ if $catPosts }}
+<div class="container">
+  <hr class="section-divider">
+  <div class="section-header">
+    <span class="cat-badge">{{ $catName }}</span>
+    <a class="section-see-all" href="/categories/{{ $catName | urlize }}/">All {{ $catName }} articles</a>
+  </div>
+  <div class="card-grid">
+    {{ range $catPosts | first 4 }}
+    <article class="card-grid-item">
+      {{ with .Params.image }}
+      <img src="{{ . }}" alt="" loading="lazy">
+      {{ end }}
+      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+      {{ with .Params.description }}
+        <p class="article-excerpt">{{ . }}</p>
+      {{ end }}
+      <span class="byline">By JON WREN</span>
+    </article>
+    {{ end }}
+  </div>
+</div>
   {{ end }}
 {{ end }}
 

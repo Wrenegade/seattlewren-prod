@@ -1,15 +1,22 @@
 {{ define "main" }}
-<div class="section-label" style="padding-top: 24px;">{{ .Title }}</div>
-{{ range .Pages }}
-<article class="article-card">
-  {{ with .Params.categories }}
-    {{ range . }}<span class="article-tag tag-{{ . | urlize }}">{{ . }}</span> {{ end }}
-  {{ end }}
-  <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-  {{ with .Params.description }}
-    <p class="article-excerpt">{{ . }}</p>
-  {{ end }}
-  <span class="article-byline">By JON WREN &middot; {{ .Date.Format "January 2, 2006" }}</span>
-</article>
-{{ end }}
+<div class="container">
+  <div class="list-page-header">
+    <h1>{{ .Title }}</h1>
+  </div>
+  <hr class="section-divider">
+  <div class="card-grid" style="padding-top: 32px;">
+    {{ range .Pages }}
+    <article class="card-grid-item">
+      {{ with .Params.image }}
+      <img src="{{ . }}" alt="" loading="lazy">
+      {{ end }}
+      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+      {{ with .Params.description }}
+        <p class="article-excerpt">{{ . }}</p>
+      {{ end }}
+      <span class="byline">By JON WREN &middot; {{ .Date.Format "January 2, 2006" }}</span>
+    </article>
+    {{ end }}
+  </div>
+</div>
 {{ end }}

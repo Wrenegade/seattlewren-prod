@@ -1,20 +1,22 @@
 {{ define "main" }}
-<article>
-  <a href="/" class="back-link">&larr; Back to posts</a>
-  {{ with .Params.image }}
-  <img class="photo-hero" src="{{ . }}" alt="{{ $.Title }}">
-  {{ end }}
-  <div class="post-header">
-    {{ with .Params.categories }}
-    <div style="margin-bottom: 12px;">
-      {{ range . }}<span class="article-tag tag-{{ . | urlize }}">{{ . }}</span> {{ end }}
-    </div>
+<div class="container-narrow">
+  <article>
+    <a href="/" class="back-link">&larr; Back to posts</a>
+    {{ with .Params.image }}
+    <img class="photo-hero" src="{{ . }}" alt="{{ $.Title }}">
     {{ end }}
-    <h1 class="post-title">{{ .Title }}</h1>
-    <p class="post-meta">By JON WREN &middot; {{ .Date.Format "January 2, 2006" }}</p>
-  </div>
-  <div class="post-content">
-    {{ .Content }}
-  </div>
-</article>
+    <div class="post-header" style="padding-top: 0;">
+      {{ with .Params.categories }}
+      <div style="margin-bottom: 12px;">
+        {{ range . }}<span class="cat-label">{{ . }}</span> {{ end }}
+      </div>
+      {{ end }}
+      <h1 class="post-title">{{ .Title }}</h1>
+      <p class="post-meta">By JON WREN &middot; {{ .Date.Format "January 2, 2006" }}</p>
+    </div>
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+  </article>
+</div>
 {{ end }}
