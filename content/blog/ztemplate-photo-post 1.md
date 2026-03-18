@@ -6,6 +6,7 @@ categories:
   - Hobbies
 image: https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80
 draft: true
+description: test description
 ---
 
 This post uses the **photo** layout. The hero image fills the top of the page — great for travel, nature, or any image-heavy post.
