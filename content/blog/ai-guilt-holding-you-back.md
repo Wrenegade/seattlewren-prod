@@ -28,7 +28,7 @@ Wrong.
 
 ## Make AI Do It
 
-As of March 2026, I've completely gotten over it. I'm paying for the Claude Max plan at $100/month. It sounds like a lot until you realize I have never learned more or built more in such a short period of time. These are mostly personal projects — I'm currently on a work pause — but my goal was to learn how to fully utilize AI, and that's exactly what's happening.
+As of March 2026, I've completely gotten over it. I'm paying for the Claude Max plan at $100/month. It sounds like a lot until you realize I have never learned more or built more in such a short period of time. These are mostly personal projects — I'm currently on a [[work-pause]] — but my goal was to learn how to fully utilize AI, and that's exactly what's happening.
 
 These days, I just make AI do it. I actually get joy watching my credit usage tick up in the Settings panel. There are two limits, daily and weekly, and ever since I started the Max plan I had never hit my daily limit — until March 17th, 2026. I felt genuinely proud that I had to take a break and wait for it to reset.
 
