@@ -156,7 +156,111 @@ But, this is where YOU come in.  After all, you are the ones that put those peop
 ### Ways to Ratify
 Let's just say, Congress voted "Yay" on the Joint Resolution (both House and Senate passed).  Now what?
 
-Normally, with a Bill, that would go to the President.  But this isn't a bill, it's Joint Resolution.  This goes *directly to the State legislation for all 50 States*.  Completely bypasses the President, by design.
+Normally, with a Bill, that would go to the President for signature.  But this isn't a bill, it's Joint Resolution.  This goes *directly to all 50 States legislations*, completely bypassing the President.  This is intentional in the process, the President's signature is not required nor requested and plays zero role in anything going forward.  It is processed 100% by the hands of the States.
+
+**What happens at the State level**
+Each state has it's own legislature, similar to Congress.  This gets introduced into the normal State legislative process and will get debated and voted on like anything else...minimum wages, legalizing weed, speed limits.  Only, this won't go to the Governor for approval....it bypasses that office too.  It is truly as close to a "By The People" vote as you can get.  After all, you elected those State officials too....right?
+
+*It's weird, the Governor of your state has more power over YOU for your speed limit versus the power he/she has for you to make a Constitutional Amendment.  Think that over for a minute.* 
+
+So, 38 States need to approve the Federal Joint Resolution.  And, those are the people that you voted for...in theory.  You did vote for them, right?
+
+### Then What Happens? - The Archivist of the US
+Huh?  What the hell is that?
+
+Well, it's an actual role....with an actual person acting in that role.  For a Constitutional Amendment, the responsibility of the Archivist is:
+
+1.  Count the state ratifications as they come in
+2. Verify they're properly certified
+3. When 38 states have ratified — issue the proclamation
+4. Publish it in the Federal Register
+
+At this point, it's Constitutional Law, Supreme of the Land....Uber-Alles.  Nothing can change it unless it goes through another process to repeal (ex:  Prohibition).
+
+Not too hard, eh?  Well, in all honestly, it would take years to decades if everyone started today.  But, ya gotta start somewhere.....why not now?
+
+## Limiting Presidential Pardoning Power - Step by Step
+A quick recap of everything up to now:
+1. Presidential Pardoning Power invites corruption and, I believe, needs reform.
+2. It requires as Amendment to the US Constitution and is not a regular legislative bill.
+3. Constitutional Amendments are passed by 38 State Legislations bypassing any power of the President or State Governors
+4. Congress still needs to vote and approve a Joint Resolution via 2/3s majority for it to go to the States for voting.
+5. Getting the Joint Resolution to the floor for a vote can bypass the Speaker via the Discharge Petition requiring 218 votes from the House
+6. Getting around #4 and #5 above is possible via a Constitutional State Convention, but that's never been done before.
+7. A Joint Resolution has already been introduced in Dec 2025 that has only 2 Cosponsers as of March 2026.
+
+Working our way backwards up that list, #7 is the only thing you should focus on right now.  Cosponsership is important because it shows support for an idea.  There is a lot of people talking about this now but, obviously, little action.  Think of cosponsership as momentum---more names, more momentum.  More momentum, more light.  More light, more political weight.  More weight, more action.
+
+So, if you agree that there should be guardrails around the power to Pardon, then here is what you do....step by step.
+
+**Step 1:  Read the Joint Resolution - Pardon Integrity Act**
+As I mentioned before, a Joint Resolution has already been introduced.  It's 1 fucking page, read it. It's meant to be vague at this point, more detail could hinder "co-sponsoring".
+- https://www.congress.gov/bill/119th-congress/house-joint-resolution/135/text
+
+**Step 2:  Determine if your representative has cosponsered it.**
+- https://www.congress.gov/bill/119th-congress/house-joint-resolution/135/cosponsor
+
+-- If you see your House representatives name, you're good to go.
+-- If not, go to Step 3
+
+**Step 3: Make sure you know who your Federal Representatives are (1 House, 2 Senate)**
+At most, 45% of you vote in mid-term elections (versus 66% for Presidential elections).  That means, over half of you would stand in line for someone you'll never meet versus drive maybe 10 minutes to speak with the person who actually write Federal laws.  I'm hoping to educate you that this relationship is way more important that how you vote for President.
+
+Find your House Rep
+https://www.house.gov/representatives/find-your-representative
+
+Find your Senators
+https://www.senate.gov/senators/senators-contact.htm
+
+**Step 4: Create 3 Contacts in your Phone with their Office Numbers**
+Seriously, just get this part out of the way now.  You're going to make a lot of calls.  Forget email for now.
+
+**Step 5: Contact your House Representative and ask "Why have you not cosponsored this?"**
+Yes, you can do this.  And, they want you to.  They are your representatives to the Federal Government and over half of you didn't vote for them.  They want to know you.
+
+Now, most likely, you won't speak directly to your representative at first.  You'll speak to one of their assistants---and this is fine.  Develop a relationship with that assistant.  Imma say that again...**spend the time to develop a strong relationship with the representative's assistant.**  They are the ones that will plant seeds for you.  They are also the ones that will return your call.  
+
+Warning:  don't be surprised if you find that the assistant is some 25 year old Poly-Sci major.  This is common, but don't discount their age.  Their youth is an advantage as the weight of the world hasn't crushed their spirits yet and they still feel a sense of ideology.  Use it to your advantage.
+
+**Here's how that first call is going to go:**
+REP1:  *"Hello, Congressman [SoandSo's] Office.   What is your address?"*
+
+Note:  They want to make sure you are a constituent so they will ask for residential information.  Over time,  they'll stop asking and that's when you know you've established a relationship.
+
+YOU:  *"Hi, I'm Billy Joe Bob at 101 Main Street here in [Your city]"  
+
+REP1: *"Hi Billy Joe Bob, how can I help you?"*
+
+YOU:  *"Well, I'm calling about Joint Resolution 135.  Specifically, the Pardon Integrity Act introduced in December, 2025."*
+
+REP1: *"Yep, I know it.  Let me refer you over to [so and so] as they are the experts in that domain.  Hang on."*
+
+REP2: *"Hi, this is [REP2].  What's your name?"*
+
+Note:  Possibly another 25 year-old PolySci but also could be more experienced here.
+
+YOU:  *"I'm Billy Joe Bob and calling about Joint Resolution 135.  Specifically, the Pardon Integrity Act introduced in December, 2025."*
+
+REP2: *"Yep, what can I help you with on that?"*
+
+YOU:  *"Well, I want this.  Why hasn't my rep cosponserd it?"*
+
+NOTE:  Here comes the bullshit...
+
+REP2: *"Thanks for the call, Billy Joe Bob.  We really appreciate [yada yada].  We are definitely looking into it as it was just recently introduced, like YOU said, in Dec 2025.  But, it's definitely on our plate to review."*
+
+YOU:  *"Ok, so does this align with my reps agenda?  Because it aligns with mine."*
+
+At this point, it could go any direction and you're kind of one your own from here.  Remember, this isn't a Democratic or Republican thing...limiting Pardon power affects BOTH parties.  Anything is possible from here on out.
+
+But, if this is important to you, stand firm.  Make it clear this is what you want.  And, if this doesn't align with the current agenda, you will find someone else to vote for.  Trust me, they'll listen to that.
+
+Don't be intimidated.  Intimidate them. Whether you were one that voted them in, or not, they work for you.  Call them annoyingly:  every week, every day, every hour.  Whatever it takes.  They know that most people won't do this and it's a simple question: "When will you cosponser?"
+
+If you can get your neighbors to call in, referencing you, then you'll build political points and they will listen more.  Honestly, if you get 5 people call and they all referenced you, your Congressman will call soon.  He/she might even stop by your house.  It doesn't take much.
+
+## That's it...for now.  
+
 
 
 
