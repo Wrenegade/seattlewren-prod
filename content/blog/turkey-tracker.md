@@ -4,9 +4,9 @@ date: 2026-03-10
 layout: photo
 categories:
   - AI
-image: https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80
+image: https://seattlewren.s3.us-west-2.amazonaws.com/turkey-tracker/hero.png
 draft: false
-description: Bought 15 turkeys for about $100!
+description: Bought 15 turkeys for $100!
 ---
 
 When turkey prices started fluctuating wildly this season, I decided to stop manually checking three different Fred Meyer stores and build something smarter. What started as a simple web scraping project evolved into a full-stack price monitoring system powered by APIs and local AI.

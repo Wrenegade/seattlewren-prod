@@ -4,7 +4,7 @@ date: 2026-03-14
 layout: photo
 categories:
   - Musings
-image: https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80
+image: https://seattlewren.s3.us-west-2.amazonaws.com/work-pause/hero.jpg
 draft: false
 description: Keep Your Good Routines. Drop the Bad Ones. Build New Ones
 ---
