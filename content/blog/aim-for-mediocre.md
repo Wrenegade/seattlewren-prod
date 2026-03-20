@@ -4,7 +4,7 @@ date: 2026-03-14
 categories:
   - Musings
 draft: false
-image: https://seattlewren.s3.us-west-2.amazonaws.com/aim-for-mediocre/aim-mediocre-hero.jpg
+image: https://seattlewren.s3.us-west-2.amazonaws.com/aim-for-mediocre/aim-mediocre-hero.png
 layout: photo
 description: Just to get you past Start
 ---
