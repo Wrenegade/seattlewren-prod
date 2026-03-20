@@ -3,7 +3,7 @@ title: Homemade Mortadella
 date: 2026-03-14
 layout: recipe
 categories:
-  - My Recipes
+  - Musings
 image: https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=1600&q=80
 ingredients:
   - 1 lb pork

@@ -90,14 +90,19 @@
      CATEGORY SECTIONS — 4-col card grids
      ============================================ */}}
 {{ $categories := .Site.Taxonomies.categories }}
-{{ range $catName, $catPages := $categories }}
-  {{ $catPosts := $catPages.Pages }}
+{{ $orderedCats := slice "musings" "ai" "lifestyle" "data" }}
+{{ $catDisplay := dict "musings" "Musings" "ai" "AI" "lifestyle" "Lifestyle" "data" "Data" }}
+{{ range $orderedCats }}
+  {{ $catName := . }}
+  {{ $catLabel := index $catDisplay $catName }}
+  {{ with index $categories $catName }}
+  {{ $catPosts := .Pages }}
   {{ if $catPosts }}
 <div class="container">
   <hr class="section-divider">
   <div class="section-header">
-    <span class="cat-badge">{{ $catName }}</span>
-    <a class="section-see-all" href="/categories/{{ $catName | urlize }}/">All {{ $catName }} articles</a>
+    <span class="cat-badge">{{ $catLabel }}</span>
+    <a class="section-see-all" href="/categories/{{ $catName | urlize }}/">All {{ $catLabel }} articles</a>
   </div>
   <div class="card-grid">
     {{ range $catPosts | first 4 }}
@@ -115,6 +120,7 @@
     {{ end }}
   </div>
 </div>
+  {{ end }}
   {{ end }}
 {{ end }}
 
