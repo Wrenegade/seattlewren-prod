@@ -3,7 +3,9 @@ title: Jamaican Lottery Scams and My Mom
 description: Scammers killed my mom
 date: 2026-03-14
 categories:
-  - Lifestyle
+  - Musings
+  - Politics
+  - Scams
 draft: false
 image: https://seattlewren.s3.us-west-2.amazonaws.com/mom-post/hero.png
 layout: photo
