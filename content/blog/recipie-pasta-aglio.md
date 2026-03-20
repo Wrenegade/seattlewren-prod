@@ -1,20 +1,21 @@
 ---
-title: "Simple Pasta Aglio e Olio"
+title: Simple Pasta Aglio e Olio
 date: 2026-03-14
-layout: "recipe"
-categories: ["Musings"]
-image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=1600&q=80"
+layout: recipe
+categories:
+  - Lifestyle
+image: https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=1600&q=80
 ingredients:
-  - "1 lb spaghetti"
-  - "6 cloves garlic, thinly sliced"
-  - "1/2 cup olive oil"
-  - "1 tsp red pepper flakes"
-  - "1/2 cup fresh parsley, chopped"
-  - "1 cup reserved pasta water"
-  - "Parmesan to taste"
-  - "Salt and pepper"
-prep_time: "10 minutes"
-cook_time: "15 minutes"
+  - 1 lb spaghetti
+  - 6 cloves garlic, thinly sliced
+  - 1/2 cup olive oil
+  - 1 tsp red pepper flakes
+  - 1/2 cup fresh parsley, chopped
+  - 1 cup reserved pasta water
+  - Parmesan to taste
+  - Salt and pepper
+prep_time: 10 minutes
+cook_time: 15 minutes
 servings: "4"
 draft: false
 ---

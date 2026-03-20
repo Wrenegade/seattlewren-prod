@@ -3,7 +3,7 @@ title: Meeting Heinz Stücke
 date: 2026-03-14
 layout: photo
 categories:
-  - Lifestyle
+  - Musings
 image: https://seattlewren.s3.us-west-2.amazonaws.com/heinz/IMG_2135b.jpeg
 draft: false
 description: A Musing on cycling, simplicity, and what really matters

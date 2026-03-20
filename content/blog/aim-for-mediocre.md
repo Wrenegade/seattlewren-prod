@@ -2,7 +2,7 @@
 title: Aim For Mediocre
 date: 2026-03-14
 categories:
-  - Lifestyle
+  - Musings
 draft: false
 image: https://seattlewren.s3.us-west-2.amazonaws.com/aim-for-mediocre/aim-mediocre-hero.jpg
 layout: photo

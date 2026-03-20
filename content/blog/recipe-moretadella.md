@@ -17,7 +17,7 @@ ingredients:
 prep_time: 100 minutes
 cook_time: 150 minutes
 servings: "40"
-draft: false
+draft: true
 ---
 
 ## Instructions
@@ -29,7 +29,7 @@ draft: false
 
 This is just a test for Mortadella
 
-Check out the [Simple Pasta Aglio e Olio](sample-recipe.md) too.
+Check out the [Simple Pasta Aglio e Olio](recipie-pasta-aglio.md) too.
 
 # Lorem Ipsum
 
