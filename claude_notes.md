@@ -77,6 +77,11 @@ systemctl --user restart seattlewren-autodeploy   # restart
 systemctl --user restart cloudflared
 ```
 
+## Homepage Categories
+- **Fixed display order** in `layouts/index.html`: Musings, AI, Lifestyle, Data
+- Order is defined via `$orderedCats` slice and `$catDisplay` dict (for proper casing like "AI")
+- Categories not in the ordered list (e.g., General, Hobbies from templates) won't appear on the homepage
+
 ## Git
 - **Repo**: https://github.com/Wrenegade/seattlewren-prod.git
 - **Branch**: main

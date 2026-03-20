@@ -1,0 +1,665 @@
+{{ define "main" }}
+<style>
+  /* ============================================
+     PRESIDENTIAL PARDONS PAGE STYLES
+     ============================================ */
+  .pardons-page {
+    padding: 40px 0 0;
+  }
+  .pardons-header {
+    margin-bottom: 32px;
+  }
+  .pardons-header h2 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .pardons-subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    max-width: 720px;
+  }
+  .pardons-vintage {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  /* Legend */
+  .pardons-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 32px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .legend-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* Chart section */
+  .chart-section {
+    margin-bottom: 40px;
+  }
+  .chart-section h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  /* Bar chart */
+  .bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    width: 80px;
+    flex-shrink: 0;
+    text-align: right;
+    letter-spacing: 0.3px;
+  }
+  .bar-total {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    width: 40px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .bar-track {
+    flex: 1;
+    display: flex;
+    height: 36px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--border-light);
+    position: relative;
+  }
+  .bar-segment {
+    height: 100%;
+    position: relative;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    min-width: 0;
+  }
+  .bar-segment:hover {
+    opacity: 0.85;
+  }
+
+  /* Tooltip */
+  .pardons-tooltip {
+    position: fixed;
+    display: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    min-width: 180px;
+    max-width: 280px;
+  }
+  .tooltip-president {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .tooltip-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+  }
+  .tooltip-count {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .tooltip-pct {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* View toggle */
+  .view-toggle {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+  .view-toggle button {
+    border: none;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 8px 16px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .view-toggle button:last-child {
+    border-right: none;
+  }
+  .view-toggle button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .view-toggle button:hover:not(.active) {
+    background: var(--border-light);
+    color: var(--text);
+  }
+
+  /* Summary table */
+  .pardons-table-wrap {
+    margin-bottom: 40px;
+    overflow-x: auto;
+  }
+  .pardons-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+  }
+  .pardons-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border-heavy, var(--border));
+    white-space: nowrap;
+  }
+  .pardons-table th.num {
+    text-align: right;
+  }
+  .pardons-table td {
+    font-size: 14px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text);
+  }
+  .pardons-table td.num {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+  .pardons-table td.president-cell {
+    font-weight: 600;
+  }
+  .pardons-table .pct {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-left: 4px;
+  }
+  .pardons-table tr:hover td {
+    background: var(--border-light);
+  }
+  .pardons-table .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* Summary stats */
+  .pardons-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .pardons-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .pardons-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+  .pardons-stat-value {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .pardons-stat-sub {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+
+  /* Methodology */
+  .pardons-methodology {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+  }
+  .pardons-methodology h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .pardons-methodology p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .pardons-methodology p:last-child {
+    margin-bottom: 0;
+  }
+  .severity-def {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .severity-def .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  /* Data note */
+  .pardons-data-note {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    line-height: 1.7;
+    border-top: 1px solid var(--border-light);
+    padding: 24px 0 40px;
+  }
+  .pardons-data-note p {
+    margin-bottom: 8px;
+  }
+  .pardons-data-note p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .pardons-header h2 { font-size: 28px; }
+    .pardons-stats { grid-template-columns: 1fr; }
+    .pardons-stat-value { font-size: 22px; }
+    .bar-label { width: 60px; font-size: 11px; }
+    .bar-track { height: 28px; }
+    .pardons-legend { gap: 8px 16px; }
+    .legend-item { font-size: 12px; }
+    .pardons-methodology { padding: 16px 18px; }
+  }
+</style>
+
+<div class="container pardons-page">
+
+  <!-- Header -->
+  <div class="pardons-header">
+    <h2>Presidential Pardons by Offense Severity</h2>
+    <p class="pardons-subtitle">
+      An analysis of presidential pardons from George H.W. Bush through Donald Trump, categorized by the severity of the most serious underlying offense. Each pardon is assigned a level from 0 (preemptive) to 5 (violent crime involving death or serious harm).
+    </p>
+    <p class="pardons-vintage">Source: U.S. Department of Justice Clemency Records</p>
+  </div>
+
+  <!-- Legend -->
+  <div class="pardons-legend" id="pardons-legend"></div>
+
+  <!-- Summary stats -->
+  <div class="pardons-stats" id="pardons-stats"></div>
+
+  <!-- Chart -->
+  <div class="chart-section">
+    <h3>Pardon Distribution by President</h3>
+    <div class="view-toggle" id="view-toggle">
+      <button data-view="pct" class="active">Percentage</button>
+      <button data-view="raw">Raw Count</button>
+    </div>
+    <div class="bar-chart" id="bar-chart"></div>
+  </div>
+
+  <!-- Table -->
+  <div class="chart-section">
+    <h3>Detailed Breakdown</h3>
+    <div class="pardons-table-wrap">
+      <table class="pardons-table" id="pardons-table">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Methodology -->
+  <div class="pardons-methodology" id="methodology">
+    <h3>Methodology</h3>
+    <p>Each pardon was categorized based on the most severe charge associated with the individual. Where multiple offenses were present, only the highest-severity charge determined the level. Commutations are excluded; only full presidential pardons are counted.</p>
+    <div id="severity-defs"></div>
+    <p style="margin-top: 16px;">Preemptive pardons (Level 0) are a distinct category representing blanket pardons issued to individuals for unspecified or anticipated offenses, where no conviction or specific criminal charge was named.</p>
+  </div>
+
+  <!-- Notes -->
+  <div class="pardons-data-note">
+    <p>* Donald Trump pardoned approximately 1,500 January 6th defendants en masse on January 20, 2025. These individual pardons are not listed on the DOJ clemency page and are <strong>not included</strong> in the counts above. If included, Trump's total would exceed 1,700.</p>
+    <p>Data compiled from the U.S. Department of Justice Office of the Pardon Attorney clemency records. Categorizations reflect the authors' assessment of offense severity and are intended for informational purposes.</p>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div class="pardons-tooltip" id="pardons-tooltip">
+  <div class="tooltip-president"></div>
+  <div class="tooltip-level"></div>
+  <div class="tooltip-count"></div>
+  <div class="tooltip-pct"></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ── Data ── */
+  const LEVELS = {
+    0: { label: 'Preemptive',        color: '#9e9e9e' },
+    1: { label: 'Minor / Regulatory', color: '#4caf50' },
+    2: { label: 'Non-Violent Federal', color: '#2196f3' },
+    3: { label: 'Drug Offenses',      color: '#ff9800' },
+    4: { label: 'Corruption / Fraud',  color: '#f44336' },
+    5: { label: 'Violent / Death',     color: '#4a0000' }
+  };
+
+  const data = {
+    "Bush Sr.": { total: 65, levels: {0:0, 1:10, 2:34, 3:7, 4:11, 5:3} },
+    "Clinton":  { total: 202, levels: {0:0, 1:17, 2:55, 3:65, 4:55, 5:10} },
+    "Bush Jr.": { total: 189, levels: {0:0, 1:19, 2:68, 3:58, 4:38, 5:6} },
+    "Obama":    { total: 212, levels: {0:0, 1:13, 2:48, 3:112, 4:35, 5:4} },
+    "Biden":    { total: 80, levels: {0:9, 1:3, 2:19, 3:33, 4:15, 5:1} },
+    "Trump*":   { total: 236, levels: {0:0, 1:14, 2:114, 3:20, 4:73, 5:15} }
+  };
+
+  const presidents = Object.keys(data);
+  let viewMode = 'pct'; // 'pct' or 'raw'
+
+  /* Find the maximum total for raw-count bar scaling */
+  const maxTotal = Math.max(...presidents.map(p => data[p].total));
+
+  /* ── Build Legend ── */
+  function buildLegend() {
+    const el = document.getElementById('pardons-legend');
+    el.innerHTML = Object.entries(LEVELS).map(([lvl, info]) =>
+      '<div class="legend-item">' +
+        '<span class="legend-swatch" style="background:' + info.color + '"></span>' +
+        '<span class="legend-level">L' + lvl + '</span> ' +
+        '<span>' + info.label + '</span>' +
+      '</div>'
+    ).join('');
+  }
+
+  /* ── Build Summary Stats ── */
+  function buildStats() {
+    const totalAll = presidents.reduce((s, p) => s + data[p].total, 0);
+    const totalL5 = presidents.reduce((s, p) => s + data[p].levels[5], 0);
+    const totalL4 = presidents.reduce((s, p) => s + data[p].levels[4], 0);
+
+    const el = document.getElementById('pardons-stats');
+    el.innerHTML =
+      '<div class="pardons-stat-card">' +
+        '<div class="pardons-stat-label">Total Pardons Analyzed</div>' +
+        '<div class="pardons-stat-value">' + totalAll.toLocaleString() + '</div>' +
+        '<div class="pardons-stat-sub">Across 6 presidencies (1989 &ndash; present)</div>' +
+      '</div>' +
+      '<div class="pardons-stat-card">' +
+        '<div class="pardons-stat-label">Level 5 &mdash; Violent / Death</div>' +
+        '<div class="pardons-stat-value">' + totalL5 + '</div>' +
+        '<div class="pardons-stat-sub">' + (totalL5 / totalAll * 100).toFixed(1) + '% of all pardons</div>' +
+      '</div>' +
+      '<div class="pardons-stat-card">' +
+        '<div class="pardons-stat-label">Level 4 &mdash; Corruption / Fraud</div>' +
+        '<div class="pardons-stat-value">' + totalL4 + '</div>' +
+        '<div class="pardons-stat-sub">' + (totalL4 / totalAll * 100).toFixed(1) + '% of all pardons</div>' +
+      '</div>';
+  }
+
+  /* ── Build Bar Chart ── */
+  function buildChart() {
+    const el = document.getElementById('bar-chart');
+    el.innerHTML = '';
+
+    presidents.forEach(function(pres) {
+      var d = data[pres];
+      var row = document.createElement('div');
+      row.className = 'bar-row';
+
+      /* Label */
+      var label = document.createElement('div');
+      label.className = 'bar-label';
+      label.textContent = pres;
+      row.appendChild(label);
+
+      /* Track */
+      var track = document.createElement('div');
+      track.className = 'bar-track';
+
+      if (viewMode === 'raw') {
+        track.style.width = ((d.total / maxTotal) * 100) + '%';
+        track.style.flex = 'none';
+      } else {
+        track.style.width = '';
+        track.style.flex = '1';
+      }
+
+      for (var lvl = 0; lvl <= 5; lvl++) {
+        var count = d.levels[lvl];
+        if (count === 0) continue;
+        var pct = (count / d.total * 100);
+        var seg = document.createElement('div');
+        seg.className = 'bar-segment';
+        seg.style.width = pct + '%';
+        seg.style.background = LEVELS[lvl].color;
+        seg.setAttribute('data-pres', pres);
+        seg.setAttribute('data-level', lvl);
+        seg.setAttribute('data-count', count);
+        seg.setAttribute('data-pct', pct.toFixed(1));
+        track.appendChild(seg);
+      }
+
+      row.appendChild(track);
+
+      /* Total */
+      var total = document.createElement('div');
+      total.className = 'bar-total';
+      total.textContent = d.total;
+      row.appendChild(total);
+
+      el.appendChild(row);
+    });
+  }
+
+  /* ── Build Table ── */
+  function buildTable() {
+    var table = document.getElementById('pardons-table');
+    var thead = table.querySelector('thead');
+    var tbody = table.querySelector('tbody');
+
+    thead.innerHTML =
+      '<tr>' +
+        '<th>President</th>' +
+        '<th class="num">Total</th>' +
+        '<th class="num"><span class="swatch" style="background:#9e9e9e"></span>L0</th>' +
+        '<th class="num"><span class="swatch" style="background:#4caf50"></span>L1</th>' +
+        '<th class="num"><span class="swatch" style="background:#2196f3"></span>L2</th>' +
+        '<th class="num"><span class="swatch" style="background:#ff9800"></span>L3</th>' +
+        '<th class="num"><span class="swatch" style="background:#f44336"></span>L4</th>' +
+        '<th class="num"><span class="swatch" style="background:#4a0000"></span>L5</th>' +
+      '</tr>';
+
+    tbody.innerHTML = '';
+    presidents.forEach(function(pres) {
+      var d = data[pres];
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="president-cell">' + pres + '</td>' +
+        '<td class="num">' + d.total + '</td>' +
+        levelCell(d, 0) +
+        levelCell(d, 1) +
+        levelCell(d, 2) +
+        levelCell(d, 3) +
+        levelCell(d, 4) +
+        levelCell(d, 5);
+      tbody.appendChild(tr);
+    });
+
+    /* Totals row */
+    var totalRow = document.createElement('tr');
+    totalRow.style.fontWeight = '700';
+    totalRow.style.borderTop = '2px solid var(--border-heavy, var(--border))';
+    var totals = {0:0,1:0,2:0,3:0,4:0,5:0};
+    var grandTotal = 0;
+    presidents.forEach(function(p) {
+      grandTotal += data[p].total;
+      for (var l = 0; l <= 5; l++) totals[l] += data[p].levels[l];
+    });
+    totalRow.innerHTML =
+      '<td class="president-cell">All</td>' +
+      '<td class="num">' + grandTotal + '</td>';
+    for (var l = 0; l <= 5; l++) {
+      totalRow.innerHTML += '<td class="num">' + totals[l] + ' <span class="pct">(' + (totals[l]/grandTotal*100).toFixed(1) + '%)</span></td>';
+    }
+    tbody.appendChild(totalRow);
+  }
+
+  function levelCell(d, lvl) {
+    var c = d.levels[lvl];
+    var pct = (c / d.total * 100).toFixed(1);
+    return '<td class="num">' + c + ' <span class="pct">(' + pct + '%)</span></td>';
+  }
+
+  /* ── Build Severity Definitions ── */
+  function buildDefs() {
+    var el = document.getElementById('severity-defs');
+    var defs = [
+      [0, 'Preemptive pardons with no specific offense charged (e.g., blanket pardons for family members or government officials).'],
+      [1, 'Simple possession, minor tax filing errors, wildlife violations, liquor/still violations, shoplifting, misdemeanors, AWOL, regulatory violations.'],
+      [2, 'False statements, obstruction, perjury, contempt, campaign finance, FACE Act violations, embezzlement, firearms possession (non-violent context), counterfeiting, identity fraud.'],
+      [3, 'Drug distribution, trafficking, conspiracy to distribute, possession with intent to distribute, drug importation.'],
+      [4, 'Bribery, securities fraud, wire/bank fraud, money laundering, racketeering, espionage, extortion, RICO, significant tax evasion.'],
+      [5, 'Murder, manslaughter, armed robbery, assault with dangerous weapon, kidnapping &mdash; any crime involving death or serious physical harm.']
+    ];
+    el.innerHTML = defs.map(function(pair) {
+      return '<div class="severity-def">' +
+        '<span class="swatch" style="background:' + LEVELS[pair[0]].color + '"></span>' +
+        '<span><strong>Level ' + pair[0] + ' &mdash; ' + LEVELS[pair[0]].label + ':</strong> ' + pair[1] + '</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  /* ── Tooltip ── */
+  var tooltip = document.getElementById('pardons-tooltip');
+  document.getElementById('bar-chart').addEventListener('mousemove', function(e) {
+    var seg = e.target.closest('.bar-segment');
+    if (!seg) { tooltip.style.display = 'none'; return; }
+
+    var pres = seg.getAttribute('data-pres');
+    var lvl = seg.getAttribute('data-level');
+    var count = seg.getAttribute('data-count');
+    var pct = seg.getAttribute('data-pct');
+
+    tooltip.querySelector('.tooltip-president').textContent = pres;
+    tooltip.querySelector('.tooltip-level').textContent = 'Level ' + lvl + ' — ' + LEVELS[lvl].label;
+    tooltip.querySelector('.tooltip-count').textContent = count + ' pardons';
+    tooltip.querySelector('.tooltip-pct').textContent = pct + '% of ' + pres + ' total';
+
+    tooltip.style.display = 'block';
+    var tx = e.clientX + 16;
+    var ty = e.clientY - 10;
+    if (tx + 280 > window.innerWidth) tx = e.clientX - 296;
+    if (ty + 120 > window.innerHeight) ty = e.clientY - 120;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top = ty + 'px';
+  });
+  document.getElementById('bar-chart').addEventListener('mouseleave', function() {
+    tooltip.style.display = 'none';
+  });
+
+  /* ── View Toggle ── */
+  document.getElementById('view-toggle').addEventListener('click', function(e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    var view = btn.getAttribute('data-view');
+    if (view === viewMode) return;
+    viewMode = view;
+    this.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    buildChart();
+  });
+
+  /* ── Init ── */
+  buildLegend();
+  buildStats();
+  buildChart();
+  buildTable();
+  buildDefs();
+
+})();
+</script>
+{{ end }}
