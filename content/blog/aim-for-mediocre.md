@@ -10,8 +10,6 @@ description: Just to get you past Start
 ---
 Why would anyone aim for mediocrity? Isn't that... giving up? Nope. It's actually the most practical advice I can give you, and it's how I've approached learning for decades. Let me explain.
 
-The picture above is my first DIY project as a home owner. I had never built a walkway, only read about it. So, I started by planning, procuring, digging, and laying bricks. The end result was hardly level, wobbly, and the bricks didn't match the house. Mediocre, but I was proud of it. 3 different owners and 18 years later, that walkway still stands.
-
 ## Everyone Starts at Zero
 
 Think about it: there was a time when Tom Brady had never thrown a football, Picasso had never picked up a brush, and Taylor Swift didn't know she wanted to be a singer. Every "great" started with nothing.
@@ -62,7 +60,7 @@ Which means the only way to truly fail is to never start. Everything else is jus
 
 Here's what that looks like for me:
 
-Golf: Didn't play until after college. Was terrible. Practiced just enough to not embarrass myself or slow down the group. I count balls lost, not strokes. Best round ever was 89—the only time I ever broke 100. I'll play if you're paying, but don't count on me if you need "good" partners.
+Golf: Didn't play until after college. Was terrible. Practiced just enough to not embarrass myself or slow down the group. Best round ever was 89—the only time I ever broke 100. Most of the time I count balls lost, not strokes.  I'll play if you're paying, but don't count on me if you need "good" partners.
 
 Bass Guitar: Picked it up a few years ago. My guitar skills translate a little, but the more I learn, the more I realize I've barely started. I can play simple songs. By my definition, I'm not even mediocre yet—and that's fine.
 
@@ -71,15 +69,15 @@ Building: People see my Office Shed and Greenhouse and argue with me on this one
 Three different spots on the ladder. One thing in common: I decided what "enough" looked like. So can you.
 
 ![My First DYI Project](https://seattlewren.s3.us-west-2.amazonaws.com/aim-for-mediocre/richmond.jpg)
-*My first DIY project as a home owner.  Didn't know what I was doing but, three owners and 18 years later, it still exists today.*
 
+*The picture above is my first DIY project as a home owner. I had never built a walkway, only read about it. So, I started by planning, procuring, digging, and laying bricks. The end result was hardly level, wobbly, and the bricks didn't match the house. Mediocre, but I was proud of it. 3 different owners and 18 years later, that walkway still stands.*
 ## Starting Reveals What Doesn't Stick
 
 Starting many things isn't scattered energy—it's a filtering system. You learn what doesn't give you value, which clarifies what does.
 
-I've started plenty of things. Skydiving? Got mediocre. Stopped. No regret. Snowboarding? Same story. Golf? Another one. All on the shelf now.
+I've started plenty of things. Snowboarding? Got mediocre. Stopped. No regret. Golf? Same story. Homemade Pho Soup?  I can't beat the cheapest restaurant.   All on the shelf now.
 
-But contrast that with what survived the filter: bike touring, fishing, gardening, mushrooms. These are the ones I keep coming back to. These are the ones that give me something.
+But contrast that with what survived the filter: bike touring, fishing, gardening, music production. These are the ones I keep coming back to. These are the ones that give me something.
 
 The insight: **Mediocrity isn't just a stepping stone to greatness. Sometimes it's the answer.**
 
@@ -89,15 +87,15 @@ By starting and aiming for mediocre, I discover what actually sticks. I don't wa
 
 So what does all this mean practically? It guides how I spend.
 
-Every time I go into Guitar Center, trouble is brewing. So many beautiful toys hanging from the walls... I need one. Then I look at the price tag. Nope, don't need that. Because I'm only mediocre/good status.
+Every time I go into Guitar Center, trouble is brewing. So many beautiful toys hanging from the walls... I need one. Then I look at the price tag. Nope, don't need that. Because I'm not that good.
 
-For guitar, I already have a substantial collection and no new guitar will instantly make me better. For the record, I have 10 guitars (8 guitars, 2 bass) and spent less than $1500 for all of them. That's $150/guitar—market value on Facebook. Even though in certain scenarios I'm "not bad," a $1000 guitar won't make me any better. Practice will.
+For guitar, I already have a substantial collection and no new guitar will instantly make me better. For the record, I have 10 guitars (8 guitars, 2 bass) and spent less than $2,000 for all of them. That's $200/guitar average—market value on Facebook. Even though in certain scenarios I'm "above average," a $1000 guitar won't make me any better. Practice will.
 
 So the next time you covet that $700 Fender Strat, look at the Squires on marketplaces for $200 tops. If you're just starting out, you're not even worth that.
 
 You can equate your investment to the level you're at. If you haven't started, invest the bare minimum (<$100). If you're progressing toward mediocre, raise the investment accordingly.
 
-Remember, you're probably not "good" yet—so that $700 guitar could be something you want but aren't good enough for. Or do what I do: get another $150 guitar that's different. Every guitar I have is fundamentally different (nylon, steel, electric) and gives me options across genres. That's where I get value—not from a true $5,000 Gibson '59 Les Paul but my $400 Epiphone Les Paul --the most money I've spent on any one guitar-- kicks some serious ass.
+Remember, you're probably not "good" yet—so that $700 guitar could be something you want but aren't good enough for. Or do what I do: get another $200 guitar that's different. Every guitar I have is fundamentally different (nylon, steel, electric) and gives me options across genres. That's where I get value—not from a true $5,000 Gibson '59 Les Paul but my $400 Epiphone Les Paul --the most money I've spent on any one guitar-- kicks some serious ass.
 
 Same principle elsewhere. Golf? "I'll play if you pay." I don't need more investment—I'm happy with my status. Building? I hit the culled wood section for 70% discounts before anything else.
 

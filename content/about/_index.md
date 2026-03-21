@@ -1,10 +1,10 @@
 ---
-title: "About Me"
-subtitle: "Technologist, creator, and curious mind from Seattle"
-image: "/aboutme.jpeg"
-image_caption: "Standing between two worlds at Thingvellir National Park, Iceland—literally! North America is on my left, Eurasia on my right. Sometimes the best adventures happen right in the gap between continents."
-portfolio_url: "https://jonwren.com"
-email: "jonwren@seattlewren.com"
+title: About Me
+subtitle: Technologist, creator, and curious mind from Seattle
+image: /aboutme.jpeg
+image_caption: Standing between two worlds at Thingvellir National Park, Iceland—literally! North America is on my left, Eurasia on my right. Sometimes the best adventures happen right in the gap between continents.
+portfolio_url: https://jonwren.com
+email: jonwren@seattlewren.com
 ---
 
 Hello! I'm Jon Wren, a Seattle-based technologist with a passion for AI, data engineering, and the art of building things. This blog is my digital garden—a space where I cultivate ideas, share projects, and document my journey through technology and creativity.
