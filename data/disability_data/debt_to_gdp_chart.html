@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Debt-to-GDP Ratio Since WWII</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .container {
+    max-width: 960px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #1a1a1a;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+  .chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 480px;
+  }
+  .source {
+    font-size: 11px;
+    color: #999;
+    margin-top: 12px;
+    text-align: right;
+  }
+  .source a { color: #999; }
+  .callouts {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .callout {
+    flex: 1;
+    min-width: 200px;
+    background: #f7f7f7;
+    border-left: 3px solid #2563eb;
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .callout strong { display: block; font-size: 22px; color: #2563eb; margin-bottom: 2px; }
+  .callout.red { border-left-color: #dc2626; }
+  .callout.red strong { color: #dc2626; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>U.S. Federal Debt Held by the Public as % of GDP</h1>
+  <p class="subtitle">1939–2023 &nbsp;|&nbsp; The debt didn't get "paid off" after WWII. The economy just outgrew it.</p>
+  <div class="chart-wrapper">
+    <canvas id="debtChart"></canvas>
+  </div>
+  <p class="source">Source: <a href="https://fred.stlouisfed.org/series/FYPUGDA188S">FRED / U.S. Office of Management and Budget (FYPUGDA188S)</a></p>
+  <div class="callouts">
+    <div class="callout">
+      <strong>106% → 22%</strong>
+      Post-WWII peak to 1974 low. GDP boomed, the ratio shrank for 35 years — without ever "paying it off."
+    </div>
+    <div class="callout red">
+      <strong>22% → 94%</strong>
+      1974 to 2023. Three surges: Reagan defense buildup, 2008 financial crisis, COVID pandemic.
+    </div>
+  </div>
+</div>
+<script>
+const rawData = [
+  [1939,44.3],[1940,41.6],[1941,37.3],[1942,40.9],[1943,62.9],[1944,82.3],[1945,103.2],
+  [1946,106.3],[1947,89.9],[1948,78.8],[1949,78.6],[1950,73.0],[1951,61.8],[1952,58.5],
+  [1953,56.1],[1954,57.5],[1955,53.3],[1956,49.4],[1957,46.3],[1958,47.0],[1959,45.0],
+  [1960,43.7],[1961,42.4],[1962,41.1],[1963,39.8],[1964,37.5],[1965,35.1],[1966,32.4],
+  [1967,31.0],[1968,30.8],[1969,27.3],[1970,26.4],[1971,26.0],[1972,25.2],[1973,23.9],
+  [1974,22.2],[1975,23.4],[1976,25.5],[1977,26.4],[1978,25.8],[1979,24.4],[1980,24.9],
+  [1981,24.6],[1982,27.7],[1983,31.3],[1984,32.4],[1985,34.7],[1986,38.0],[1987,38.9],
+  [1988,39.2],[1989,38.8],[1990,40.4],[1991,43.7],[1992,46.0],[1993,47.4],[1994,47.1],
+  [1995,47.2],[1996,46.3],[1997,44.0],[1998,41.1],[1999,37.7],[2000,33.3],[2001,31.4],
+  [2002,32.4],[2003,34.2],[2004,35.2],[2005,35.2],[2006,35.0],[2007,34.8],[2008,39.3],
+  [2009,52.1],[2010,59.9],[2011,64.9],[2012,69.4],[2013,71.0],[2014,72.6],[2015,71.7],
+  [2016,75.3],[2017,74.8],[2018,76.2],[2019,78.0],[2020,98.3],[2021,93.9],[2022,93.1],
+  [2023,94.3]
+];
+
+const labels = rawData.map(d => d[0]);
+const values = rawData.map(d => d[1]);
+
+// Color the line: blue before 1974 trough, red after
+const borderColors = rawData.map((d,i) => {
+  if (d[0] <= 1974) return '#2563eb';
+  return '#dc2626';
+});
+
+const ctx = document.getElementById('debtChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Debt Held by Public (% of GDP)',
+      data: values,
+      borderColor: '#2563eb',
+      backgroundColor: 'transparent',
+      borderWidth: 2.5,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: '#2563eb',
+      tension: 0.2,
+      segment: {
+        borderColor: function(ctx) {
+          const idx = ctx.p0DataIndex;
+          return rawData[idx][0] >= 1974 ? '#dc2626' : '#2563eb';
+        }
+      }
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1a1a1a',
+        titleFont: { size: 14 },
+        bodyFont: { size: 13 },
+        padding: 10,
+        callbacks: {
+          title: (items) => items[0].label,
+          label: (item) => `  ${item.parsed.y.toFixed(1)}% of GDP`
+        }
+      },
+      annotation: {
+        annotations: {
+          wwiiPeak: {
+            type: 'label',
+            xValue: 1946,
+            yValue: 112,
+            content: ['WWII Peak', '106.3%'],
+            font: [{ size: 11, weight: 'bold' }, { size: 11 }],
+            color: '#2563eb'
+          },
+          trough: {
+            type: 'label',
+            xValue: 1974,
+            yValue: 16,
+            content: ['1974 Low', '22.2%'],
+            font: [{ size: 11, weight: 'bold' }, { size: 11 }],
+            color: '#2563eb'
+          },
+          covid: {
+            type: 'label',
+            xValue: 2020,
+            yValue: 104,
+            content: ['COVID', '98.3%'],
+            font: [{ size: 11, weight: 'bold' }, { size: 11 }],
+            color: '#dc2626'
+          },
+          current: {
+            type: 'label',
+            xValue: 2015,
+            yValue: 104,
+            content: [''],
+            font: { size: 1 }
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: {
+          maxTicksLimit: 18,
+          font: { size: 11 },
+          color: '#666'
+        }
+      },
+      y: {
+        min: 0,
+        max: 120,
+        ticks: {
+          callback: (v) => v + '%',
+          font: { size: 11 },
+          color: '#666',
+          stepSize: 20
+        },
+        grid: {
+          color: '#eee'
+        }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
