@@ -306,8 +306,7 @@ new Chart(ctx, {
         max: 2024,
         grid: { display: false },
         ticks: {
-          stepSize: 5,
-          callback: (v) => v % 10 === 0 || v === 1939 ? String(v) : '',
+          stepSize: 10,
           font: { size: 11 },
           color: '#666'
         }
