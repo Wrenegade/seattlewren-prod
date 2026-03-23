@@ -115,7 +115,9 @@ After WWII, the US owed 120% of GDP. Sound familiar? The debt kept growing in do
 
 **We’ve Due For A Big Growth Spurt...Or Complete Collapse**
 
-**[Insert chart]**
+> Chart: debt_to_gdp_chart.html (visible on published site)
+
+<iframe src="/debt_to_gdp_chart.html" width="100%" height="700" style="border:none;"></iframe>
 
 **Interesting, eh? We kicked some serious ass after WWII to about 1984. So, what happened?**
 

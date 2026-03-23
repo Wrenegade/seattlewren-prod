@@ -3,7 +3,6 @@ title: Pardon Power - We're Overdue For A Constitutional Amendment.
 date: 2026-03-17
 layout: photo
 categories:
-  - Musings
   - Politics
 image: https://logos-world.net/wp-content/uploads/2024/10/Department-of-Justice-Logo.png
 draft: false
