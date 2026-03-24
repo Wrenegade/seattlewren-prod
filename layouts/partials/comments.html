@@ -74,7 +74,7 @@
   }
 
   function loadComments() {
-    fetch('/api/comments/' + encodeURIComponent(slug))
+    fetch('/api/comments/' + slug)
       .then(function(r) { return r.json(); })
       .then(function(comments) {
         if (!comments.length) {
