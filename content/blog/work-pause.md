@@ -8,9 +8,6 @@ image: https://seattlewren.s3.us-west-2.amazonaws.com/work-pause/hero.jpg
 draft: false
 description: Keep Your Good Routines. Drop the Bad Ones. Build New Ones
 ---
-_Keep Your Good Routines. Drop the Bad Ones. Build New Ones_
-
-
 Life’s unfair. You just got axed and you’re out of a job. You’ve got time on your hands — whether that’s a gift or a curse depends entirely on what you do with it.
 
 I’m not going to sugarcoat this: the AI wave is real, it’s accelerating, and it’s going to sting in the short term. But I also believe it’ll be great for everyone in the long run. Really, really great. The problem is, you’re in the short run right now. So am I.
@@ -39,7 +36,7 @@ The longer you allow yourself to drift, the harder you’ll have to row later. I
 
 For my first pause, I didn’t waste time as I jumped right into learning AWS. I was motivated, younger, had only one child, and an affordable mortgage. I figured “let me level up quick, then I’ll have fun” which is what I did. While that plan eventually worked, it took 3 months longer than I anticipated. And, those were some stressful months.
 
-For my second pause, I needed to decompress after my mom’s death [link to my mom’s post]. At this time, I had a much bigger mortgage and 2 young kids. But, if you read my story, you’ll understand why I had to take a break from it all even if that was going to cost me big.
+For my second pause, I needed to decompress after my mom’s death [(read about that here)](https://jonnywren.com/blog/mom-post/). At this time, I had a much bigger mortgage and 2 young kids. But, if you read my story, you’ll understand why I had to take a break from it all even if that was going to cost me big.
 
 Everyone’s situation is different. You might keep going, you might need time. Take what you need, I had to. But cap it as you have to start moving forward again.
 
