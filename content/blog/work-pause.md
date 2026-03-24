@@ -99,17 +99,15 @@ Here are some things I’m using AI for:
 
 If you’ve never really used AI beyond asking it the weather, here’s your starting point. Copy and paste this into any AI model:
 
-[CLAUDE - PUT THIS INTO A NICE TEXT BLOCK]
+```
 My name is [Your first name]
-
 I live in the [general area]
-
 I’ve worked as a [your last position]
-
 I’ve been out of work for [your timeframe]
-
 My experience with AI has been [describe it — more detail is better]
-[CLAUDE- END TEXT BLOCK]
+
+I read a post where I’m supposed to ask you 10 questions a day. Where do you suggest I start?
+```
 
 Anyone can do that. I can’t tell you what it’ll return for you, but that’s your starting point.
 
@@ -117,7 +115,7 @@ After a few weeks, you’ll progress in the complexity of your Q&A. You’ll kno
 
 Before you know it, you’ll have the ability to create yourself a simple website on your local computer. You continuously improve over time until you get to the point where you say “Hey, this isn’t bad. How do I make this public?”…and it will show you. That’s how I created SeattleWren.com.
 
-Imaging you’re a painter with lots of artwork in the basement. But, to get your work public, you rely on galleries or word of mouth. Build yourself a website! Make it as artistic as you envision and model it to your style. Hey, you’re gonna finally sell some shit!
+Imagine you’re a painter with lots of artwork in the basement. But, to get your work public, you rely on galleries or word of mouth. Build yourself a website! Make it as artistic as you envision and model it to your style. Hey, you’re gonna finally sell some shit!
 
 ## Starting Is the Hard Part
 
