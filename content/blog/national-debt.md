@@ -160,6 +160,8 @@ The large employer in town is still mostly WFH.  No foot traffic.  Joe gets anot
 
 <iframe src="/debt_to_gdp_chart_shaded.html" width="100%" height="700" style="border:none;"></iframe>
 
+[View this chart with full context →](/data/debt-to-gdp/)
+
 ## How AI Will Solve This...Seriously
 Hope you've enjoyed the little story about the Smiths and Uncle Sam.  Obviously, my intention was to put the complexities of our debt system into context.
 

@@ -8,7 +8,7 @@ image:
 draft: false
 description: 2,000 people will enter disability today.  Only 20 will ever return to work.  The rest will enter Social Security or die out.
 ---
-If haven't irritated you yet with my content, here's a good one.  Sit back and enjoy.
+If I haven't irritated you yet with my content, here's a good one.  Sit back and enjoy.
 
 ## The AI Rabbit Hole Question
 "What is the labor participation rate?"
@@ -53,23 +53,73 @@ However, there is a substantial population that doesn't qualify for retirements 
 The answer is, yes.
 <iframe src="/ssdi_disability_chart.html" width="100%" height="550" style="border:none;"></iframe>
 
-It's a mixed bag but there are large clusters of people in muskioskelular and other physical ailments.  Again, I get it.  They don't need to be framing new homes.
+At first glance, it looks like a musculoskeletal problem.  Back injuries, joint disease, connective tissue -- 2.76 million people.  And my first thought was the same as yours:  these people can't frame houses, but surely they can do *something*.
 
-But, what if there was job that worked -- for that individual's needs?
+But then I dug deeper.  Because the real question isn't *what* disability they have.  It's *how old are they* -- and how many working years do they have left?
 
-And, what if that job paid 2 or 3 times what they are getting now, with health benefits?
+## The Age Problem Nobody Talks About
 
-And, what if that job was in the private industry -- no government involvment.
+<iframe src="/ssdi_age_breakdown.html" width="100%" height="850" style="border:none;"></iframe>
 
-Stating the obvious, the worker would gain a substantial increase in income, covered under a company's health plan, and relieves the government burden.  Sounds pretty good, eh?
+This changed everything for me.
 
-Let's say the 2.76 million people with musculoskeletal disabilities -- the largest group on SSDI by far -- and RTW half of them in the scenario I described.  That's 1.38 million workers back in the economy.  What would the outputs be?
+That massive musculoskeletal group?  **92% of them are over 50.**  Most are in their late 50s and 60s, a few years from aging into Social Security retirement anyway.  They're not your return-to-work candidates.  They're in the waiting room.
+
+When you strip out everyone over 50 -- the people who are functionally just running out the clock to retirement -- you're left with **1.47 million workers under 50**.  That's the addressable pool.  That's who we should be talking about.
+
+And here's where it gets interesting.  The composition of that under-50 pool looks *nothing* like the overall numbers.  It's not dominated by bad backs and blown-out knees.  **Nearly half -- 49% -- are mental health conditions.**  Depression.  Anxiety.  Bipolar disorder.  Schizophrenia.
+
+## Let Me Be Very Clear
+
+I am not questioning the disability.  Not for a second.  Depression is real.  Anxiety is debilitating.  Anyone who's experienced it -- or watched someone they love go through it -- knows it can absolutely take you out of the workforce.  I am not here to rank suffering or tell anyone their condition isn't valid.
+
+What I *am* questioning is this:  why is there **zero infrastructure** to help these people work within their disability?
+
+Think about that.  We have 353,000 people under 50 on SSDI for depression or anxiety alone.  Many of them *want* to work.  The data on RTW attempts tells us they try.  But the system gives them two options:  stay on $1,580 a month, or figure it out yourself.  There's no bridge.  No supported pathway.  No employer incentive.  Nothing.
+
+It's not that these people *can't* work.  It's that no one has built them a way to.
+
+And that, to me, is the real tragedy of this program.  Not the cost to taxpayers.  Not the growth in the rolls.  It's that hundreds of thousands of people who could be earning $50K, $60K, $70K a year -- with benefits, with purpose, with a reason to get up in the morning -- are instead parked on a government check because the infrastructure to match them with the *right* work simply does not exist.
+
+## Enter AI.  The Interstate Highway of Our Generation.
+
+In 1956 -- the same year Eisenhower signed the Social Security Disability amendments -- he also signed the Federal Aid Highway Act.  The Interstate Highway System.  The largest public works project in American history.
+
+Here's what people forget about the Interstate buildout:  it didn't require a nation of elite engineers.  It required *volume*.  Millions of ordinary workers laying concrete, welding rebar, driving trucks, grading earth.  The work wasn't glamorous.  It wasn't cognitively complex.  But it built something transformative -- and it put an enormous number of people to work in the process.
+
+AI infrastructure is the Interstate Highway of the 21st century.  And it has the exact same labor profile.
+
+Right now, the AI industry is desperate for human-in-the-loop labor.  Data tagging.  Output validation.  Quality assurance.  Content review.  Reinforcement learning from human feedback.  These aren't jobs that require you to stand on your feet for 8 hours.  They don't require you to lift 50 pounds.  Many of them don't even require you to leave your house.
+
+What they require is *attention* and *volume*.  Show up, follow the instructions, tag the data, flag the errors.  It's the concrete-laying of the AI era.  And there are hundreds of thousands of people on SSDI right now -- under 50, wanting to work, parked on a $1,580 check -- who could do this work tomorrow if someone built the on-ramp.
+
+## Don't Change The Benefit.  Change The Incentive.
+
+Here's what I'm *not* proposing:  cut benefits, force people back to work, make bureaucrats decide who's "disabled enough."  All of that is wrong, and none of it works anyway -- 70 years of data proves it.
+
+Here's what I *am* proposing:  give the private sector a reason to solve this.
+
+A company hires an SSDI beneficiary?  **$15,000 tax credit, Year 1.**  Must employ them for a minimum of 6 months.  That's it.  No government agency deciding who's employable.  No disabled worker being forced into anything.  Just an incentive, and let the market figure out the rest.
+
+The math works beautifully.  The government currently spends roughly $19,000 per year per SSDI beneficiary in direct benefits alone.  Add in Medicare costs and it's north of $25,000.  Every person who moves off the rolls and into private employment saves the government that full amount -- *and* generates ~$6,500 in new tax revenue [Claude, what income are we assuming for this rate?].  That's a $25,000+ swing per person.
+
+The $15K credit pays for itself in 7 months.  Even at a 1-in-3 success rate, the program is cash-positive.
+
+And here's the beauty of letting the market sort it:  employers will naturally start with the easiest wins.  The person with managed depression who can work from home.  The anxiety sufferer who thrives in structured, low-social environments like data tagging.  The person with a back injury who just needs a desk instead of a warehouse.  No bureaucrat has to make the call.  The market self-selects.
 
 <iframe src="/ssdi_workforce_chart.html" width="100%" height="600" style="border:none;"></iframe>
 
-By raising that 1% to 17%, the government reduces $26.2 billion of actual spend per year.  Putting into more context, if you make $100K a year, you will save roughly $157 on your tax bill.  Not life changing for you -- but $26B back into the economy is a different story.
+Run the scenario:  move just the under-50 depression/anxiety population -- 353,000 people -- and return half of them to work.  That's 176,000 workers back in the economy.  The government saves billions in direct spend.  The workers double or triple their income.  The companies get a trained, motivated workforce and a fat tax credit.  Everyone wins.
 
-So, why isn't this happening now?
+## The Concrete Layers
+
+When the Interstates were done, nobody wrote songs about the guys who poured the concrete.  But those highways transformed the American economy.  They connected markets, enabled suburbs, created the trucking industry, reshaped how 300 million people live.
+
+AI infrastructure will do the same thing.  And just like the highways, it needs an army of people to build it.  Not PhDs.  Not engineers.  People who can show up, do the work, and lay the foundation for something bigger than themselves.
+
+There are 1.47 million people under 50 on disability right now.  Many of them want to work.  The work exists.  The economics pencil out.  The only thing missing is the on-ramp.
+
+Build the on-ramp.
 
 
 MY NOTES:

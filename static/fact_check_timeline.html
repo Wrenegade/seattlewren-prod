@@ -238,12 +238,12 @@ const TOPIC_LABELS = {
 
 const FACTS = [
   // --- Constitutional / Governance ---
-  { year: 1787, title: 'Constitutional Convention', detail: '55 delegates meet in Philadelphia. Pardon power introduced by Charles Pinckney (May 29). Edmund Randolph and George Mason warn it invites presidential self-dealing. They are voted down.', topics: ['governance'], source: 'constitution.congress.gov' },
+  { year: 1787, title: 'Constitutional Convention', detail: '55 delegates meet in Philadelphia. Pardon power introduced by Charles Pinckney (May 29). Edmund Randolph and George Mason warn it invites presidential self-dealing. They are voted down.', topics: ['governance'], source: 'Constitution Annotated', sourceUrl: 'https://constitution.congress.gov/browse/article-2/section-2/' },
   { year: 1789, title: '27th Amendment Proposed', detail: 'James Madison proposes amendment on congressional pay. It won\'t be ratified for 203 years — the longest gap between proposal and ratification in U.S. history.', topics: ['governance'] },
   { year: 1804, title: '12th Amendment Ratified', detail: 'Fixes the Electoral College so the runner-up no longer becomes Vice President. Response to the chaotic 1800 election between Jefferson and Burr.', topics: ['governance'] },
 
   // --- Civil War era ---
-  { year: 1865, title: 'Secret Service Founded', detail: 'Created July 5, weeks after Confederate surrender and 3 months after Lincoln\'s assassination. Lincoln approved its creation the same day he was shot. Original mission: combat counterfeiting. An estimated 1/3 to 1/2 of all U.S. currency was counterfeit.', topics: ['defense', 'economy'], source: 'secretservice.gov' },
+  { year: 1865, title: 'Secret Service Founded', detail: 'Created July 5, weeks after Confederate surrender and 3 months after Lincoln\'s assassination. Lincoln approved its creation the same day he was shot. Original mission: combat counterfeiting. An estimated 1/3 to 1/2 of all U.S. currency was counterfeit.', topics: ['defense', 'economy'], source: 'U.S. Secret Service', sourceUrl: 'https://www.secretservice.gov/about/history' },
 
   // --- Early 1900s ---
   { year: 1901, title: 'Secret Service Begins Presidential Protection', detail: 'After McKinley\'s assassination — the third sitting president killed — Congress formally assigns presidential protection to the Secret Service.', topics: ['defense'] },
@@ -258,7 +258,7 @@ const FACTS = [
   // --- 1950s ---
   { year: 1951, title: '22nd Amendment — Presidential Term Limits', detail: 'Response to FDR serving 13 years (4 terms). States ratify a two-term limit. Example of the amendment process correcting an unforeseen problem.', topics: ['governance'] },
   { year: 1956, title: 'Federal-Aid Highway Act', detail: 'Eisenhower signs the largest public works project in American history. 41,000 miles of interstate highways. Transforms commerce, suburbs, and labor mobility.', topics: ['economy'] },
-  { year: 1956, title: 'Social Security Amendments — SSDI Created', detail: 'Eisenhower signs the Social Security Amendments of 1956, creating the Disability Insurance program. Initially limited to workers over 50 with permanent disabilities. Monthly payments begin July 1957. By 1960 the age requirement is dropped entirely, opening the program to all working-age adults.', topics: ['labor', 'health'], source: 'SSA Legislative History' },
+  { year: 1956, title: 'Social Security Amendments — SSDI Created', detail: 'Eisenhower signs the Social Security Amendments of 1956, creating the Disability Insurance program. Initially limited to workers over 50 with permanent disabilities. Monthly payments begin July 1957. By 1960 the age requirement is dropped entirely, opening the program to all working-age adults.', topics: ['labor', 'health'], source: 'SSA Legislative History', sourceUrl: 'https://www.ssa.gov/history/1956amend.html' },
 
   // --- 1960s: Women enter the workforce ---
   { year: 1960, title: 'FDA Approves the Birth Control Pill', detail: 'Enovid approved for contraceptive use. For the first time, women can reliably control when they have children — enabling long-term career planning. Arguably the single biggest unlock for women entering the workforce.', topics: ['labor', 'rights', 'health'] },
@@ -275,7 +275,7 @@ const FACTS = [
 
   // --- 1980s ---
   { year: 1980, title: 'Defense Buildup Begins', detail: 'Military spending ramps sharply. Combined with tax cuts, the annual deficit widens and debt-to-GDP begins its climb from 32% back toward triple digits.', topics: ['defense', 'debt'] },
-  { year: 1984, title: 'SSDI Benefits Reform Act', detail: 'Modernizes disability determination and work incentives. Response to aggressive Reagan-era benefit reviews that stripped coverage from hundreds of thousands. Establishes medical improvement standard — SSA can\'t just cut you off without proving your condition improved.', topics: ['labor', 'health'], source: 'SSA Legislative History' },
+  { year: 1984, title: 'SSDI Benefits Reform Act', detail: 'Modernizes disability determination and work incentives. Response to aggressive Reagan-era benefit reviews that stripped coverage from hundreds of thousands. Establishes medical improvement standard — SSA can\'t just cut you off without proving your condition improved.', topics: ['labor', 'health'], source: 'SSA Legislative History', sourceUrl: 'https://www.ssa.gov/history/reaganstmts.html#disability' },
 
   // --- 1990s ---
   { year: 1992, title: '27th Amendment Ratified', detail: 'James Madison\'s 1789 proposal on congressional pay finally ratified — 203 years later. Most recent constitutional amendment. We average one roughly every 15 years; it has now been 34 years.', topics: ['governance'] },
@@ -285,7 +285,7 @@ const FACTS = [
 
   // --- 2000s ---
   { year: 2000, title: 'SSDI Beneficiaries: 6.0 Million', detail: 'The disability rolls begin a decade-long surge. By 2014 the pool will hit 10.2 million — driven by aging boomers, expanded eligibility, and the Great Recession pushing marginal workers onto disability.', topics: ['labor', 'health'] },
-  { year: 2002, title: 'Ticket to Work Program Launches', detail: 'Free, voluntary program for SSDI beneficiaries who want to return to work. Participants keep benefits during trial period and retain Medicare. Sounds great on paper. Reality: only 5% of eligible beneficiaries ever use it, and it costs SSA $806 million more than it saves through 2015.', topics: ['labor', 'health'], source: 'GAO-22-104031' },
+  { year: 2002, title: 'Ticket to Work Program Launches', detail: 'Free, voluntary program for SSDI beneficiaries who want to return to work. Participants keep benefits during trial period and retain Medicare. Sounds great on paper. Reality: only 5% of eligible beneficiaries ever use it, and it costs SSA $806 million more than it saves through 2015.', topics: ['labor', 'health'], source: 'GAO-22-104031', sourceUrl: 'https://www.gao.gov/products/gao-22-104031' },
   { year: 2001, title: 'Dot-Com Bust and 9/11', detail: 'Stock market crash wipes out capital gains revenue. September 11 attacks lead to war in Afghanistan, creation of DHS, massive security spending. Budget surplus evaporates overnight.', topics: ['economy', 'defense', 'debt'] },
   { year: 2003, title: 'Secret Service Moves to DHS', detail: 'Post-9/11 reorganization moves the Secret Service from Treasury (where it had been for 138 years) to the new Department of Homeland Security. The president now controls the agency that protects his rivals.', topics: ['defense', 'governance'] },
   { year: 2003, title: 'Medicare Part D Enacted', detail: 'Prescription drug benefit added to Medicare. Major new entitlement spending — added to the deficit without a funding mechanism.', topics: ['health', 'debt'] },
@@ -349,7 +349,11 @@ function render() {
       });
       html += '</div>';
       if (fact.source) {
-        html += `<div class="fact-source">${fact.source}</div>`;
+        if (fact.sourceUrl) {
+          html += `<div class="fact-source"><a href="${fact.sourceUrl}" target="_blank" rel="noopener">${fact.source} ↗</a></div>`;
+        } else {
+          html += `<div class="fact-source">${fact.source}</div>`;
+        }
       }
       entry.innerHTML = html;
       yearDiv.appendChild(entry);
@@ -389,11 +393,37 @@ if (topicParam && TOPIC_COLORS[topicParam]) {
 
 render();
 
-// Back to top visibility
+// Back to top visibility — works both standalone and inside an iframe
 const btn = document.getElementById('backToTop');
-window.addEventListener('scroll', () => {
-  btn.classList.toggle('visible', window.scrollY > 400);
-}, { passive: true });
+const isIframed = window.self !== window.top;
+
+if (isIframed) {
+  // Inside an iframe: the iframe body may not scroll, so watch for
+  // which part of the page is in view using IntersectionObserver
+  const sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute;top:400px;width:1px;height:1px;pointer-events:none;';
+  document.body.appendChild(sentinel);
+  const obs = new IntersectionObserver(([e]) => {
+    // sentinel is at 400px from top — when it scrolls out of view upward, show button
+    btn.classList.toggle('visible', !e.isIntersecting);
+  }, { threshold: 0 });
+  obs.observe(sentinel);
+
+  // Also listen for iframe's own scroll in case content overflows
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+
+  // Smooth scroll to top — try parent, fall back to own window
+  btn.onclick = () => {
+    try { window.parent.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) {}
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+} else {
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+}
 </script>
 </body>
 </html>

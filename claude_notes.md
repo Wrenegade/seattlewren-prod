@@ -104,6 +104,15 @@ systemctl --user restart cloudflared
 ## Archive
 - `archive/` folder contains the old seattlewren React/Vite repo — gitignored, do not track
 
+## Data Reports
+- Each data report gets its own custom layout in `layouts/data/`
+- Content files live in `content/data/` with `type: "data"` and a custom `layout` field
+- **Existing reports**:
+  - `economic-health` — County-level choropleth map (layout: `economic-health-map.html`)
+  - `presidential-pardons` — Pardons by offense severity, 6 presidents, interactive bar chart (layout: `presidential-pardons.html`)
+- Hero images hosted on S3: `https://seattlewren.s3.us-west-2.amazonaws.com/`
+- Hero image generator utility: `hero-pardons-generator.html` (not tracked in git, local only)
+
 ## Git
 - **Repo**: https://github.com/Wrenegade/seattlewren-prod.git
 - **Branch**: main

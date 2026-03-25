@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSDI: Who's Actually Addressable for RTW?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .header {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #a0a0a0;
+            font-style: italic;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d2d44 100%);
+            border-left: 4px solid #ffd43b;
+            border-radius: 6px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .insight-box .big-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffd43b;
+        }
+
+        .insight-box .context {
+            color: #b0b0b0;
+            font-size: 0.85rem;
+        }
+
+        .chart {
+            margin: 1.5rem 0;
+        }
+
+        .bar-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .bar-name {
+            color: #ffffff;
+        }
+
+        .bar-stats {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            text-align: right;
+        }
+
+        .bar-stats .under50 {
+            color: #51cf66;
+            font-weight: 600;
+        }
+
+        .bar-stats .over50 {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .stacked-bar {
+            width: 100%;
+            height: 28px;
+            background-color: #2d2d44;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .bar-segment-under50 {
+            height: 100%;
+            background: linear-gradient(90deg, #20c997 0%, #51cf66 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ffffff;
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .bar-segment-over50 {
+            height: 100%;
+            background: linear-gradient(90deg, #e03131 0%, #ff6b6b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ffffff;
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .legend-dot.green {
+            background: linear-gradient(90deg, #20c997 0%, #51cf66 100%);
+        }
+
+        .legend-dot.red {
+            background: linear-gradient(90deg, #e03131 0%, #ff6b6b 100%);
+        }
+
+        .under50-callout {
+            background: rgba(32, 201, 151, 0.1);
+            border: 1px solid rgba(81, 207, 102, 0.3);
+            border-radius: 6px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .under50-callout h3 {
+            color: #51cf66;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .under50-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .under50-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .under50-row .cat-name {
+            color: #d0d0d0;
+        }
+
+        .under50-row .cat-value {
+            color: #51cf66;
+            font-weight: 600;
+        }
+
+        .under50-row .cat-pct {
+            color: #a0a0a0;
+            font-size: 0.8rem;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .mini-bar-bg {
+            flex: 1;
+            max-width: 200px;
+            height: 8px;
+            background-color: #2d2d44;
+            border-radius: 4px;
+            margin: 0 0.75rem;
+            overflow: hidden;
+        }
+
+        .mini-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #20c997 0%, #51cf66 100%);
+            border-radius: 4px;
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #2d2d44;
+            font-size: 0.8rem;
+            color: #606060;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 1.4rem; }
+            .insight-box .big-number { font-size: 1.5rem; }
+            .legend { gap: 1rem; font-size: 0.8rem; }
+            .bar-label { flex-direction: column; gap: 0.2rem; }
+            .bar-stats { text-align: left; }
+            .mini-bar-bg { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 1.5rem 1rem; }
+            .title { font-size: 1.2rem; }
+            .stacked-bar { height: 22px; }
+            .bar-segment-under50, .bar-segment-over50 { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">SSDI by Age: Who Could Actually Return to Work?</h1>
+            <p class="subtitle">7.2M disabled workers segmented by age and disability type — December 2024</p>
+        </div>
+
+        <div class="insight-box">
+            Of the 7.2 million disabled workers, <span class="big-number">80%</span> are over 50 — most will age into Social Security retirement, not return to work.<br>
+            <span class="context">The addressable RTW pool is the <strong style="color: #51cf66;">1.47 million under 50</strong> — and 49% of them have mental health conditions, the most compatible with remote and AI-adjacent work.</span>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot green"></div>
+                <span style="color: #51cf66;">Under 50 — RTW candidates</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot red"></div>
+                <span style="color: #ff6b6b;">50+ — Aging toward retirement</span>
+            </div>
+        </div>
+
+        <div class="chart">
+            <!-- Musculoskeletal -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Musculoskeletal (2.47M)</span>
+                    <span class="bar-stats"><span class="under50">209K under 50</span> · <span class="over50">2.26M over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 8.5%;">8%</div>
+                    <div class="bar-segment-over50" style="width: 91.5%;">92%</div>
+                </div>
+            </div>
+
+            <!-- Mental Disorders -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Mental Disorders (2.06M)</span>
+                    <span class="bar-stats"><span class="under50">718K under 50</span> · <span class="over50">1.34M over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 35.0%;">35%</div>
+                    <div class="bar-segment-over50" style="width: 65.0%;">65%</div>
+                </div>
+            </div>
+
+            <!-- Nervous System -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Nervous System (743K)</span>
+                    <span class="bar-stats"><span class="under50">193K under 50</span> · <span class="over50">550K over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 25.9%;">26%</div>
+                    <div class="bar-segment-over50" style="width: 74.1%;">74%</div>
+                </div>
+            </div>
+
+            <!-- Circulatory -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Circulatory System (552K)</span>
+                    <span class="bar-stats"><span class="under50">60K under 50</span> · <span class="over50">492K over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 10.9%;">11%</div>
+                    <div class="bar-segment-over50" style="width: 89.1%;">89%</div>
+                </div>
+            </div>
+
+            <!-- Injuries -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Injuries (276K)</span>
+                    <span class="bar-stats"><span class="under50">63K under 50</span> · <span class="over50">213K over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 22.8%;">23%</div>
+                    <div class="bar-segment-over50" style="width: 77.2%;">77%</div>
+                </div>
+            </div>
+
+            <!-- Neoplasms -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Neoplasms / Cancer (275K)</span>
+                    <span class="bar-stats"><span class="under50">49K under 50</span> · <span class="over50">226K over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 17.9%;">18%</div>
+                    <div class="bar-segment-over50" style="width: 82.1%;">82%</div>
+                </div>
+            </div>
+
+            <!-- Respiratory -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Respiratory (193K)</span>
+                    <span class="bar-stats"><span class="under50">16K under 50</span> · <span class="over50">177K over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 8.3%;">8%</div>
+                    <div class="bar-segment-over50" style="width: 91.7%;">92%</div>
+                </div>
+            </div>
+
+            <!-- Endocrine -->
+            <div class="bar-item">
+                <div class="bar-label">
+                    <span class="bar-name">Endocrine / Nutritional (161K)</span>
+                    <span class="bar-stats"><span class="under50">25K under 50</span> · <span class="over50">136K over 50</span></span>
+                </div>
+                <div class="stacked-bar">
+                    <div class="bar-segment-under50" style="width: 15.4%;">15%</div>
+                    <div class="bar-segment-over50" style="width: 84.6%;">85%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Under 50 breakdown callout -->
+        <div class="under50-callout">
+            <h3>The Under-50 RTW Pool: 1.47 Million People</h3>
+            <div class="under50-breakdown">
+                <div class="under50-row">
+                    <span class="cat-name">Mental Disorders</span>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width: 53.9%;"></div></div>
+                    <span class="cat-value">718K</span>
+                    <span class="cat-pct">53.9%</span>
+                </div>
+                <div class="under50-row">
+                    <span class="cat-name">Musculoskeletal</span>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width: 15.7%;"></div></div>
+                    <span class="cat-value">209K</span>
+                    <span class="cat-pct">15.7%</span>
+                </div>
+                <div class="under50-row">
+                    <span class="cat-name">Nervous System</span>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width: 14.4%;"></div></div>
+                    <span class="cat-value">193K</span>
+                    <span class="cat-pct">14.4%</span>
+                </div>
+                <div class="under50-row">
+                    <span class="cat-name">Injuries</span>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width: 4.7%;"></div></div>
+                    <span class="cat-value">63K</span>
+                    <span class="cat-pct">4.7%</span>
+                </div>
+                <div class="under50-row">
+                    <span class="cat-name">Circulatory</span>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width: 4.5%;"></div></div>
+                    <span class="cat-value">60K</span>
+                    <span class="cat-pct">4.5%</span>
+                </div>
+                <div class="under50-row">
+                    <span class="cat-name">All Other</span>
+                    <div class="mini-bar-bg"><div class="mini-bar-fill" style="width: 6.8%;"></div></div>
+                    <span class="cat-value">90K</span>
+                    <span class="cat-pct">6.8%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Source: SSA Annual Statistical Report on SSDI, 2024 — Table 24. FRA = Full Retirement Age.</p>
+        </div>
+    </div>
+</body>
+</html>
