@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSDI Return-to-Work Scenario</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .container { max-width: 960px; width: 100%; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 28px; line-height: 1.5; }
+
+  .context-stat {
+    display: inline-block;
+    background: #f7f7f7;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #444;
+    margin: 0 6px 12px 0;
+  }
+  .context-stat strong { color: #1a1a1a; }
+
+  .inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 24px 0 32px;
+  }
+  @media (max-width: 640px) { .inputs { grid-template-columns: 1fr; } }
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 13px; font-weight: 600; color: #444; text-transform: uppercase; letter-spacing: 0.3px; }
+  .input-group .hint { font-size: 12px; color: #888; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .input-group input[type="range"] { width: 100%; accent-color: #2563eb; cursor: pointer; }
+  .input-group .value-display { font-size: 22px; font-weight: 700; color: #2563eb; }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 640px) { .results-grid { grid-template-columns: 1fr; } }
+
+  .result-panel {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .result-panel h3 { font-size: 14px; font-weight: 600; color: #444; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 16px; }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .label { color: #666; }
+  .result-row .val { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .result-row .val.green { color: #16a34a; }
+  .result-row .val.red { color: #dc2626; }
+  .result-row .val.blue { color: #2563eb; }
+  .result-row.total { border-top: 2px solid #ddd; padding-top: 10px; margin-top: 4px; }
+  .result-row.total .label { font-weight: 700; color: #1a1a1a; }
+  .result-row.total .val { font-size: 18px; }
+
+  /* 5-year chart */
+  .chart-section { margin-bottom: 32px; }
+  .chart-section h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #333; }
+  .chart-wrapper { position: relative; width: 100%; height: 300px; }
+
+  .callout-box {
+    background: #eff6ff;
+    border-left: 3px solid #2563eb;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout-box strong { color: #2563eb; }
+
+  .source { font-size: 11px; color: #999; margin-top: 20px; text-align: right; }
+  .source a { color: #999; }
+  .assumptions { font-size: 12px; color: #888; margin-top: 16px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>SSDI: What If People Went Back to Work?</h1>
+  <p class="subtitle">8.6 million Americans are on Social Security Disability Insurance. Under 1% return to work each year. What if that changed?</p>
+
+  <div>
+    <span class="context-stat"><strong>8.6M</strong> current beneficiaries</span>
+    <span class="context-stat"><strong>~1%</strong> return-to-work rate</span>
+    <span class="context-stat"><strong>$1,540/mo</strong> avg benefit</span>
+    <span class="context-stat"><strong>84–91%</strong> exit via death or aging out</span>
+  </div>
+
+  <div class="inputs">
+    <div class="input-group">
+      <label>Return-to-Work Rate</label>
+      <span class="hint">Currently ~1%. What if employers had a reason to hire from this pool?</span>
+      <input type="range" id="rtwSlider" min="1" max="25" step="0.5" value="5" oninput="calcSSDI()">
+      <div class="value-display" id="rtwDisplay">5%</div>
+    </div>
+    <div class="input-group">
+      <label>Tax Credit per Hire</label>
+      <span class="hint">Guaranteed Year 1 credit to employer. Current WOTC is ~$2,400 (barely covers paperwork).</span>
+      <input type="range" id="creditSlider" min="5000" max="30000" step="1000" value="15000" oninput="calcSSDI()">
+      <div class="value-display" id="creditDisplay">$15,000</div>
+    </div>
+  </div>
+
+  <div class="results-grid">
+    <div class="result-panel">
+      <h3>People Moved Off SSDI</h3>
+      <div class="result-row">
+        <span class="label">Beneficiary pool</span>
+        <span class="val">8,600,000</span>
+      </div>
+      <div class="result-row">
+        <span class="label">RTW rate applied</span>
+        <span class="val blue" id="rtwRateVal">5%</span>
+      </div>
+      <div class="result-row total">
+        <span class="label">People returning to work</span>
+        <span class="val blue" id="rtwPeople">430,000</span>
+      </div>
+    </div>
+
+    <div class="result-panel">
+      <h3>GDP Impact</h3>
+      <div class="result-row">
+        <span class="label">New workers × avg productivity</span>
+        <span class="val" id="gdpWorkerCalc">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Productivity assumption</span>
+        <span class="val">65% of avg</span>
+      </div>
+      <div class="result-row total">
+        <span class="label">GDP increase</span>
+        <span class="val green" id="gdpIncrease">—</span>
+      </div>
+    </div>
+
+    <div class="result-panel">
+      <h3>Government Savings (per year)</h3>
+      <div class="result-row">
+        <span class="label">Benefits no longer paid</span>
+        <span class="val green" id="benefitsSaved">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">New tax revenue (est.)</span>
+        <span class="val green" id="taxRevenue">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Medicare/Medicaid savings</span>
+        <span class="val green" id="medicareSaved">—</span>
+      </div>
+      <div class="result-row total">
+        <span class="label">Total annual savings</span>
+        <span class="val green" id="totalSavings">—</span>
+      </div>
+    </div>
+
+    <div class="result-panel">
+      <h3>Cost of Tax Credits</h3>
+      <div class="result-row">
+        <span class="label">Credit per hire</span>
+        <span class="val red" id="creditPerHire">—</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Total Year 1 cost</span>
+        <span class="val red" id="totalCreditCost">—</span>
+      </div>
+      <div class="result-row total">
+        <span class="label">Net fiscal impact (Year 1)</span>
+        <span class="val" id="netFiscal">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout-box" id="breakEvenBox">
+    —
+  </div>
+
+  <div class="chart-section">
+    <h2>5-Year Cumulative Fiscal Impact</h2>
+    <div class="chart-wrapper">
+      <canvas id="fiscalChart"></canvas>
+    </div>
+  </div>
+
+  <div class="assumptions">
+    <strong>Assumptions:</strong>
+    Avg SSDI monthly benefit: $1,540 ($18,480/yr). Avg Medicare/Medicaid cost per SSDI beneficiary: ~$3,000/yr partial savings.
+    New worker productivity: 65% of national avg GDP per worker ($172,600 → ~$112,200).
+    Estimated tax contribution: 12% effective rate on median re-entry wage (~$38K → ~$4,600/yr).
+    Tax credit is a one-time Year 1 cost; savings recur annually. Year 2+ assumes 80% retention (20% return to SSDI).
+    Real outcomes depend on which beneficiaries return (back injuries vs. severe disability), local labor markets, employer participation, and individual circumstances.
+  </div>
+  <p class="source">SSDI data: <a href="https://www.ssa.gov/policy/docs/statcomps/di_asr/">SSA Annual Statistical Reports</a> (2000–2024)</p>
+</div>
+
+<script>
+const POOL = 8600000;
+const AVG_BENEFIT_YR = 18480;
+const AVG_MEDICARE_SAVING = 3000;
+const GDP_PER_WORKER_T = 0.0001726; // in trillions, per person
+const PROD_FACTOR = 0.65;
+const TAX_RATE = 0.12;
+const MEDIAN_REENTRY_WAGE = 38000;
+const RETENTION_Y2 = 0.80;
+
+let fiscalChart = null;
+
+function fmt$(val) {
+  if (Math.abs(val) >= 1e12) return '$' + (val/1e12).toFixed(1) + 'T';
+  if (Math.abs(val) >= 1e9) return '$' + (val/1e9).toFixed(1) + 'B';
+  if (Math.abs(val) >= 1e6) return '$' + (val/1e6).toFixed(1) + 'M';
+  if (Math.abs(val) >= 1e3) return '$' + (val/1e3).toFixed(0) + 'K';
+  return '$' + val.toFixed(0);
+}
+
+function calcSSDI() {
+  const rtwRate = parseFloat(document.getElementById('rtwSlider').value) / 100;
+  const credit = parseInt(document.getElementById('creditSlider').value);
+
+  // Display inputs
+  document.getElementById('rtwDisplay').textContent = (rtwRate * 100).toFixed(1) + '%';
+  document.getElementById('creditDisplay').textContent = '$' + credit.toLocaleString();
+
+  // Core calcs
+  const people = Math.round(POOL * rtwRate);
+  const gdpAdd = people * GDP_PER_WORKER_T * PROD_FACTOR; // trillions
+  const benefitsSaved = people * AVG_BENEFIT_YR;
+  const taxRev = people * MEDIAN_REENTRY_WAGE * TAX_RATE;
+  const medicareSaved = people * AVG_MEDICARE_SAVING;
+  const totalSavings = benefitsSaved + taxRev + medicareSaved;
+  const totalCreditCost = people * credit;
+  const netY1 = totalSavings - totalCreditCost;
+
+  // Update panels
+  document.getElementById('rtwRateVal').textContent = (rtwRate * 100).toFixed(1) + '%';
+  document.getElementById('rtwPeople').textContent = people.toLocaleString();
+  document.getElementById('gdpWorkerCalc').textContent = people.toLocaleString() + ' × $112K';
+  document.getElementById('gdpIncrease').textContent = '+' + fmt$(gdpAdd * 1e12);
+  document.getElementById('benefitsSaved').textContent = '+' + fmt$(benefitsSaved);
+  document.getElementById('taxRevenue').textContent = '+' + fmt$(taxRev);
+  document.getElementById('medicareSaved').textContent = '+' + fmt$(medicareSaved);
+  document.getElementById('totalSavings').textContent = '+' + fmt$(totalSavings);
+  document.getElementById('creditPerHire').textContent = '-' + fmt$(credit);
+  document.getElementById('totalCreditCost').textContent = '-' + fmt$(totalCreditCost);
+
+  const netEl = document.getElementById('netFiscal');
+  netEl.textContent = (netY1 >= 0 ? '+' : '') + fmt$(netY1);
+  netEl.className = 'val ' + (netY1 >= 0 ? 'green' : 'red');
+
+  // Break-even callout
+  const box = document.getElementById('breakEvenBox');
+  if (netY1 >= 0) {
+    box.innerHTML = `<strong>The program pays for itself in Year 1.</strong> The government saves ${fmt$(totalSavings)} annually from people off SSDI rolls, which exceeds the ${fmt$(totalCreditCost)} in employer tax credits. By Year 2, with no new credits needed and 80% retention, the net savings jump to ${fmt$(Math.round(people * RETENTION_Y2) * (AVG_BENEFIT_YR + MEDIAN_REENTRY_WAGE * TAX_RATE + AVG_MEDICARE_SAVING))}/yr.`;
+  } else {
+    const monthsToBreakEven = Math.ceil(totalCreditCost / (totalSavings / 12));
+    box.innerHTML = `<strong>Break-even in ~${monthsToBreakEven} months.</strong> Year 1 credit cost of ${fmt$(totalCreditCost)} exceeds first-year savings of ${fmt$(totalSavings)} by ${fmt$(Math.abs(netY1))}. But credits are one-time — by Year 2, recurring savings take over.`;
+  }
+
+  // 5-year chart
+  const years = [0, 1, 2, 3, 4, 5];
+  const cumSavings = [];
+  const cumCosts = [];
+  const cumNet = [];
+  let runSaving = 0;
+  let runCost = 0;
+  for (let y of years) {
+    if (y === 0) {
+      cumSavings.push(0); cumCosts.push(0); cumNet.push(0);
+    } else if (y === 1) {
+      runSaving += totalSavings;
+      runCost += totalCreditCost;
+      cumSavings.push(runSaving);
+      cumCosts.push(runCost);
+      cumNet.push(runSaving - runCost);
+    } else {
+      // Year 2+: retained workers, no new credits
+      const retained = Math.round(people * Math.pow(RETENTION_Y2, y - 1));
+      const yrSavings = retained * (AVG_BENEFIT_YR + MEDIAN_REENTRY_WAGE * TAX_RATE + AVG_MEDICARE_SAVING);
+      runSaving += yrSavings;
+      // no additional credit cost in year 2+
+      cumSavings.push(runSaving);
+      cumCosts.push(runCost);
+      cumNet.push(runSaving - runCost);
+    }
+  }
+
+  if (fiscalChart) fiscalChart.destroy();
+  const ctx = document.getElementById('fiscalChart').getContext('2d');
+  fiscalChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: years.map(y => y === 0 ? 'Start' : 'Year ' + y),
+      datasets: [
+        {
+          label: 'Cumulative Savings',
+          data: cumSavings,
+          backgroundColor: 'rgba(22,163,74,0.7)',
+          borderRadius: 4
+        },
+        {
+          label: 'Cumulative Credit Cost',
+          data: cumCosts.map(c => -c),
+          backgroundColor: 'rgba(220,38,38,0.7)',
+          borderRadius: 4
+        },
+        {
+          label: 'Net Fiscal Impact',
+          data: cumNet,
+          type: 'line',
+          borderColor: '#2563eb',
+          backgroundColor: 'transparent',
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: '#2563eb',
+          tension: 0.2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { usePointStyle: true, padding: 16, font: { size: 12 } }
+        },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          callbacks: {
+            label: (item) => '  ' + item.dataset.label + ': ' + fmt$(Math.abs(item.parsed.y))
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          ticks: {
+            callback: (v) => {
+              if (v === 0) return '$0';
+              return (v > 0 ? '+' : '-') + fmt$(Math.abs(v));
+            },
+            font: { size: 11 },
+            color: '#666'
+          },
+          grid: { color: '#f0f0f0' }
+        }
+      }
+    }
+  });
+}
+
+// Initialize
+calcSSDI();
+</script>
+</body>
+</html>

@@ -88,10 +88,27 @@ systemctl --user restart cloudflared
 - Categories not in the ordered list (e.g., General, Hobbies from templates) won't appear on the homepage
 - **Latest sidebar** now skips the featured hero post (`after 1 | first 4`) to avoid duplication — the Trending fallback already did this
 
+## Background Texture
+- **Canvas/linen texture** applied to `body` in `layouts/_default/baseof.html`
+- Image file: `static/bd7e52566_bg.jpg` (referenced as `/bd7e52566_bg.jpg`)
+- CSS: `background-image`, `background-attachment: fixed`, `background-size: cover`, `background-position: center`
+- Originally from the old seattlewren.com coming-soon page (Supabase-hosted), now self-hosted in static/
+
+## About Page
+- About image is set via front matter in `content/about/_index.md`
+- Image source: `https://seattlewren.s3.us-west-2.amazonaws.com/about/hero.jpeg`
+
+## Nav
+- 🔥 emoji added before "Roast Me" link in header nav (`baseof.html` line ~1126)
+
+## Archive
+- `archive/` folder contains the old seattlewren React/Vite repo — gitignored, do not track
+
 ## Git
 - **Repo**: https://github.com/Wrenegade/seattlewren-prod.git
 - **Branch**: main
-- `.gitignore` includes: `Dockerfile`, `docker-compose.yml`, `autodeploy.sh`, `nginx.conf`, `public/`, `.hugo_build.lock`
+- **Hosting/deploy**: Cloudflare (NOT Netlify — `netlify.toml` was removed)
+- `.gitignore` includes: `Dockerfile`, `docker-compose.yml`, `autodeploy.sh`, `nginx.conf`, `public/`, `.hugo_build.lock`, `data/`, `archive/`
 
 ## Other Containers on This Box
 | Container | Port | Purpose |

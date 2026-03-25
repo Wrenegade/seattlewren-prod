@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fact Check Timeline</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .container { max-width: 960px; width: 100%; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; line-height: 1.5; }
+
+  /* Topic filter chips */
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 12px 0;
+    z-index: 10;
+    border-bottom: 1px solid #eee;
+  }
+  .filter-chip {
+    padding: 5px 14px;
+    border: 1.5px solid #ddd;
+    border-radius: 20px;
+    background: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #555;
+    font-weight: 500;
+    user-select: none;
+  }
+  .filter-chip:hover { border-color: #888; }
+  .filter-chip.active { color: #fff; border-color: transparent; }
+  .filter-chip[data-topic="all"].active { background: #1a1a1a; }
+
+  /* Year group */
+  .year-group { margin-bottom: 8px; }
+  .year-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #999;
+    padding: 6px 0;
+    position: sticky;
+    top: 52px;
+    background: #fff;
+    z-index: 5;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Administration band */
+  .admin-band {
+    background: #f8f8f8;
+    border-left: 3px solid #ccc;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 6px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+
+  /* Fact entry */
+  .fact-entry {
+    padding: 10px 0 10px 20px;
+    border-left: 2px solid #e5e5e5;
+    margin-left: 8px;
+    transition: opacity 0.25s, border-color 0.25s;
+    position: relative;
+  }
+  .fact-entry::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 16px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    border: 2px solid #fff;
+    transition: background 0.25s;
+  }
+  .fact-entry.dimmed { opacity: 0.15; }
+  .fact-entry.highlighted { border-left-color: var(--topic-color, #2563eb); }
+  .fact-entry.highlighted::before { background: var(--topic-color, #2563eb); }
+
+  .fact-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+  }
+  .fact-detail {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+  }
+  .fact-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  .fact-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .fact-source {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 4px;
+  }
+  .fact-source a { color: #aaa; text-decoration: underline; }
+
+  /* Topic colors */
+  .topic-debt { --tc: #2563eb; }
+  .topic-labor { --tc: #16a34a; }
+  .topic-governance { --tc: #7c3aed; }
+  .topic-defense { --tc: #dc2626; }
+  .topic-economy { --tc: #ea580c; }
+  .topic-health { --tc: #0891b2; }
+  .topic-rights { --tc: #db2777; }
+
+  .filter-chip[data-topic="debt"].active { background: #2563eb; }
+  .filter-chip[data-topic="labor"].active { background: #16a34a; }
+  .filter-chip[data-topic="governance"].active { background: #7c3aed; }
+  .filter-chip[data-topic="defense"].active { background: #dc2626; }
+  .filter-chip[data-topic="economy"].active { background: #ea580c; }
+  .filter-chip[data-topic="health"].active { background: #0891b2; }
+  .filter-chip[data-topic="rights"].active { background: #db2777; }
+
+  .count-badge {
+    font-size: 12px;
+    color: #999;
+    margin-left: 6px;
+    font-weight: 400;
+  }
+
+  .source-footer {
+    font-size: 11px;
+    color: #999;
+    margin-top: 32px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    line-height: 1.6;
+  }
+  .source-footer a { color: #999; }
+
+  /* Back to top button */
+  .back-to-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .back-to-top:hover { background: #333; }
+  .back-to-top svg { width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Fact Check <span class="count-badge" id="countBadge"></span></h1>
+  <p class="subtitle">Timeline of events referenced across this site — not a comprehensive history, just the facts behind the claims. Filter by topic to trace a thread across decades.</p>
+
+  <div class="filters" id="filters">
+    <button class="filter-chip active" data-topic="all" onclick="setFilter('all')">All</button>
+    <button class="filter-chip" data-topic="labor" onclick="setFilter('labor')">Labor & Workforce</button>
+    <button class="filter-chip" data-topic="debt" onclick="setFilter('debt')">Debt & Deficit</button>
+    <button class="filter-chip" data-topic="economy" onclick="setFilter('economy')">Economy</button>
+    <button class="filter-chip" data-topic="defense" onclick="setFilter('defense')">Defense & Security</button>
+    <button class="filter-chip" data-topic="governance" onclick="setFilter('governance')">Governance</button>
+    <button class="filter-chip" data-topic="health" onclick="setFilter('health')">Healthcare</button>
+    <button class="filter-chip" data-topic="rights" onclick="setFilter('rights')">Civil Rights</button>
+  </div>
+
+  <div id="timeline"></div>
+
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
+
+  <div class="source-footer">
+    Sources include: <a href="https://fred.stlouisfed.org">FRED / Federal Reserve</a>,
+    <a href="https://www.bls.gov">Bureau of Labor Statistics</a>,
+    <a href="https://www.ssa.gov/policy/docs/statcomps/di_asr/">SSA Annual Statistical Reports</a>,
+    <a href="https://constitution.congress.gov">Congress.gov</a>,
+    <a href="https://www.congress.gov/bill/119th-congress/house-joint-resolution/135">H.J.Res. 135</a>.
+    Individual citations inline where applicable.
+  </div>
+</div>
+
+<script>
+const TOPIC_COLORS = {
+  debt: '#2563eb',
+  labor: '#16a34a',
+  governance: '#7c3aed',
+  defense: '#dc2626',
+  economy: '#ea580c',
+  health: '#0891b2',
+  rights: '#db2777'
+};
+const TOPIC_LABELS = {
+  debt: 'Debt & Deficit',
+  labor: 'Labor & Workforce',
+  governance: 'Governance',
+  defense: 'Defense & Security',
+  economy: 'Economy',
+  health: 'Healthcare',
+  rights: 'Civil Rights'
+};
+
+// Administration periods (no party labels)
+const ADMINS = [
+  { start: 1789, end: 1797, name: 'Washington Administration' },
+  { start: 1861, end: 1865, name: 'Lincoln Administration' },
+  { start: 1897, end: 1901, name: 'McKinley Administration' },
+  { start: 1901, end: 1909, name: 'T. Roosevelt Administration' },
+  { start: 1933, end: 1945, name: 'F. Roosevelt Administration' },
+  { start: 1945, end: 1953, name: 'Truman Administration' },
+  { start: 1953, end: 1961, name: 'Eisenhower Administration' },
+  { start: 1961, end: 1963, name: 'Kennedy Administration' },
+  { start: 1963, end: 1969, name: 'L. Johnson Administration' },
+  { start: 1969, end: 1974, name: 'Nixon Administration' },
+  { start: 1974, end: 1977, name: 'Ford Administration' },
+  { start: 1977, end: 1981, name: 'Carter Administration' },
+  { start: 1981, end: 1989, name: 'Reagan Administration' },
+  { start: 1989, end: 1993, name: 'G.H.W. Bush Administration' },
+  { start: 1993, end: 2001, name: 'Clinton Administration' },
+  { start: 2001, end: 2009, name: 'G.W. Bush Administration' },
+  { start: 2009, end: 2017, name: 'Obama Administration' },
+  { start: 2017, end: 2021, name: 'Trump Administration' },
+  { start: 2021, end: 2025, name: 'Biden Administration' },
+  { start: 2025, end: 2029, name: 'Trump Administration (2nd)' }
+];
+
+const FACTS = [
+  // --- Constitutional / Governance ---
+  { year: 1787, title: 'Constitutional Convention', detail: '55 delegates meet in Philadelphia. Pardon power introduced by Charles Pinckney (May 29). Edmund Randolph and George Mason warn it invites presidential self-dealing. They are voted down.', topics: ['governance'], source: 'constitution.congress.gov' },
+  { year: 1789, title: '27th Amendment Proposed', detail: 'James Madison proposes amendment on congressional pay. It won\'t be ratified for 203 years — the longest gap between proposal and ratification in U.S. history.', topics: ['governance'] },
+  { year: 1804, title: '12th Amendment Ratified', detail: 'Fixes the Electoral College so the runner-up no longer becomes Vice President. Response to the chaotic 1800 election between Jefferson and Burr.', topics: ['governance'] },
+
+  // --- Civil War era ---
+  { year: 1865, title: 'Secret Service Founded', detail: 'Created July 5, weeks after Confederate surrender and 3 months after Lincoln\'s assassination. Lincoln approved its creation the same day he was shot. Original mission: combat counterfeiting. An estimated 1/3 to 1/2 of all U.S. currency was counterfeit.', topics: ['defense', 'economy'], source: 'secretservice.gov' },
+
+  // --- Early 1900s ---
+  { year: 1901, title: 'Secret Service Begins Presidential Protection', detail: 'After McKinley\'s assassination — the third sitting president killed — Congress formally assigns presidential protection to the Secret Service.', topics: ['defense'] },
+  { year: 1919, title: '18th Amendment — Prohibition Begins', detail: 'Temperance movement + anti-German WWI sentiment (most breweries were German-American) leads to ban on alcohol. What follows: 13 years of speakeasies, bootlegging, Al Capone, and systemic corruption of law enforcement.', topics: ['governance'] },
+
+  // --- Depression / WWII era ---
+  { year: 1933, title: '21st Amendment — Prohibition Repealed', detail: 'FDR runs on repeal in 1932, wins in a landslide. Great Depression made enforcement impossible. The 18th Amendment is the only amendment ever fully repealed by another.', topics: ['governance'] },
+  { year: 1941, title: 'U.S. Enters WWII', detail: 'Federal debt begins massive expansion. Debt-to-GDP peaks at 119% by 1946 — a level not seen again until 2020.', topics: ['debt', 'defense'] },
+  { year: 1944, title: 'GI Bill Signed (Servicemen\'s Readjustment Act)', detail: 'Provides education, housing, and business loans to returning veterans. Fuels the post-war economic boom, suburban expansion, and the growth of the American middle class.', topics: ['economy', 'labor'] },
+  { year: 1946, title: 'Post-WWII Debt Peak: 119% of GDP', detail: 'The highest debt-to-GDP ratio in U.S. history at the time. Over the next 28 years it drops to 31% — not by paying it off, but by GDP growing faster than debt.', topics: ['debt'] },
+
+  // --- 1950s ---
+  { year: 1951, title: '22nd Amendment — Presidential Term Limits', detail: 'Response to FDR serving 13 years (4 terms). States ratify a two-term limit. Example of the amendment process correcting an unforeseen problem.', topics: ['governance'] },
+  { year: 1956, title: 'Federal-Aid Highway Act', detail: 'Eisenhower signs the largest public works project in American history. 41,000 miles of interstate highways. Transforms commerce, suburbs, and labor mobility.', topics: ['economy'] },
+
+  // --- 1960s: Women enter the workforce ---
+  { year: 1960, title: 'FDA Approves the Birth Control Pill', detail: 'Enovid approved for contraceptive use. For the first time, women can reliably control when they have children — enabling long-term career planning. Arguably the single biggest unlock for women entering the workforce.', topics: ['labor', 'rights', 'health'] },
+  { year: 1961, title: 'Kennedy Establishes Commission on the Status of Women', detail: 'Chaired by Eleanor Roosevelt. The commission\'s 1963 report documents widespread workplace discrimination and unequal pay, building the policy case for the Equal Pay Act.', topics: ['labor', 'rights'] },
+  { year: 1963, title: 'Equal Pay Act Signed', detail: 'Makes it illegal to pay women less than men for the same work. Doesn\'t fix the gap overnight, but makes working financially worthwhile for many households for the first time.', topics: ['labor', 'rights'] },
+  { year: 1963, title: 'Betty Friedan Publishes "The Feminine Mystique"', detail: 'Gives language to the frustration of educated women stuck at home. Cultural accelerant for the feminist movement. Makes it socially acceptable — not just legally possible — to work.', topics: ['labor', 'rights'] },
+  { year: 1964, title: 'Civil Rights Act — Title VII', detail: 'Prohibits employment discrimination based on race, color, religion, sex, or national origin. "Sex" was added late (some say to kill the bill). It passed anyway, and employers could no longer legally refuse to hire women.', topics: ['rights', 'labor'] },
+  { year: 1965, title: 'EEOC Begins Operations', detail: 'The Equal Employment Opportunity Commission stands up as the enforcement mechanism for Title VII. Now there\'s somewhere to file a complaint — the law has teeth.', topics: ['rights', 'labor'] },
+  { year: 1965, title: 'Labor Participation Begins Sustained Climb', detail: 'Participation rate: 58.9%. With legal protections, the pill, and cultural shifts converging, women begin entering the workforce in large numbers. Rate will climb to 67.1% by 2000 — an 8.3 point gain.', topics: ['labor'] },
+  { year: 1967, title: '25th Amendment — Presidential Succession', detail: 'Response to Kennedy\'s assassination and the lack of a clear succession plan. Creates formal framework for presidential disability and vacancy.', topics: ['governance'] },
+
+  // --- 1970s ---
+  { year: 1974, title: 'Debt-to-GDP Ratio Hits Post-WWII Low: 31.1%', detail: 'The lowest ratio since before WWII. Driven by 28 years of GDP growth outpacing debt — the economy grew its way out. Women entering the workforce was a major contributor. The ratio starts climbing from here.', topics: ['debt', 'labor'] },
+
+  // --- 1980s ---
+  { year: 1980, title: 'Defense Buildup Begins', detail: 'Military spending ramps sharply. Combined with tax cuts, the annual deficit widens and debt-to-GDP begins its climb from 32% back toward triple digits.', topics: ['defense', 'debt'] },
+
+  // --- 1990s ---
+  { year: 1992, title: '27th Amendment Ratified', detail: 'James Madison\'s 1789 proposal on congressional pay finally ratified — 203 years later. Most recent constitutional amendment. We average one roughly every 15 years; it has now been 34 years.', topics: ['governance'] },
+  { year: 1997, title: 'Labor Participation Peaks at 67.1%', detail: 'The highest participation rate in U.S. history. Women\'s participation has plateaued at ~57%. From here, male participation begins declining — men leaving the workforce becomes the new trend.', topics: ['labor'] },
+  { year: 1998, title: 'Federal Budget Surplus Begins', detail: 'For the first time since 1969, the federal government runs a surplus. Dot-com boom drives massive capital gains tax revenue. Congress and the administration agree on balanced budgets. Surpluses run through fiscal year 2001.', topics: ['debt', 'economy'] },
+  { year: 2000, title: 'Debt-to-GDP Drops to 54.6%', detail: 'Budget surpluses + strong GDP growth push the ratio to its lowest point since 1957. The combination of women in the workforce (peak participation) and dot-com revenue.', topics: ['debt', 'economy', 'labor'] },
+
+  // --- 2000s ---
+  { year: 2000, title: 'SSDI Beneficiaries: 6.0 Million', detail: 'The disability rolls begin a decade-long surge. By 2014 the pool will hit 10.2 million — driven by aging boomers, expanded eligibility, and the Great Recession pushing marginal workers onto disability.', topics: ['labor', 'health'] },
+  { year: 2001, title: 'Dot-Com Bust and 9/11', detail: 'Stock market crash wipes out capital gains revenue. September 11 attacks lead to war in Afghanistan, creation of DHS, massive security spending. Budget surplus evaporates overnight.', topics: ['economy', 'defense', 'debt'] },
+  { year: 2003, title: 'Secret Service Moves to DHS', detail: 'Post-9/11 reorganization moves the Secret Service from Treasury (where it had been for 138 years) to the new Department of Homeland Security. The president now controls the agency that protects his rivals.', topics: ['defense', 'governance'] },
+  { year: 2003, title: 'Medicare Part D Enacted', detail: 'Prescription drug benefit added to Medicare. Major new entitlement spending — added to the deficit without a funding mechanism.', topics: ['health', 'debt'] },
+
+  // --- Financial Crisis ---
+  { year: 2008, title: 'Subprime Lending Crisis', detail: 'Housing bubble bursts. Banks collapse. TARP bailout. Debt-to-GDP jumps from 62% to 82% in one year and keeps climbing. The ratio won\'t stabilize below 100% again.', topics: ['economy', 'debt'] },
+
+  // --- 2010s ---
+  { year: 2014, title: 'SSDI Beneficiaries Peak at 10.2 Million', detail: 'The disability pool hits its all-time high. Return-to-work rate: under 1%. 84–91% of all exits are death or aging into retirement. The pool will decline to 8.6M by 2024 — but almost entirely through attrition, not recovery.', topics: ['labor', 'health'] },
+
+  // --- 2020s ---
+  { year: 2020, title: 'COVID-19 Pandemic', detail: 'Global pandemic shutters businesses, triggers mass layoffs. Labor participation drops from 63.1% to 61.7%. Debt-to-GDP spikes to 126.3% — surpassing the WWII peak for the first time.', topics: ['economy', 'debt', 'labor', 'health'] },
+  { year: 2024, title: 'U.S. Debt-to-GDP: ~122%', detail: 'Current ratio roughly double the 60% benchmark. Interest payments on the national debt now exceed the entire defense budget. Labor participation: 62.5%, down 4.6 points from the 2000 peak.', topics: ['debt', 'labor'] },
+  { year: 2024, title: 'SSDI Pool: 8.6 Million', detail: 'Down from 10.2M peak but decline is driven by death and aging out, not return to work. RTW rate: ~1%. Monthly intake: ~49,500 new beneficiaries. 18.8 million people awarded SSDI over the past 25 years.', topics: ['labor', 'health'] },
+  { year: 2024, title: 'U.S. Birth Rate: 1.62', detail: 'Well below the 2.1 replacement rate. Boomers retiring at 10,000 per day. Women\'s participation plateaued. Immigration remains the only traditional labor growth lever.', topics: ['labor'] },
+  { year: 2025, title: 'H.J.Res. 135 — Pardon Integrity Act Introduced', detail: 'Congressman Olszewski (MD) introduces one-page joint resolution to give Congress review-and-reject power over presidential pardons. First Republican cosponsor: Congressman Bacon (NE). As of March 2026: two cosponsors. Needs 218 for discharge petition, 290 to pass.', topics: ['governance'] }
+];
+
+let activeFilter = 'all';
+
+function getAdminForYear(year) {
+  // Return the admin whose term includes this year
+  for (let i = ADMINS.length - 1; i >= 0; i--) {
+    if (year >= ADMINS[i].start && year < ADMINS[i].end) return ADMINS[i].name;
+  }
+  return null;
+}
+
+function render() {
+  const container = document.getElementById('timeline');
+  container.innerHTML = '';
+
+  // Group facts by year
+  const byYear = {};
+  FACTS.forEach(f => {
+    if (!byYear[f.year]) byYear[f.year] = [];
+    byYear[f.year].push(f);
+  });
+
+  const years = Object.keys(byYear).map(Number).sort((a, b) => a - b);
+
+  let visibleCount = 0;
+  let lastAdmin = null;
+
+  years.forEach(year => {
+    const admin = getAdminForYear(year);
+
+    // Show admin band when it changes
+    if (admin && admin !== lastAdmin) {
+      const band = document.createElement('div');
+      band.className = 'admin-band';
+      band.textContent = admin;
+      container.appendChild(band);
+      lastAdmin = admin;
+    }
+
+    const yearDiv = document.createElement('div');
+    yearDiv.className = 'year-group';
+
+    const label = document.createElement('div');
+    label.className = 'year-label';
+    label.textContent = year;
+    yearDiv.appendChild(label);
+
+    byYear[year].forEach(fact => {
+      const matches = activeFilter === 'all' || fact.topics.includes(activeFilter);
+      if (matches) visibleCount++;
+
+      const entry = document.createElement('div');
+      entry.className = 'fact-entry';
+      if (activeFilter !== 'all') {
+        entry.classList.add(matches ? 'highlighted' : 'dimmed');
+        if (matches) entry.style.setProperty('--topic-color', TOPIC_COLORS[activeFilter]);
+      }
+
+      let html = `<div class="fact-title">${fact.title}</div>`;
+      html += `<div class="fact-detail">${fact.detail}</div>`;
+      html += '<div class="fact-tags">';
+      fact.topics.forEach(t => {
+        html += `<span class="fact-tag" style="background:${TOPIC_COLORS[t]}">${TOPIC_LABELS[t]}</span>`;
+      });
+      html += '</div>';
+      if (fact.source) {
+        html += `<div class="fact-source">${fact.source}</div>`;
+      }
+      entry.innerHTML = html;
+      yearDiv.appendChild(entry);
+    });
+
+    // Only show year if any facts are not fully hidden
+    container.appendChild(yearDiv);
+  });
+
+  document.getElementById('countBadge').textContent =
+    activeFilter === 'all' ? `${FACTS.length} events` : `${visibleCount} of ${FACTS.length} events`;
+}
+
+function setFilter(topic) {
+  activeFilter = topic;
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.topic === topic);
+  });
+  render();
+
+  // If linked with hash, scroll to first highlighted
+  if (topic !== 'all') {
+    const first = document.querySelector('.fact-entry.highlighted');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// Check for topic param in URL (e.g., ?topic=labor)
+const params = new URLSearchParams(window.location.search);
+const topicParam = params.get('topic');
+if (topicParam && TOPIC_COLORS[topicParam]) {
+  activeFilter = topicParam;
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.topic === topicParam);
+  });
+}
+
+render();
+
+// Back to top visibility
+const btn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  btn.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+</script>
+</body>
+</html>
