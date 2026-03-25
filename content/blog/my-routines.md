@@ -15,7 +15,7 @@ But I am pretty disciplined about a few things.  At least, for most of the year.
 If you are already someone that has a routine of routines, this isn't your post.  This is for people that wake up lost with nothing to do.  Or, for people that want to apply a new discipline in their lives.  Hope some of this helps.
 
 ## The Routine Stack
-My routines are categorized into daily and annual.  Daily routines are just that -- what I do every day.  Annual routines are longer-term and always start on January 1st.  No exceptions for either.  This goes whether I'm working or on a [work pause](https://jonnywren.com/blog/work-pause/).
+My routines are categorized into daily and annual.  Daily routines are just that -- what I do every day.  Annual routines are longer-term and always start on January 1st.  No exceptions for either.  This goes whether I'm working or on a [work pause](/blog/work-pause/).
 
 The one thing that may annoy you is that I am a morning person.  Always have been as far as I can remember.  I get bored sleeping.  I know I need it but, candidly, I wish I didn't.  I like doing stuff -- and that requires me to be awake.  I know that's not everyone's cup of tea but the timing is irrelevant.  Read with your own perspective.
 

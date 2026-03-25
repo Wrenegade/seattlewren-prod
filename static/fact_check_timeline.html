@@ -61,17 +61,7 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Administration band */
-  .admin-band {
-    background: #f8f8f8;
-    border-left: 3px solid #ccc;
-    padding: 6px 14px;
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 6px;
-    font-weight: 500;
-    letter-spacing: 0.2px;
-  }
+  /* (admin bands removed — keeping the timeline politically neutral) */
 
   /* Fact entry */
   .fact-entry {
@@ -245,29 +235,6 @@ const TOPIC_LABELS = {
   rights: 'Civil Rights'
 };
 
-// Administration periods (no party labels)
-const ADMINS = [
-  { start: 1789, end: 1797, name: 'Washington Administration' },
-  { start: 1861, end: 1865, name: 'Lincoln Administration' },
-  { start: 1897, end: 1901, name: 'McKinley Administration' },
-  { start: 1901, end: 1909, name: 'T. Roosevelt Administration' },
-  { start: 1933, end: 1945, name: 'F. Roosevelt Administration' },
-  { start: 1945, end: 1953, name: 'Truman Administration' },
-  { start: 1953, end: 1961, name: 'Eisenhower Administration' },
-  { start: 1961, end: 1963, name: 'Kennedy Administration' },
-  { start: 1963, end: 1969, name: 'L. Johnson Administration' },
-  { start: 1969, end: 1974, name: 'Nixon Administration' },
-  { start: 1974, end: 1977, name: 'Ford Administration' },
-  { start: 1977, end: 1981, name: 'Carter Administration' },
-  { start: 1981, end: 1989, name: 'Reagan Administration' },
-  { start: 1989, end: 1993, name: 'G.H.W. Bush Administration' },
-  { start: 1993, end: 2001, name: 'Clinton Administration' },
-  { start: 2001, end: 2009, name: 'G.W. Bush Administration' },
-  { start: 2009, end: 2017, name: 'Obama Administration' },
-  { start: 2017, end: 2021, name: 'Trump Administration' },
-  { start: 2021, end: 2025, name: 'Biden Administration' },
-  { start: 2025, end: 2029, name: 'Trump Administration (2nd)' }
-];
 
 const FACTS = [
   // --- Constitutional / Governance ---
@@ -336,14 +303,6 @@ const FACTS = [
 
 let activeFilter = 'all';
 
-function getAdminForYear(year) {
-  // Return the admin whose term includes this year
-  for (let i = ADMINS.length - 1; i >= 0; i--) {
-    if (year >= ADMINS[i].start && year < ADMINS[i].end) return ADMINS[i].name;
-  }
-  return null;
-}
-
 function render() {
   const container = document.getElementById('timeline');
   container.innerHTML = '';
@@ -358,20 +317,8 @@ function render() {
   const years = Object.keys(byYear).map(Number).sort((a, b) => a - b);
 
   let visibleCount = 0;
-  let lastAdmin = null;
 
   years.forEach(year => {
-    const admin = getAdminForYear(year);
-
-    // Show admin band when it changes
-    if (admin && admin !== lastAdmin) {
-      const band = document.createElement('div');
-      band.className = 'admin-band';
-      band.textContent = admin;
-      container.appendChild(band);
-      lastAdmin = admin;
-    }
-
     const yearDiv = document.createElement('div');
     yearDiv.className = 'year-group';
 

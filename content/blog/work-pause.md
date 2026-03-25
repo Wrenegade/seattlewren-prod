@@ -36,7 +36,7 @@ The longer you allow yourself to drift, the harder you’ll have to row later. I
 
 For my first pause, I didn’t waste time as I jumped right into learning AWS. I was motivated, younger, had only one child, and an affordable mortgage. I figured “let me level up quick, then I’ll have fun” which is what I did. While that plan eventually worked, it took 3 months longer than I anticipated. And, those were some stressful months.
 
-For my second pause, I needed to decompress after my mom’s death [(read about that here)](https://jonnywren.com/blog/mom-post/). At this time, I had a much bigger mortgage and 2 young kids. But, if you read my story, you’ll understand why I had to take a break from it all even if that was going to cost me big.
+For my second pause, I needed to decompress after my mom’s death [(read about that here)](/blog/mom-post/). At this time, I had a much bigger mortgage and 2 young kids. But, if you read my story, you’ll understand why I had to take a break from it all even if that was going to cost me big.
 
 Everyone’s situation is different. You might keep going, you might need time. Take what you need, I had to. But cap it as you have to start moving forward again.
 
@@ -76,7 +76,7 @@ Once that’s installed, your body will tell you when Routine #2 needs to kick i
 
 The principle: the more independent a routine is — the fewer things it depends on — the more durable it is and the more you can stack on top of it. Start with routines that require nothing but you showing up.
 
-I’ve written a separate post about my routines [here](https://jonnywren.com/blog/my-routines). It’s taken close to 10 years to make some of them routines so it’s important to be patient. Start with quick win routines and then move onto ones that require more time.
+I’ve written a separate post about my routines [here](/blog/my-routines/). It’s taken close to 10 years to make some of them routines so it’s important to be patient. Start with quick win routines and then move onto ones that require more time.
 
 ## AI Is Your New School
 

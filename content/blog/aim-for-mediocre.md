@@ -68,7 +68,7 @@ Building: People see my Office Shed and Greenhouse and argue with me on this one
 
 Three different spots on the ladder. One thing in common: I decided what "enough" looked like. So can you.
 
-![My First DYI Project](https://seattlewren.s3.us-west-2.amazonaws.com/aim-for-mediocre/richmond.jpg)
+![My First DIY Project](https://seattlewren.s3.us-west-2.amazonaws.com/aim-for-mediocre/richmond.jpg)
 
 *The picture above is my first DIY project as a home owner. I had never built a walkway, only read about it. So, I started by planning, procuring, digging, and laying bricks. The end result was hardly level, wobbly, and the bricks didn't match the house. Mediocre, but I was proud of it. 3 different owners and 18 years later, that walkway still stands.*
 ## Starting Reveals What Doesn't Stick
