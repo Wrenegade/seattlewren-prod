@@ -41,7 +41,7 @@ Pretty hefty, but Joe's living a good life.
 
 Two-thirds of that $122K is on his American credit cards and the remaining one third is on his international credit cards, mostly from Japan and China. And all of it is on adjustable rates. The introductory teaser period is ending soon and the new rates are going to hurt.  Joe knows it, but keeps kicking the can down the street.
 
-Welcome to the US!
+Welcome to the U.S.!
 
 ## The Obvious Levers
 
@@ -93,7 +93,7 @@ What's his best option now? Maybe his wife returns to stay at home to cut the ch
 
 Oh, the easiest option…..borrow more.
 
-Welcome to the US!!
+Welcome to the U.S.!!
   
 ## The Number That Actually Matters
 
@@ -115,12 +115,12 @@ Interesting, eh? We kicked some serious ass after WWII for about 30 years. So, w
 
 The debt-to-GDP ratio bottomed around 1974 at roughly 31%, then started climbing again through the 80s with defense spending and tax cuts. By 1984, the ratio was already heading back up.  As a country, we decided that it was important to have the most terrifying and intimidating National Defense the world has ever scene. That’s the first hump which continues into today. But, it’s not THAT much.
 
-Then, you’ll see a little dip in the late 90s. For us Gen X’ers, remember the dot.com boom? That’s part of it thanks to the massive increase in tax revenue from capital gains. But, what else? Turns out, Congress and the Administration actually worked together and balanced the budget. Not only that, they created a small surplus to actually pay down a little. The surpluses ran during fiscal years started in ‘98 and the good times kept rolling until ‘01, spanning two administrations.
+Then, you’ll see a little dip in the late 90s. For us Gen X’ers, remember the dot.com boom? That’s part of it thanks to the massive increase in tax revenue from capital gains. But, what else? Turns out, Congress and the Administration actually worked together and balanced the budget. Not only that, they created a small surplus to actually pay down a little. The surpluses ran during fiscal years starting in ‘98 and the good times kept rolling until ‘01, spanning two administrations.
 
-Then the dot.com bust, 9/11, the war in Afghanistan, the war in Iraq, even more tax cuts, the creation of Homeland Security and, finally, Medicare Part D.
+Then the dot.com bust, 9/11, the war in Afghanistan, the war in Iraq, even more tax cuts, Medicare Part D, and finally the creation of Homeland Security.
 
 *Back to the Smiths*
-For about 25 years, the family was doing great. Then their stock portfolio took a hit (dot.com bust).  Someone broke into the Hoagie Hut and ransacked the place (9/11). They found the perpetrator and brought him to justice (Afghan War) . Then, got all noble and tried to make sure it never happens to anyone else's business (Iraq War). The Hoagie Hut closed for a while for repairs (less revenue), heath care costs went up for the employees (Medicare), and they installed a kick-ass security system on their house and business (Homeland Security).
+For about 25 years, the family was doing great. Then their stock portfolio took a hit (dot.com bust).  Someone broke into the Hoagie Hut and ransacked the place (9/11). They found the perpetrator and brought him to justice (Afghan War) . Then, got all noble and tried to make sure it never happens to anyone else's business (Iraq War). The Hoagie Hut closed for a while for repairs (less revenue), health care costs went up for the employees (Medicare D), and they installed a kick-ass security system on their house and business (Homeland Security).
 
 All of that on the (U.S.) credit card.
 
@@ -133,21 +133,21 @@ Joe says “hell yes!” without thinking. His kids were growing and he wanted m
 
 So, Joe buys a sweet crib for a cool million.  The bank says “Congratulations on your new home!” -- then sells his mortgage to his uncle's retirement fund a week later.  Joe's uncle now owns part of his home.
 
-Then, suddenly, that 3% teaser rate skyrockets to 9%. Suddenly, the Smiths' mortgage triples and Joe tries to sell the home.  No one buys.  The scenario Joe never thought would happen -- happens.  His home is worth less than a million -- way less. 
+Then, that 3% teaser rate skyrockets to 9%. Suddenly, the Smiths' mortgage triples and Joe tries to sell the home.  No one buys.  The scenario Joe never thought would happen -- happens.  His home is worth less than a million -- way less. 
 
 Worse yet, the health inspector rates the Hoagie Hut a risk because he saw a rat.  The bad press loses even more customers (recession).
 
-Joe's uncle, Sam, gets a statement from his retirement fund.  It declined 50% in value and probably won't go back up anytime soon.  Sam's now got to go back to work.
+Joe's uncle, Sam, gets a statement from his retirement fund.  It declined 50% in value and probably won't go back up anytime soon.  Sam has done well in his career and has a good amount of savings but it still stings nonetheless.
 
 Joe sells his million dollar home for $500K taking a massive loss.  Joe goes back to renting a home -- back to no equity and 3x more debt (from the original $122K).   Joe can't even make his interest payments let alone rent.
 
-Sam's retirement fund takes a massive hit as well.  Because Joe can't pay, Sam's retirement fund is cut in half..because the Joe's of the world are all defaulting.  Uncle Sam chips in and pays a big chunk of Joe's debt so he can make payments. (ie:  TARP).
+Because Joe can't pay, Sam's retirement fund is cut in half -- because the Joe's of the world are all defaulting.  Uncle Sam chips in and pays a big chunk of Joe's debt so he can make payments. (ie:  TARP).
 
-Welcome to the Subprime Lending Crisis of 2008-2015!
+Welcome to the Subprime Lending Crisis!
 
 ---
 
-## Thank you, may I have another?
+## Thank you.  May I have another?
 As if things couldn't get worse, they do.  A world-wide pandemic hits recessing Joe's business even more.  He lays off all his employees and creates a delivery system that he, his wife, and his oldest son all work.  Just to survive.
 
 No one saw this coming, nor was anyone prepared.  It just was.  And it hurt, bad.
@@ -165,17 +165,19 @@ Hope you've enjoyed the little story about the Smiths and Uncle Sam.  Obviously,
 
 The real reason behind why we have so much debt isn't because of any particular administration.  Just because something happens during one administration doesn't mean that administration was the cause.  It's all interwoven together in a sequential system that impacts the next.  And, the simple fact is, We the People have elected those leaders and none of them have solved the problem.
 
-So I will!  Here's how this all gets solved...right here, right now.
+So I will!  
 
-Step 1:  Let's all admit that the total National Debt is not the metric we want to track
-- I hope I've explained this before, but it's the Debt to GDP metric we need to track (my charts)
+**Here's how this all gets solved...right here, right now.**
 
-Step 2: Everyone take a deep breath and stop blaming politicians.
-- This might be a hard pill to swallow but you're wasting your time and everyone else's.
+1.  Let's all admit that the total National Debt is not the metric we want to track
+	- I hope I've explained this before, but it's the Debt to GDP metric we need to track (my charts)
 
-Step 3: Start thinking about Joe's Hoagie Hut and these two simple questions:
-1. How could Joe sell more Hoagies -- at half the cost?
-2. How could Joe make more Hoagies -- at half the cost?
+2. Everyone take a deep breath and stop blaming politicians.
+	- This might be a hard pill to swallow but you're wasting your time and everyone else's.
+
+3. Start thinking about Joe's Hoagie Hut and these two simple questions:
+	1. How could Joe sell more Hoagies -- at half the cost?
+	2. How could Joe make more Hoagies -- at half the cost?
 
 **....and use an AI lens**
 
