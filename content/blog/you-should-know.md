@@ -1,5 +1,5 @@
 ---
-title: "You Should Know"
+title: AI Sketchiness You Should Know
 date: 2026-03-26
 layout: photo
 categories:
@@ -95,6 +95,92 @@ My mom didn't have anyone telling her this.  By the time I found out, it was too
 
 ---
 
-## 3. [Next one goes here]
+## 3. Your Boss Is Watching You — With AI
+
+**The setup:**  You're working from home.  You're getting your stuff done.  What you don't know is that your employer's software is logging your keystrokes, taking screenshots of your screen every few minutes, tracking your mouse movement, and in some cases, turning on your webcam without telling you.
+
+**How it works:**  It's called "bossware" — employee monitoring software powered by AI.  It goes beyond checking if you're online.  Modern systems collect:
+
+- Keystroke patterns and typing speed
+- Mouse movement and click frequency
+- Screenshots at regular intervals
+- Websites visited and time spent on each
+- Email and chat content (including sentiment analysis)
+- Webcam and microphone activation (some tools do this without notification)
+- Facial recognition for "engagement scoring"
+
+Some systems also collect biometric data — body temperature, stress indicators, respiratory rates, and behavioral patterns that AI uses to flag whether you might be burned out, distracted, or thinking about quitting.
+
+**The numbers:**
+
+- **80%** of businesses now monitor their workforce in some form
+- **61%** of US companies use AI-powered analytics to evaluate employee productivity or behavior
+- **67%** of US employers collect biometric data, including fingerprints or facial recognition
+- **59%** use real-time screen monitoring; **62%** log web browsing
+- The employee monitoring market is projected to reach **$7.27 billion** by 2029
+
+**How employees feel about it:**
+
+- **56%** of monitored employees report feeling anxious about being watched
+- **43%** believe it invades their privacy
+- **54%** say they would consider quitting if their employer increased surveillance
+- **68%** oppose AI-powered surveillance specifically
+- Cornell University research found that AI-monitored workers actually perform **worse** — they file more complaints and produce lower quality work
+
+**What's happening on the legal side:**  The NLRB's General Counsel issued a memo arguing that intrusive electronic monitoring can violate workers' Section 7 rights under the National Labor Relations Act — the right to organize and discuss working conditions.  However, a DC Circuit court struck down the NLRB's enforcement attempt in March 2024, calling its rationale "nonsense."
+
+The EU AI Act (effective February 2025) bans AI emotion recognition in the workplace outright — no scanning faces for fatigue, no engagement scoring, no inferring how employees feel from their biometric data.  The only exception is medical or safety contexts, like monitoring a truck driver for drowsiness.
+
+In the United States, there is no federal law governing AI-powered employee surveillance.  The GAO issued a report flagging the risks, the FTC and DOJ signed coordination agreements with the NLRB, but no binding regulation exists.
+
+**Sources:**
+- [Employee Monitoring Statistics 2026 — Apploye](https://apploye.com/blog/employee-monitoring-statistics/)
+- [GAO Warns on Digital Surveillance in the Workplace — Biometric Update](https://www.biometricupdate.com/202511/digital-surveillance-tools-are-reshaping-workplace-privacy-gao-warns)
+- [How AI-Enabled Bossware Tracks and Evaluates Your Work — Computerworld](https://www.computerworld.com/article/3843213/how-ai-enabled-bossware-is-being-used-to-track-and-evaluate-your-work.html)
+- [NLRB General Counsel Memo on Electronic Surveillance — NLRB](https://www.nlrb.gov/news-outreach/news-story/nlrb-general-counsel-issues-memo-on-unlawful-electronic-surveillance-and)
+- [DC Circuit Strikes Down NLRB Monitoring Ruling — National Law Review](https://natlawreview.com/article/nlrbs-recent-move-reduce-employers-ability-monitor-employee-productivity-struck)
+- [More Complaints, Worse Performance When AI Monitors Work — Cornell](https://news.cornell.edu/stories/2024/07/more-complaints-worse-performance-when-ai-monitors-work)
+- [EU AI Act: Workplace Emotion Recognition Ban — Wolters Kluwer](https://legalblogs.wolterskluwer.com/global-workplace-law-and-policy/the-prohibition-of-ai-emotion-recognition-technologies-in-the-workplace-under-the-ai-act/)
+
+---
+
+## 4. You're Not Getting the Same Price as Everyone Else
+
+**The setup:**  You search for a flight.  You check the price.  You come back an hour later and it's $40 more.  You check on your partner's phone — it's the original price.  You're not imagining it.
+
+**How it works:**  It's called "surveillance pricing" — algorithms that use your personal data to set individualized prices.  The inputs include your location, browsing history, purchase patterns, device type, time of day, and in some cases, how urgently the algorithm thinks you need the product.  The more data it has on you, the more precisely it can calculate what you're willing to pay.
+
+This isn't new in travel or ride-sharing.  What's new is where it's going: **groceries**.
+
+**Digital shelf labels:**  Walmart announced it will have digital price tags in every US store by the end of 2026.  Kroger has been rolling them out since 2018 and now has them in 500 stores.  These electronic labels can change prices up to **six times per minute**.  Both companies say they won't use them for individualized or surge pricing — only for aligning in-store prices with online promotions.
+
+**What the data shows:**  A 2025 study by Consumer Reports and the Groundwork Collaborative looked at Instacart pricing and found:
+
+- Nearly **75%** of items tested were offered at different prices to different shoppers
+- The same basket of goods at a single store varied in total cost by about **7%**
+- That price swing adds up to roughly **$1,200 per year** for a typical household
+
+**Where legislation stands:**
+
+- **New York** is currently the only state with a personalized pricing law in effect.  The Algorithmic Pricing Disclosure Act (effective November 2025) requires businesses to disclose when personal data is used to set a price.
+- In **2026 alone**, more than **40 bills** have been introduced across **24 states** to regulate algorithmic pricing — already more than all of 2025 combined.
+- Several states are targeting **grocery stores specifically**.  Georgia's Surveillance Pricing Act and New Jersey's S3732 would ban food retailers from using personal data to set prices.
+- **California's** Attorney General launched an investigative sweep in January 2026 into surveillance pricing in the retail, grocery, and hotel sectors, citing potential violations of the California Consumer Privacy Act.
+- The **FTC** issued orders to eight companies in 2024 seeking information on surveillance pricing practices.  The investigation concluded in 2025, but the current administration has not pursued further federal action.
+
+There is no federal law requiring companies to disclose personalized pricing or prohibiting the practice.
+
+**Sources:**
+- [Instacart AI Pricing May Raise Grocery Costs by 23% — CBS News](https://www.cbsnews.com/news/instacart-price-discrepancies-investigation/)
+- [How Online Retailers Use AI to Adjust Prices — PBS](https://www.pbs.org/newshour/show/how-online-retailers-are-using-ai-to-adjust-prices-by-mining-your-personal-data)
+- [Walmart Digital Price Tags in Every US Store by End of 2026 — CNBC](https://www.cnbc.com/2026/03/21/walmart-digital-price-tags-will-be-in-every-us-store-by-end-of-2026.html)
+- [State Lawmakers Introduce 40+ Personalized Pricing Bills in 2026 — Inside Privacy](https://www.insideprivacy.com/artificial-intelligence/state-lawmakers-introduce-new-wave-of-personalized-algorithmic-pricing-bills/)
+- [California AG Investigative Sweep into Surveillance Pricing — Alston & Bird](https://www.alstonprivacy.com/california-attorney-general-announces-investigative-sweep-into-surveillance-pricing/)
+- [FTC Surveillance Pricing Page — FTC](https://www.ftc.gov/news-events/features/surveillance-pricing)
+- [When Your Data Sets Your Price: New York — Epstein Becker Green](https://www.workforcebulletin.com/when-your-data-sets-your-price-new-york-takes-on-algorithmic-pricing)
+
+---
+
+## 5. [Next one goes here]
 
 ---

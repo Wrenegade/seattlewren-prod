@@ -126,6 +126,7 @@
   .topic-economy { --tc: #ea580c; }
   .topic-health { --tc: #0891b2; }
   .topic-rights { --tc: #db2777; }
+  .topic-china { --tc: #b45309; }
 
   .filter-chip[data-topic="debt"].active { background: #2563eb; }
   .filter-chip[data-topic="labor"].active { background: #16a34a; }
@@ -134,6 +135,7 @@
   .filter-chip[data-topic="economy"].active { background: #ea580c; }
   .filter-chip[data-topic="health"].active { background: #0891b2; }
   .filter-chip[data-topic="rights"].active { background: #db2777; }
+  .filter-chip[data-topic="china"].active { background: #b45309; }
 
   .count-badge {
     font-size: 12px;
@@ -197,6 +199,7 @@
     <button class="filter-chip" data-topic="governance" onclick="setFilter('governance')">Governance</button>
     <button class="filter-chip" data-topic="health" onclick="setFilter('health')">Healthcare</button>
     <button class="filter-chip" data-topic="rights" onclick="setFilter('rights')">Civil Rights</button>
+    <button class="filter-chip" data-topic="china" onclick="setFilter('china')">China</button>
   </div>
 
   <div id="timeline"></div>
@@ -210,7 +213,9 @@
     <a href="https://www.bls.gov">Bureau of Labor Statistics</a>,
     <a href="https://www.ssa.gov/policy/docs/statcomps/di_asr/">SSA Annual Statistical Reports</a>,
     <a href="https://constitution.congress.gov">Congress.gov</a>,
-    <a href="https://www.congress.gov/bill/119th-congress/house-joint-resolution/135">H.J.Res. 135</a>.
+    <a href="https://www.congress.gov/bill/119th-congress/house-joint-resolution/135">H.J.Res. 135</a>,
+    <a href="https://www.britannica.com">Britannica</a>,
+    <a href="https://www.chinalawtranslate.com">China Law Translate</a>.
     Individual citations inline where applicable.
   </div>
 </div>
@@ -223,7 +228,8 @@ const TOPIC_COLORS = {
   defense: '#dc2626',
   economy: '#ea580c',
   health: '#0891b2',
-  rights: '#db2777'
+  rights: '#db2777',
+  china: '#b45309'
 };
 const TOPIC_LABELS = {
   debt: 'Debt & Deficit',
@@ -232,11 +238,35 @@ const TOPIC_LABELS = {
   defense: 'Defense & Security',
   economy: 'Economy',
   health: 'Healthcare',
-  rights: 'Civil Rights'
+  rights: 'Civil Rights',
+  china: 'China'
 };
 
 
 const FACTS = [
+  // --- China: Ancient & Imperial ---
+  { year: -475, title: 'China: Warring States Period Begins', detail: 'The Zhou dynasty fractures. Over 100 small states battle for dominance across east-central China. Eventually consolidates into seven major kingdoms: Qin, Qi, Chu, Han, Yan, Zhao, and Wei. 250 years of continuous warfare.', topics: ['china'], source: 'Britannica', sourceUrl: 'https://www.britannica.com/event/Warring-States' },
+  { year: -221, title: 'China: Qin Shi Huang Unifies China', detail: 'King Ying Zheng of the Qin state conquers all six rival kingdoms and declares himself "First Emperor." Creates the concept of a unified China. Standardizes currency, writing, weights, measurements, and even cart axle widths. Connects defensive walls into the Great Wall. Burns books and buries dissenting scholars alive. Dynasty collapses 4 years after his death.', topics: ['china'], source: 'Britannica', sourceUrl: 'https://www.britannica.com/biography/Qin-Shi-Huang' },
+  { year: -206, title: 'China: Han Dynasty Begins', detail: 'China\'s golden age — their Roman Empire equivalent. Lasts over 400 years. Creates the Silk Road trade network, establishes the civil service exam system, expands territory. Collapses in 220 AD into centuries of fragmentation.', topics: ['china'] },
+  { year: 618, title: 'China: Tang Dynasty Begins', detail: 'Another golden age after centuries of division. Art, poetry, cosmopolitan culture. China becomes arguably the most advanced civilization on earth. Fragments again in 907 AD.', topics: ['china'] },
+  { year: 960, title: 'China: Song Dynasty Begins', detail: 'Technological peak of imperial China. Invention of gunpowder, the compass, movable type printing, and paper money. Conquered by the Mongols in 1279.', topics: ['china'] },
+  { year: 1271, title: 'China: Yuan Dynasty (Mongol Rule)', detail: 'Genghis Khan\'s grandson Kublai Khan conquers China. Foreign rule. Marco Polo visits during this period. Chinese eventually overthrow the Mongols in 1368.', topics: ['china'] },
+  { year: 1368, title: 'China: Ming Dynasty Begins', detail: 'Chinese rule restored. Builds the Forbidden City. Launches massive naval expeditions under Zheng He — ships dwarfing anything Columbus had. Then turns inward, closes borders, gets complacent. Falls to the Manchus in 1644.', topics: ['china'] },
+  { year: 1644, title: 'China: Qing Dynasty Begins (Last Dynasty)', detail: 'The Manchus from the north conquer China. Last imperial dynasty. Will rule for 268 years until 1912. By the end: humiliated by Britain in the Opium Wars, defeated by Japan, coastal cities carved up by European colonial powers.', topics: ['china'] },
+
+  // --- China: Modern ---
+  { year: 1912, title: 'China: Qing Dynasty Falls — Republic Declared', detail: 'Sun Yat-sen and revolutionaries overthrow the last dynasty, ending 2,000+ years of imperial rule. Establishes the Republic of China. Sun Yat-sen is still revered as "Father of the Nation" by both modern China AND Taiwan. He dies in 1925 before completing his vision.', topics: ['china'], source: 'Britannica', sourceUrl: 'https://www.britannica.com/biography/Sun-Yat-sen' },
+  { year: 1921, title: 'China: Chinese Communist Party Founded', detail: '13 delegates meet in a house in Shanghai\'s French Concession. Two Moscow reps attend. Mao Zedong is there — a 27-year-old nobody from Changsha. The party that will eventually rule 1.4 billion people starts in a living room.', topics: ['china'] },
+  { year: 1934, title: 'China: The Long March', detail: 'Mao\'s 80,000 communist fighters, surrounded by Chiang Kai-shek\'s 700,000 Nationalist troops, break out and march 6,000 miles through mountains and swamps. About 8,000 survive. Establishes Mao as the undisputed leader. China\'s Valley Forge.', topics: ['china'], source: 'Britannica', sourceUrl: 'https://www.britannica.com/event/Long-March' },
+  { year: 1949, title: 'China: People\'s Republic Declared', detail: 'Mao defeats Chiang Kai-shek\'s US-backed Nationalists. October 1: stands in Tiananmen Square and declares the People\'s Republic of China. Chiang flees to Taiwan with the gold reserves. The US recognizes Taiwan as "the real China" at the UN until 1971.', topics: ['china'] },
+  { year: 1954, title: 'China: First Constitution Adopted', detail: 'Mao drafts the constitution in a house near West Lake in Hangzhou — their Independence Hall. Modeled on the Soviet Union\'s 1936 constitution. Creates the National People\'s Congress (NPC) where every member is Party-vetted. NPC adopts it unanimously. Mao wrote the document that created the body that approved the document.', topics: ['china'] },
+  { year: 1966, title: 'China: Cultural Revolution Begins', detail: 'Mao launches a decade-long political purge to reassert control. Red Guards attack intellectuals, destroy cultural heritage, and persecute millions. Estimated 500,000 to 2 million deaths. Factories and schools shut down. Economy devastated. Ends with Mao\'s death in 1976.', topics: ['china'] },
+  { year: 1976, title: 'China: Mao Dies — Deng Xiaoping Rises', detail: 'Mao dies September 9. After a power struggle, Deng Xiaoping takes control by 1978. Launches "Reform and Opening Up" — introduces market economics while keeping one-party rule. Creates Special Economic Zones. China\'s GDP begins its exponential climb. The architect of modern China\'s economic model.', topics: ['china'] },
+  { year: 1989, title: 'China: Tiananmen Square Protests', detail: 'Students and workers occupy Tiananmen Square demanding political reform and anti-corruption measures. The government declares martial law. On June 4, the military clears the square. Hundreds to thousands killed — exact number still unknown and censored in China. The Party survives but the event defines the boundary: economic freedom yes, political freedom no.', topics: ['china'] },
+  { year: 2001, title: 'China: Joins the World Trade Organization', detail: 'China enters the global trading system. Manufacturing explodes. Over the next two decades, becomes the world\'s largest exporter and second-largest economy. The "Made in China" era begins. US manufacturing jobs begin their steep decline.', topics: ['china', 'economy'] },
+  { year: 2012, title: 'China: Xi Jinping Becomes President', detail: 'Xi takes power as General Secretary of the CCP (2012) and President (2013). Launches massive anti-corruption campaign — over 1.5 million officials disciplined. Centralizes power more than any leader since Mao. In 2018, removes presidential term limits — can rule for life. The current president.', topics: ['china'] },
+  { year: 2014, title: 'China: Social Credit System Announced', detail: 'State Council publishes plan for a nationwide social credit system. Goal: track and score citizens and businesses for "trustworthiness." By 2025: 80.7 billion records, 180 million businesses tracked, 32+ million travel denials. The system the EU AI Act was designed to prevent.', topics: ['china'], source: 'China Law Translate', sourceUrl: 'https://www.chinalawtranslate.com/en/2024-2025social-credit-plan/' },
+
   // --- Constitutional / Governance ---
   { year: 1787, title: 'Constitutional Convention', detail: '55 delegates meet in Philadelphia. Pardon power introduced by Charles Pinckney (May 29). Edmund Randolph and George Mason warn it invites presidential self-dealing. They are voted down.', topics: ['governance'], source: 'Constitution Annotated', sourceUrl: 'https://constitution.congress.gov/browse/article-2/section-2/' },
   { year: 1789, title: '27th Amendment Proposed', detail: 'James Madison proposes amendment on congressional pay. It won\'t be ratified for 203 years — the longest gap between proposal and ratification in U.S. history.', topics: ['governance'] },
@@ -327,7 +357,7 @@ function render() {
 
     const label = document.createElement('div');
     label.className = 'year-label';
-    label.textContent = year;
+    label.textContent = year < 0 ? Math.abs(year) + ' BC' : year;
     yearDiv.appendChild(label);
 
     byYear[year].forEach(fact => {
