@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patent Troll Defense System</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .container { max-width: 960px; width: 100%; }
+
+  h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; line-height: 1.6; }
+  .subtitle a { color: #2563eb; text-decoration: none; }
+  .subtitle a:hover { text-decoration: underline; }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .stat-chip {
+    display: inline-block;
+    background: #f7f7f7;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #444;
+  }
+  .stat-chip strong { color: #1a1a1a; }
+  .stat-chip.live { border-left: 3px solid #16a34a; }
+
+  /* Input section */
+  .input-section {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+  .input-section h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+  }
+  .input-section .hint {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    color: #1a1a1a;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 14px;
+  }
+  .btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-primary {
+    background: #2563eb;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-primary:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+  }
+  .btn-secondary:hover { background: #e5e7eb; }
+  .spinner {
+    display: none;
+    font-size: 13px;
+    color: #666;
+  }
+
+  /* Results */
+  .results { display: none; margin-bottom: 28px; }
+  .results.visible { display: block; }
+
+  .risk-banner {
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .risk-banner.low { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .risk-banner.moderate { background: #fffbeb; border: 1px solid #fde68a; }
+  .risk-banner.high { background: #fef2f2; border: 1px solid #fecaca; }
+
+  .risk-score-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .low .risk-score-circle { background: #dcfce7; color: #16a34a; }
+  .moderate .risk-score-circle { background: #fef3c7; color: #d97706; }
+  .high .risk-score-circle { background: #fee2e2; color: #dc2626; }
+
+  .risk-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .low .risk-info h3 { color: #16a34a; }
+  .moderate .risk-info h3 { color: #d97706; }
+  .high .risk-info h3 { color: #dc2626; }
+
+  .risk-info p { font-size: 13px; color: #555; line-height: 1.5; }
+
+  .suggestions {
+    background: #eff6ff;
+    border-left: 3px solid #2563eb;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    border-radius: 0 6px 6px 0;
+  }
+  .suggestions strong { color: #2563eb; }
+  .suggestions ul { margin: 8px 0 0 18px; }
+  .suggestions li { margin-bottom: 6px; }
+
+  /* Patent cards */
+  .patent-list h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .patent-card {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .patent-card:hover { background: #f0f0f0; }
+  .patent-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .patent-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    flex: 1;
+    margin-right: 12px;
+  }
+  .patent-card-scores {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .score-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .score-badge.tps { background: #fee2e2; color: #dc2626; }
+  .score-badge.overlap { background: #dbeafe; color: #2563eb; }
+  .patent-card-meta { font-size: 12px; color: #888; }
+  .patent-card-abstract {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+    margin-top: 8px;
+    display: none;
+  }
+  .patent-card.expanded .patent-card-abstract { display: block; }
+  .patent-card-actions {
+    margin-top: 10px;
+    display: none;
+  }
+  .patent-card.expanded .patent-card-actions { display: flex; gap: 8px; }
+
+  .tps-breakdown {
+    display: none;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  .patent-card.expanded .tps-breakdown { display: block; }
+  .tps-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tps-bar-label { width: 140px; color: #666; flex-shrink: 0; }
+  .tps-bar-track {
+    flex: 1;
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .tps-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+  .tps-bar-val { width: 32px; text-align: right; font-weight: 600; color: #444; }
+  .tps-note { font-size: 11px; color: #aaa; font-style: italic; margin-top: 2px; margin-bottom: 6px; }
+
+  /* Flagged patents browser */
+  .flagged-section {
+    margin-bottom: 28px;
+    border-top: 1px solid #eee;
+    padding-top: 28px;
+  }
+  .flagged-section h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  .flagged-section .hint {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  /* Prior art modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .modal-overlay.visible { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 28px;
+  }
+  .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+  .modal-close {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+    padding: 4px;
+  }
+  .prior-art-link {
+    display: block;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: #1a1a1a;
+    border: 1px solid #e5e7eb;
+    transition: border-color 0.15s;
+  }
+  .prior-art-link:hover { border-color: #2563eb; }
+  .prior-art-link .source {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #2563eb;
+    letter-spacing: 0.3px;
+  }
+  .prior-art-link .link-title { font-size: 14px; margin-top: 2px; }
+  .prior-art-link .link-note { font-size: 12px; color: #888; margin-top: 2px; }
+
+  .template-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+  }
+  .template-section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .template-text {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  /* GoFundMe banner */
+  .fund-banner {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .fund-banner p { font-size: 14px; color: #166534; line-height: 1.5; }
+  .fund-banner p strong { color: #15803d; }
+  .btn-fund {
+    padding: 8px 20px;
+    background: #d1d5db;
+    color: #6b7280;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: not-allowed;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+    margin-top: 32px;
+    font-size: 12px;
+    color: #999;
+    line-height: 1.6;
+  }
+  .footer a { color: #999; }
+
+  /* Error */
+  .error-msg {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .risk-banner { flex-direction: column; text-align: center; }
+    .patent-card-header { flex-direction: column; gap: 6px; }
+    .patent-card-scores { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Patent Troll Defense System</h1>
+  <p class="subtitle">
+    A free, public utility that detects mass-filed, AI-generated patent claims and helps independent inventors defend themselves.
+    <br>Provisional Patent #64/020,008 &middot; <a href="/blog/patent-post/">Read the story</a>
+  </p>
+
+  <div class="stats-bar" id="statsBar">
+    <span class="stat-chip live"><strong id="statMonitored">--</strong>&nbsp; patents monitored</span>
+    <span class="stat-chip"><strong id="statFlagged">--</strong>&nbsp; flagged as suspicious</span>
+    <span class="stat-chip"><strong id="statChecks">--</strong>&nbsp; invention checks run</span>
+    <span class="stat-chip"><strong id="statHighest">--</strong>&nbsp; highest TPS score</span>
+  </div>
+
+  <div class="fund-banner">
+    <p>
+      <strong>This is a public utility.</strong> No signup, no paywall, no tracking.
+      Surplus funds go to the Pancreatic Cancer Action Network (PanCAN).
+    </p>
+    <button class="btn-fund" disabled>Fund this project &mdash; GoFundMe coming soon</button>
+  </div>
+
+  <div class="input-section">
+    <h2>Check Your Invention</h2>
+    <p class="hint">
+      Describe your invention, product, or idea in plain language. The system will compare it against
+      patents flagged for troll-pattern behavior and tell you if there's overlap.
+    </p>
+    <textarea id="inventionInput" placeholder="Example: A mobile app that uses your phone's camera to identify plants and suggests care instructions based on your local climate and soil conditions..."></textarea>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="checkBtn" onclick="runCheck()">Analyze Risk</button>
+      <button class="btn btn-secondary" onclick="clearResults()">Clear</button>
+      <span class="spinner" id="spinner">Analyzing against flagged patents...</span>
+    </div>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <div class="results" id="results">
+    <div class="risk-banner" id="riskBanner">
+      <div class="risk-score-circle" id="riskScoreCircle">--</div>
+      <div class="risk-info">
+        <h3 id="riskLevel">--</h3>
+        <p id="riskSummary"></p>
+      </div>
+    </div>
+
+    <div class="suggestions" id="suggestionsBox">
+      <strong>Recommendations</strong>
+      <ul id="suggestionsList"></ul>
+    </div>
+
+    <div class="patent-list" id="patentList">
+      <h3>Overlapping Flagged Patents</h3>
+      <div id="patentCards"></div>
+    </div>
+  </div>
+
+  <div class="flagged-section">
+    <h2>Recently Flagged Patents</h2>
+    <p class="hint">Patents with a Troll Probability Score above 65. Click to expand.</p>
+    <div id="flaggedCards"><span style="font-size:13px;color:#aaa;">Loading...</span></div>
+  </div>
+
+  <div class="footer">
+    <p>
+      Patent Troll Defense System &middot; Provisional Patent Application #64/020,008 &middot; Filed March 28, 2026
+      <br>Built as a public utility by Jonathan Wren and Claude. Not legal advice.
+      <br>Surplus proceeds benefit <a href="https://www.pancan.org/" target="_blank">PanCAN</a>.
+    </p>
+  </div>
+</div>
+
+<!-- Prior Art Modal -->
+<div class="modal-overlay" id="priorArtModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h3 id="modalTitle">Defense Package</h3>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ─── State ─────────────────────────────────────────────────────────
+let lastResults = null;
+
+// ─── Stats ─────────────────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const r = await fetch('/api/troll-stats');
+    if (!r.ok) return;
+    const d = await r.json();
+    document.getElementById('statMonitored').textContent = d.patents_monitored.toLocaleString();
+    document.getElementById('statFlagged').textContent = d.patents_flagged.toLocaleString();
+    document.getElementById('statChecks').textContent = d.checks_performed.toLocaleString();
+    document.getElementById('statHighest').textContent = d.highest_tps_score;
+  } catch (e) {
+    console.warn('Stats unavailable:', e);
+  }
+}
+
+// ─── Flagged patents browser ───────────────────────────────────────
+async function loadFlagged() {
+  try {
+    const r = await fetch('/api/troll-scores?flagged_only=true&limit=20');
+    if (!r.ok) throw new Error('API error');
+    const patents = await r.json();
+    const container = document.getElementById('flaggedCards');
+    if (!patents.length) {
+      container.innerHTML = '<span style="font-size:13px;color:#aaa;">No flagged patents yet. System is still ingesting data.</span>';
+      return;
+    }
+    container.innerHTML = patents.map(p => buildPatentCard(p, false)).join('');
+  } catch (e) {
+    document.getElementById('flaggedCards').innerHTML =
+      '<span style="font-size:13px;color:#aaa;">Could not load flagged patents.</span>';
+  }
+}
+
+// ─── Risk check ────────────────────────────────────────────────────
+async function runCheck() {
+  const desc = document.getElementById('inventionInput').value.trim();
+  if (!desc) return;
+
+  const btn = document.getElementById('checkBtn');
+  const spinner = document.getElementById('spinner');
+  const errorMsg = document.getElementById('errorMsg');
+
+  btn.disabled = true;
+  spinner.style.display = 'inline';
+  errorMsg.style.display = 'none';
+  document.getElementById('results').classList.remove('visible');
+
+  try {
+    const r = await fetch('/api/troll-check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ description: desc }),
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({ error: 'Request failed' }));
+      throw new Error(err.error || 'Request failed');
+    }
+    const data = await r.json();
+    lastResults = data;
+    renderResults(data);
+    loadStats(); // refresh stats
+  } catch (e) {
+    errorMsg.textContent = e.message;
+    errorMsg.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    spinner.style.display = 'none';
+  }
+}
+
+function renderResults(data) {
+  const results = document.getElementById('results');
+  const banner = document.getElementById('riskBanner');
+  const level = data.risk_level.toLowerCase();
+
+  // Risk banner
+  banner.className = 'risk-banner ' + level;
+  document.getElementById('riskScoreCircle').textContent = Math.round(data.risk_score);
+  document.getElementById('riskLevel').textContent =
+    level === 'high' ? 'High Risk' :
+    level === 'moderate' ? 'Moderate Risk' : 'Low Risk';
+  document.getElementById('riskSummary').textContent =
+    `Analyzed against ${data.patent_count_analyzed} flagged patent${data.patent_count_analyzed !== 1 ? 's' : ''}. ` +
+    `Found ${data.overlapping_patents.length} with potential overlap.`;
+
+  // Suggestions
+  const list = document.getElementById('suggestionsList');
+  list.innerHTML = data.suggestions.map(s => `<li>${escHtml(s)}</li>`).join('');
+
+  // Patent cards
+  const cards = document.getElementById('patentCards');
+  if (data.overlapping_patents.length) {
+    cards.innerHTML = data.overlapping_patents.map(p => buildPatentCard(p, true)).join('');
+    document.getElementById('patentList').style.display = 'block';
+  } else {
+    document.getElementById('patentList').style.display = 'none';
+  }
+
+  results.classList.add('visible');
+}
+
+function buildPatentCard(p, showOverlap) {
+  const tps = p.tps_score || 0;
+  const overlap = p.overlap_score || 0;
+  const breakdown = p.tps_breakdown || {};
+  const id = p.id || p.application_num;
+
+  let scoresHtml = `<span class="score-badge tps">TPS ${tps}</span>`;
+  if (showOverlap) scoresHtml += `<span class="score-badge overlap">${overlap}% overlap</span>`;
+
+  let breakdownHtml = '';
+  const factors = [
+    ['Filing Volume', breakdown.filing_volume, null],
+    ['Domain Dispersion', breakdown.domain_dispersion, null],
+    ['Claim Breadth', breakdown.claim_breadth, null],
+    ['Commercial Activity', breakdown.commercial_activity, breakdown.commercial_activity_note],
+    ['Linguistic Fingerprint', breakdown.linguistic_fingerprint, null],
+    ['Litigation History', breakdown.litigation_history, breakdown.litigation_history_note],
+  ];
+  for (const [label, val, note] of factors) {
+    if (val === undefined || val === null) continue;
+    const v = Math.round(val);
+    const color = v > 70 ? '#dc2626' : v > 40 ? '#d97706' : '#16a34a';
+    breakdownHtml += `
+      <div class="tps-bar-row">
+        <span class="tps-bar-label">${label}</span>
+        <div class="tps-bar-track"><div class="tps-bar-fill" style="width:${v}%;background:${color};"></div></div>
+        <span class="tps-bar-val">${v}</span>
+      </div>`;
+    if (note) breakdownHtml += `<div class="tps-note">${escHtml(note)}</div>`;
+  }
+
+  return `
+    <div class="patent-card" onclick="this.classList.toggle('expanded')">
+      <div class="patent-card-header">
+        <span class="patent-card-title">${escHtml(p.title || 'Untitled')}</span>
+        <div class="patent-card-scores">${scoresHtml}</div>
+      </div>
+      <div class="patent-card-meta">${escHtml(p.application_num || '')}${p.assignee ? ' &middot; ' + escHtml(p.assignee) : ''}${p.filing_date ? ' &middot; Filed ' + p.filing_date : ''}</div>
+      <div class="patent-card-abstract">${escHtml(p.abstract || p.abstract_text || '').substring(0, 300)}</div>
+      <div class="tps-breakdown">${breakdownHtml}</div>
+      <div class="patent-card-actions">
+        <button class="btn btn-secondary" onclick="event.stopPropagation(); openPriorArt(${typeof id === 'number' ? id : "'" + id + "'"}, '${escAttr(p.title || '')}')">Generate Defense Package</button>
+      </div>
+    </div>`;
+}
+
+// ─── Prior Art Modal ───────────────────────────────────────────────
+async function openPriorArt(patentId, title) {
+  const modal = document.getElementById('priorArtModal');
+  const content = document.getElementById('modalContent');
+  document.getElementById('modalTitle').textContent = 'Defense Package: ' + title;
+  content.innerHTML = '<p style="color:#888;font-size:13px;">Generating prior art links...</p>';
+  modal.classList.add('visible');
+
+  try {
+    const r = await fetch('/api/prior-art', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ patent_id: patentId }),
+    });
+    if (!r.ok) throw new Error('Failed to generate defense package');
+    const pkg = await r.json();
+
+    let html = '<p style="font-size:13px;color:#555;margin-bottom:16px;">Search these sources for prior art that predates the patent filing:</p>';
+    for (const ref of pkg.prior_art_refs) {
+      html += `
+        <a class="prior-art-link" href="${escAttr(ref.url)}" target="_blank" rel="noopener">
+          <div class="source">${escHtml(ref.source)}</div>
+          <div class="link-title">${escHtml(ref.title)}</div>
+          <div class="link-note">${escHtml(ref.relevance_note)}</div>
+        </a>`;
+    }
+
+    if (pkg.response_template) {
+      html += `
+        <div class="template-section">
+          <h4>Template Response to Demand Letter</h4>
+          <div class="template-text">${escHtml(pkg.response_template)}</div>
+        </div>`;
+    }
+
+    if (pkg.disclaimer) {
+      html += `<p style="font-size:11px;color:#aaa;margin-top:16px;">${escHtml(pkg.disclaimer)}</p>`;
+    }
+
+    content.innerHTML = html;
+  } catch (e) {
+    content.innerHTML = `<p style="color:#dc2626;font-size:13px;">${escHtml(e.message)}</p>`;
+  }
+}
+
+function closeModal() {
+  document.getElementById('priorArtModal').classList.remove('visible');
+}
+
+// ─── Helpers ───────────────────────────────────────────────────────
+function clearResults() {
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('errorMsg').style.display = 'none';
+  document.getElementById('inventionInput').value = '';
+  lastResults = null;
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+function escAttr(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Close modal on overlay click
+document.getElementById('priorArtModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ─── Init ──────────────────────────────────────────────────────────
+loadStats();
+loadFlagged();
+</script>
+</body>
+</html>
