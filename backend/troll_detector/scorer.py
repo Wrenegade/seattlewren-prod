@@ -43,10 +43,11 @@ def compute_tps(
 
     # (ii) Domain Dispersion — patent claim 1
     if assignee_cpc_codes:
-        # Count distinct CPC sections (first character: A-H, Y)
-        sections = set(c[0] for c in assignee_cpc_codes if c)
+        # Count distinct CPC subclasses (e.g., G06F, H04L — first 4 chars)
+        # High dispersion across unrelated subclasses = troll indicator
+        subclasses = set(c[:4] if len(c) >= 4 else c for c in assignee_cpc_codes if c)
         breakdown.domain_dispersion = _scale_linear(
-            len(sections), DISPERSION_LOW, DISPERSION_HIGH
+            len(subclasses), DISPERSION_LOW, DISPERSION_HIGH
         )
 
     # (iii) Claim Breadth Index — patent claim 3

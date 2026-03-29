@@ -11,7 +11,7 @@ TPS_WEIGHTS = {
 }
 
 # TPS threshold for flagging a patent
-TPS_FLAG_THRESHOLD = 65.0
+TPS_FLAG_THRESHOLD = 55.0
 
 # PatentsView API
 PATENTSVIEW_BASE = "https://api.patentsview.org"
@@ -23,8 +23,8 @@ FILING_VOLUME_WINDOW_DAYS = 365
 FILING_VOLUME_HIGH = 50  # >50 filings/year = max score
 FILING_VOLUME_LOW = 5    # <5 filings/year = min score
 
-# Domain dispersion: how many unrelated CPC sections triggers suspicion
-DISPERSION_HIGH = 8  # 8+ distinct CPC sections = max score
+# Domain dispersion: how many unrelated CPC subclasses triggers suspicion
+DISPERSION_HIGH = 6  # 6+ distinct CPC subclasses = max score
 DISPERSION_LOW = 2   # 2 or fewer = min score
 
 # Risk assessment: semantic similarity threshold
